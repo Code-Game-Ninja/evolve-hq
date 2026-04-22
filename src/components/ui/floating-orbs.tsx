@@ -1,7 +1,7 @@
 // Floating gradient orbs background — shared by workspace layout and login page
 export function FloatingOrbs() {
   return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-0 hidden md:block will-change-transform">
       {/* Large orange orb — top left */}
       <div
         className="absolute rounded-full"

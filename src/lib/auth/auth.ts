@@ -1,9 +1,8 @@
-// Auth.js (NextAuth v5) configuration
 import NextAuth from "next-auth";
+import { authConfig } from "./config";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import * as OTPAuth from "otpauth";
-import crypto from "crypto";
 import { headers } from "next/headers";
 import { connectDB } from "@/lib/db/mongodb";
 import { User } from "@/lib/db/models/user";
@@ -11,17 +10,11 @@ import { Session as SessionModel } from "@/lib/db/models/session";
 import { getAuthCookieDomain } from "@/lib/subdomain";
 import { parseUserAgent } from "@/lib/user-agent";
 
-// Cookie domain (undefined — each hostname gets its own session)
 const cookieDomain = getAuthCookieDomain();
 const isProduction = process.env.NODE_ENV === "production";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  trustHost: true,
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
+  ...authConfig,
   cookies: {
     sessionToken: {
       name: isProduction ? "__Secure-authjs.session-token" : "authjs.session-token",
@@ -48,7 +41,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         await connectDB();
 
-        // If a preAuthToken is provided, verify it instead of bcrypt
         const token = credentials.preAuthToken as string | undefined;
         let user;
 
@@ -60,7 +52,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             "+twoFactorEnabled +twoFactorSecret +twoFactorBackupCodes"
           );
         } else {
-          // Fallback: direct password login (non-2FA path with no preAuthToken)
           if (!credentials.password) return null;
           user = await User.findOne({ email: credentials.email }).select(
             "+password +twoFactorEnabled +twoFactorSecret +twoFactorBackupCodes"
@@ -73,15 +64,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (!isValid) return null;
         }
 
-        if (!user) return null;
-        if (!user.isActive) return null;
+        if (!user || !user.isActive) return null;
 
-        // 2FA check
         if (user.twoFactorEnabled && user.twoFactorSecret) {
           const code = credentials.twoFactorCode as string | undefined;
           if (!code) return null;
 
-          // Try TOTP code
           const totp = new OTPAuth.TOTP({
             issuer: "EVOLVE HQ",
             label: user.email,
@@ -93,7 +81,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const delta = totp.validate({ token: code.trim(), window: 1 });
           if (delta === null) {
-            // Try backup codes
             let backupValid = false;
             if (user.twoFactorBackupCodes?.length) {
               for (let i = 0; i < user.twoFactorBackupCodes.length; i++) {
@@ -111,7 +98,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
         }
 
-        // Update last login
         await User.findByIdAndUpdate(user._id, { lastLogin: new Date() });
 
         return {
@@ -127,15 +113,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-        token.positions = [...(user.positions || [])];
-        token.mustChangePassword = user.mustChangePassword ?? false;
+      // Call base JWT callback first
+      if (authConfig.callbacks?.jwt) {
+        token = await authConfig.callbacks.jwt({ token, user, trigger, session }) as any;
+      }
 
-        // Generate session ID and record active session
-        const sessionId = crypto.randomUUID();
+      if (user) {
+        const sessionId = globalThis.crypto.randomUUID();
         token.sessionId = sessionId;
         try {
           const hdrs = await headers();
@@ -154,33 +140,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             createdAt: new Date(),
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
           });
-        } catch {
-          // Don't block login if session recording fails
+        } catch (err) {
+          console.error("Session creation error:", err);
         }
       }
 
-      // Validate session still exists in DB (handles remote logout)
-      if (token.sessionId && !user) {
+      // DB-based session validation (Node only)
+      if (token.sessionId && !user && process.env.NEXT_RUNTIME !== 'edge') {
         const now = Date.now();
         const lastChecked = (token.sessionCheckedAt as number) || 0;
-        // Check every 30 seconds to balance responsiveness vs DB load
-        if (now - lastChecked > 30 * 1000) {
+        if (now - lastChecked > 2 * 60 * 1000) {
           token.sessionCheckedAt = now;
           try {
             await connectDB();
             const exists = await SessionModel.exists({ sessionId: token.sessionId });
-            if (!exists) {
-              // Session was revoked — clear all token data to force sign-out
-              return {} as typeof token;
-            }
-          } catch {
-            // Don't block on DB errors — allow the session to continue
+            if (!exists) return {} as any;
+          } catch (err) {
+            console.error("Session validation error:", err);
           }
         }
       }
 
-      // Throttle lastActive writes — only update if >5 minutes since last write
-      if (token.sessionId) {
+      // Activity tracking (Node only)
+      if (token.sessionId && process.env.NEXT_RUNTIME !== 'edge') {
         const now = Date.now();
         const lastUpdated = (token.lastActiveUpdated as number) || 0;
         if (now - lastUpdated > 5 * 60 * 1000) {
@@ -192,29 +174,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
       }
 
-      // Handle client-side session update
-      if (trigger === "update" && session) {
-        if (typeof session.mustChangePassword === "boolean") {
-          token.mustChangePassword = session.mustChangePassword;
-        }
-        if (typeof session.name === "string") {
-          token.name = session.name;
-        }
-        if (session.image === null) {
-          token.picture = undefined;
-        } else if (typeof session.image === "string" && session.image.length < 500) {
-          // Only store URL-based images in JWT, never base64
-          token.picture = session.image;
-        }
-      }
       return token;
     },
-    async session({ session, token }) {
-      // If token was invalidated (session revoked), return empty session
-      if (!token.id) {
-        return { ...session, user: undefined } as unknown as typeof session;
+    async session(params: any) {
+      let { session, token } = params;
+      if (authConfig.callbacks?.session) {
+        // @ts-ignore - Handle Auth.js v5 union type complexity for manual callback merging
+        session = await authConfig.callbacks.session(params as any);
       }
-      if (session.user) {
+      if (session.user && token.id) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
         session.user.positions = token.positions as string[];
@@ -228,15 +196,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   events: {
     async signOut(message) {
-      // Clean up DB session when user signs out
       if ("token" in message && message.token?.sessionId) {
         try {
           await connectDB();
           await SessionModel.deleteOne({ sessionId: message.token.sessionId });
-        } catch {
-          // Don't block signout if DB cleanup fails
-        }
+        } catch {}
       }
     },
   },
 });
+

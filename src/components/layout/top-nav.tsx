@@ -33,8 +33,8 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
     };
     fetchUnreadCount();
     
-    // Poll every minute or we could use Pusher here too
-    const interval = setInterval(fetchUnreadCount, 60000);
+    // Poll every 2 minutes or we could use Pusher here too
+    const interval = setInterval(fetchUnreadCount, 120000);
     return () => clearInterval(interval);
   }, []);
 

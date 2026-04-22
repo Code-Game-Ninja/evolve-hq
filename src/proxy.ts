@@ -1,8 +1,10 @@
-// Auth + subdomain routing + role-based middleware
-import { auth } from "@/lib/auth/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth/config";
 import { NextResponse } from "next/server";
 import { getSubdomain, isSubdomainMode } from "@/lib/subdomain";
 import { checkRateLimit } from "@/lib/rate-limit";
+
+const { auth } = NextAuth(authConfig);
 
 // Use Edge runtime (Next.js middleware default)
 
@@ -181,6 +183,8 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // Skip all internal paths (_next)
+    // Skip all static files (images, fonts, etc.)
+    "/((?!_next/static|_next/image|favicon.ico|api/auth|api/public|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|woff2?|ico|json)$).*)",
   ],
 };

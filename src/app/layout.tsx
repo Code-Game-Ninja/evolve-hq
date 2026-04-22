@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { ProfileProvider } from "@/contexts/profile-context";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,14 +35,21 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <AuthProvider>
-          <ProfileProvider>
-            <TooltipProvider>
-              {children}
-              <Toaster richColors position="top-right" />
-            </TooltipProvider>
-          </ProfileProvider>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          forcedTheme="dark"
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <ProfileProvider>
+              <TooltipProvider>
+                {children}
+                <Toaster richColors position="top-right" />
+              </TooltipProvider>
+            </ProfileProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -25,7 +25,7 @@ export function PageTransition({ children }: PageTransitionProps) {
           className="fixed inset-0 z-[100] flex pointer-events-none"
           variants={{
             initial: { opacity: 1 },
-            animate: { opacity: 0, transition: { duration: 0.1, delay: 0.6 } },
+            animate: { opacity: 0, transition: { duration: 0.1, delay: 0.3 } },
             exit: { opacity: 1 },
           }}
         >
@@ -38,17 +38,17 @@ export function PageTransition({ children }: PageTransitionProps) {
                 animate: {
                   scaleY: 0,
                   transition: {
-                    duration: 0.6,
+                    duration: 0.3,
                     ease: [0.65, 0, 0.35, 1],
-                    delay: i * 0.05,
+                    delay: i * 0.04,
                   },
                 },
                 exit: {
                   scaleY: 1,
                   transition: {
-                    duration: 0.6,
+                    duration: 0.3,
                     ease: [0.65, 0, 0.35, 1],
-                    delay: i * 0.05,
+                    delay: i * 0.04,
                   },
                 },
               }}
@@ -67,12 +67,12 @@ export function PageTransition({ children }: PageTransitionProps) {
             animate: { 
               opacity: 1, 
               y: 0,
-              transition: { duration: 0.4, delay: 0.6 } 
+              transition: { duration: 0.25, delay: 0.3 } 
             },
             exit: { 
               opacity: 0, 
               y: -10,
-              transition: { duration: 0.3 } 
+              transition: { duration: 0.2 } 
             },
           }}
         >
