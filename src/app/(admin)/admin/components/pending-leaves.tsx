@@ -112,7 +112,7 @@ export function PendingLeaves({
                     onClick={() => onAction(leave.id, "rejected")}
                     className="p-2 rounded-xl bg-white/5 text-white/20 hover:bg-[#ef4444] hover:text-white transition-all disabled:opacity-50"
                   >
-                    <svg size="16" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                   </button>
                 </div>
               </div>

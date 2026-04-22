@@ -165,6 +165,18 @@ export function AdminDashboardClient({ initialData }: AdminDashboardClientProps)
       ]
     : [];
 
+  // Add Total Clients if available
+  if (data && stats.length > 0) {
+    stats.push({
+      label: "Total Clients",
+      value: data.stats.totalLeads,
+      icon: Contact,
+      iconColor: "#0ea5e9",
+      iconBg: "rgba(14,165,233,0.1)",
+      description: "CRM Directory",
+    });
+  }
+
   // Approve or reject a leave from the dashboard
   async function handleLeaveAction(leaveId: string, action: "approved" | "rejected") {
     setProcessingLeave(leaveId);
@@ -271,7 +283,7 @@ export function AdminDashboardClient({ initialData }: AdminDashboardClientProps)
       </motion.div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {stats.map((stat, i) => (
           <StatCard key={stat.label} stat={stat as any} index={i} />
         ))}

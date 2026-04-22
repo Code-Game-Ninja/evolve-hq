@@ -6,10 +6,10 @@ import { UserPlus, Plus, FolderPlus, BarChart3, Contact, Settings } from "lucide
 
 const quickActions = [
   { label: "Add Employee", icon: UserPlus, href: "/admin/team" },
+  { label: "Client Directory", icon: Contact, href: "/crm/clients" },
   { label: "Create Task", icon: Plus, href: "/admin/tasks" },
   { label: "Manage Projects", icon: FolderPlus, href: "/admin/cms" },
   { label: "View Reports", icon: BarChart3, href: "/admin/hr" },
-  { label: "CRM Console", icon: Contact, href: "/admin/crm" },
   { label: "Settings", icon: Settings, href: "/admin/settings" },
 ];
 

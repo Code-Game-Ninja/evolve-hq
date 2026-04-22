@@ -120,7 +120,7 @@ const tabs = [
   { label: "User Management", value: "users", icon: UserCog },
 ];
 
-export function TeamPageClient() {
+export function TeamPageClient({ initialData }: { initialData: TeamMember[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialTab = searchParams.get("tab") || "members";
@@ -188,7 +188,7 @@ export function TeamPageClient() {
           ease: [0.25, 0.46, 0.45, 0.94],
         }}
       >
-        {activeTab === "members" && <TeamMembersContent />}
+        {activeTab === "members" && <TeamMembersContent initialData={initialData} />}
         {activeTab === "users" && <UserManagementClient embedded />}
       </motion.div>
     </div>
@@ -267,10 +267,10 @@ function StatusIndicator({ status }: { status: string }) {
 }
 
 // Team Members content
-function TeamMembersContent() {
+function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
   const [search, setSearch] = useState("");
-  const [members, setMembers] = useState<TeamMember[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [members, setMembers] = useState<TeamMember[]>(initialData || []);
+  const [isLoading, setIsLoading] = useState(!initialData);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);

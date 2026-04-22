@@ -23,20 +23,24 @@ import { EditLeadDialog } from "../edit-lead-dialog";
 import { NewLeadDialog } from "../new-lead-dialog";
 import { format } from "date-fns";
 
-export function ClientsClient() {
+interface ClientsClientProps {
+  initialData?: Lead[];
+}
+
+export function ClientsClient({ initialData }: ClientsClientProps) {
   return (
     <ToastProvider>
-      <ClientsClientInner />
+      <ClientsClientInner initialData={initialData} />
     </ToastProvider>
   );
 }
 
-function ClientsClientInner() {
+function ClientsClientInner({ initialData }: ClientsClientProps) {
   const { toast } = useToast();
   
   // State
-  const [clients, setClients] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [clients, setClients] = useState<Lead[]>(initialData || []);
+  const [loading, setLoading] = useState(!initialData);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<LeadStatus | "all">("all");
   const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
@@ -44,7 +48,7 @@ function ClientsClientInner() {
 
   // Fetch Clients
   const fetchClients = useCallback(async () => {
-    setLoading(true);
+    if (!initialData) setLoading(true);
     try {
       const res = await fetch("/api/leads");
       if (!res.ok) throw new Error("Failed to fetch");
@@ -55,11 +59,12 @@ function ClientsClientInner() {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [toast, initialData]);
 
   useEffect(() => {
+    if (initialData && clients.length > 0) return;
     fetchClients();
-  }, [fetchClients]);
+  }, [fetchClients, initialData, clients.length]);
 
   // Actions
   const handleUpdateClient = async (id: string, updates: Partial<Lead>) => {

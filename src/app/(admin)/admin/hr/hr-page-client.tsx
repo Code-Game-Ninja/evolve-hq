@@ -361,7 +361,7 @@ function StatCard({
 }
 
 // Main component
-export function HRPageClient() {
+export function HRPageClient({ initialData }: { initialData: any }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialTab = searchParams.get("tab") || "attendance";
@@ -419,22 +419,73 @@ export function HRPageClient() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {activeTab === "attendance" && <AttendanceTab />}
-        {activeTab === "leaves" && <LeavesTab />}
+        {activeTab === "attendance" && <AttendanceTab initialData={initialData.attendance} />}
+        {activeTab === "leaves" && <LeavesTab initialData={initialData.leaves} />}
       </motion.div>
     </div>
   );
 }
 
 // ── Attendance Tab ──
-function AttendanceTab() {
+function AttendanceTab({ initialData }: { initialData?: any[] }) {
   const [search, setSearch] = useState("");
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [detailEmployee, setDetailEmployee] = useState<Employee | null>(null);
-  const [attendanceList, setAttendanceList] = useState<AttendanceRecord[]>([]);
+
+  // Initial transform function
+  const transformAttendance = useCallback((items: any[]) => {
+    return items.map((item: any) => {
+      const user = item.userId || {};
+      const name = user.name || "Unknown";
+      const initials = name
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+      const role = user.role || "employee";
+      const fmtTime = (d: any) =>
+        d
+          ? new Date(d).toLocaleTimeString("en-IN", {
+              hour: "2-digit",
+              minute: "2-digit",
+              timeZone: "Asia/Kolkata",
+            })
+          : null;
+      const totalMin = item.duration || 0;
+      const hours = Math.floor(totalMin / 60);
+      const mins = totalMin % 60;
+      const totalHours = totalMin > 0 ? `${hours}h ${mins}m` : null;
+
+      let breakMin = 0;
+      const logs = item.logs || [];
+      if (logs.length >= 2) {
+        const firstIn = new Date(logs[0].time).getTime();
+        const lastLog = logs[logs.length - 1];
+        const endTime = lastLog.type === "out" ? new Date(lastLog.time).getTime() : Date.now();
+        const totalElapsedMs = endTime - firstIn;
+        const totalWorkedMs = totalMin * 60000;
+        breakMin = Math.max(0, Math.round((totalElapsedMs - totalWorkedMs) / 60000));
+      }
+
+      return {
+        id: item.id || item._id || "",
+        employee: { id: user._id || "", name, initials, image: user.image || undefined, position: role, department: role },
+        clockIn: fmtTime(item.clockIn),
+        clockOut: fmtTime(item.clockOut),
+        breakMin: breakMin || null,
+        totalHours,
+        totalMin,
+        status: (item.status as AttendanceStatus) || "absent",
+        source: (item.source as string) || undefined,
+      };
+    });
+  }, []);
+
+  const [attendanceList, setAttendanceList] = useState<AttendanceRecord[]>(initialData ? transformAttendance(initialData) : []);
   const [deptSummaryData, setDeptSummaryData] = useState<DeptSummary[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState("");
   const [weeklyChartData, setWeeklyChartData] = useState<{ weekLabel: string; days: WeekDay[] }[]>([]);
 
@@ -1350,7 +1401,7 @@ function EmployeeDetailSheet({
 }
 
 // ── Leaves Tab ──
-function LeavesTab() {
+function LeavesTab({ initialData }: { initialData?: any[] }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | LeaveStatus>("all");
@@ -1359,8 +1410,9 @@ function LeavesTab() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   // API state
-  const [pendingLeavesData, setPendingLeavesData] = useState<LeaveRequest[]>([]);
-  const [allLeavesData, setAllLeavesData] = useState<LeaveRequest[]>([]);
+  const initialMapped = (initialData || []).map(mapApiLeave);
+  const [pendingLeavesData, setPendingLeavesData] = useState<LeaveRequest[]>(initialMapped.filter(l => l.status === "pending"));
+  const [allLeavesData, setAllLeavesData] = useState<LeaveRequest[]>(initialMapped);
 
   const fetchPending = useCallback(async () => {
     try {

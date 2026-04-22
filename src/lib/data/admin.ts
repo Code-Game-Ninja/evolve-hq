@@ -54,7 +54,7 @@ export async function getAdminDashboardData() {
       name: u.name,
       role: u.designation || "Team Member",
       status,
-      avatar: u.name.split(" ").map(n => n[0]).join("").toUpperCase(),
+      avatar: u.name.split(" ").map((n: string) => n[0]).join("").toUpperCase(),
       image: u.image
     };
   }));
