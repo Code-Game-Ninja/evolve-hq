@@ -10,20 +10,20 @@ import { type Lead, type LeadStatus, type LeadPriority, formatCurrency } from ".
 import { useToast } from "@/app/(workspace)/tasks/toast";
 import { ToastProvider } from "@/app/(workspace)/tasks/toast";
 
-export function LeadsClient() {
+export function LeadsClient({ initialData }: { initialData?: Lead[] }) {
   return (
     <ToastProvider>
-      <LeadsClientInner />
+      <LeadsClientInner initialData={initialData} />
     </ToastProvider>
   );
 }
 
-function LeadsClientInner() {
+function LeadsClientInner({ initialData }: { initialData?: Lead[] }) {
   const { toast } = useToast();
   
   // State
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [leads, setLeads] = useState<Lead[]>(initialData || []);
+  const [loading, setLoading] = useState(!initialData);
   const [search, setSearch] = useState("");
   const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
   const [editingLead, setEditingLead] = useState<Lead | null>(null);
@@ -45,8 +45,10 @@ function LeadsClientInner() {
   }, [toast]);
 
   useEffect(() => {
-    fetchLeads();
-  }, [fetchLeads]);
+    if (!initialData) {
+      fetchLeads();
+    }
+  }, [fetchLeads, initialData]);
 
   // Actions
   const handleStatusChange = useCallback(async (id: string, newStatus: LeadStatus) => {

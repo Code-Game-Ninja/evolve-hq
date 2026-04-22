@@ -16,7 +16,7 @@ export default function WorkspaceLoading() {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="h-24 backdrop-blur-lg border border-[#dddddd]"
+            className="h-24 border border-[#dddddd]"
             style={{
               backgroundColor: "rgba(241,239,237,0.45)",
               borderRadius: "24px",
@@ -28,14 +28,14 @@ export default function WorkspaceLoading() {
       {/* Content skeleton */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div
-          className="h-64 backdrop-blur-lg border border-[#dddddd]"
+          className="h-64 border border-[#dddddd]"
           style={{
             backgroundColor: "rgba(241,239,237,0.45)",
             borderRadius: "24px",
           }}
         />
         <div
-          className="h-64 backdrop-blur-lg border border-[#dddddd]"
+          className="h-64 border border-[#dddddd]"
           style={{
             backgroundColor: "rgba(241,239,237,0.45)",
             borderRadius: "24px",
