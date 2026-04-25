@@ -182,43 +182,22 @@
 .top-blur__panel--1 {
   -webkit-backdrop-filter: blur(var(--blur-strength));
   backdrop-filter: blur(var(--blur-strength));
-  -webkit-mask-image: linear-gradient(#000 0% 12%, #0000 32%);
-  mask-image: linear-gradient(#000 0% 12%, #0000 32%);
+  -webkit-mask-image: linear-gradient(#000 0% 15%, #0000 45%);
+  mask-image: linear-gradient(#000 0% 15%, #0000 45%);
 }
 
 .top-blur__panel--2 {
-  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / var(--blur-ratio)));
-  backdrop-filter: blur(calc(var(--blur-strength) / var(--blur-ratio)));
-  -webkit-mask-image: linear-gradient(#0000 0%, #000 12% 24%, #0000 44%);
-  mask-image: linear-gradient(#0000 0%, #000 12% 24%, #0000 44%);
+  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / 2));
+  backdrop-filter: blur(calc(var(--blur-strength) / 2));
+  -webkit-mask-image: linear-gradient(#0000 5%, #000 20% 35%, #0000 65%);
+  mask-image: linear-gradient(#0000 5%, #000 20% 35%, #0000 65%);
 }
 
 .top-blur__panel--3 {
-  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio))));
-  backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio))));
-  -webkit-mask-image: linear-gradient(#0000 6%, #000 22% 34%, #0000 54%);
-  mask-image: linear-gradient(#0000 6%, #000 22% 34%, #0000 54%);
-}
-
-.top-blur__panel--4 {
-  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  -webkit-mask-image: linear-gradient(#0000 12%, #000 32% 44%, #0000 64%);
-  mask-image: linear-gradient(#0000 12%, #000 32% 44%, #0000 64%);
-}
-
-.top-blur__panel--5 {
-  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  -webkit-mask-image: linear-gradient(#0000 20%, #000 40% 52%, #0000 72%);
-  mask-image: linear-gradient(#0000 20%, #000 40% 52%, #0000 72%);
-}
-
-.top-blur__panel--6 {
-  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  backdrop-filter: blur(calc(var(--blur-strength) / (var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio) * var(--blur-ratio))));
-  -webkit-mask-image: linear-gradient(#0000 30%, #000 50% 62%, #0000 82%);
-  mask-image: linear-gradient(#0000 30%, #000 50% 62%, #0000 82%);
+  -webkit-backdrop-filter: blur(calc(var(--blur-strength) / 4));
+  backdrop-filter: blur(calc(var(--blur-strength) / 4));
+  -webkit-mask-image: linear-gradient(#0000 15%, #000 40% 60%, #0000 100%);
+  mask-image: linear-gradient(#0000 15%, #000 40% 60%, #0000 100%);
 }
 
 /* Floating orb animations */
@@ -283,4 +262,22 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(to right, var(--color-primary), oklch(0.85 0.16 90));
+}
+
+/* Dashboard bento grid layout */
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-rows: auto auto auto;
+  }
+  .dashboard-grid .grid-profile { grid-area: 1 / 1 / 3 / 2; height: 560px; }
+  .dashboard-grid .grid-progress { grid-area: 1 / 2 / 2 / 3; height: 270px; }
+  .dashboard-grid .grid-tasks { grid-area: 1 / 3 / 2 / 4; height: 270px; }
+  .dashboard-grid .grid-calendar { grid-area: 2 / 2 / 4 / 4; height: 560px; }
+  .dashboard-grid .grid-daily { grid-area: 3 / 1 / 4 / 2; height: 270px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
 }

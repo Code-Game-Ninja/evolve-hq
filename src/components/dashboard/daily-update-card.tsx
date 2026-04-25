@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Send, CheckCircle, Clock, CalendarCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 interface DailyUpdateCardProps {
   // Shift config — will come from API/admin settings per employee
@@ -52,6 +53,7 @@ export function DailyUpdateCard({
   shiftEnd = "18:00",
   workDays = [1, 2, 3, 4, 5],
 }: DailyUpdateCardProps) {
+  const { status } = useSession();
   const [yesterday, setYesterday] = useState("");
   const [today, setToday] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -66,8 +68,9 @@ export function DailyUpdateCard({
     return () => clearInterval(interval);
   }, [shiftStart, shiftEnd, workDays]);
 
-  // Check if today's update already submitted
+  // Check if today's update already submitted — only after session is ready
   useEffect(() => {
+    if (status !== "authenticated") return;
     async function checkExisting() {
       try {
         const res = await fetch("/api/daily-updates");
@@ -83,7 +86,7 @@ export function DailyUpdateCard({
       }
     }
     checkExisting();
-  }, []);
+  }, [status]);
 
   const handleSubmit = async () => {
     if (!yesterday.trim() && !today.trim()) return;

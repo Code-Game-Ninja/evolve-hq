@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import {
   ChevronDown,
   User,
@@ -39,6 +40,7 @@ interface AccordionItemData {
 }
 
 export function ProfileCard({ name, role, image, email }: ProfileCardProps) {
+  const { status } = useSession();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [profile, setProfile] = useState<UserProfile>({});
   const [leaveBalance, setLeaveBalance] = useState<LeaveBalanceData | null>(null);
@@ -52,8 +54,9 @@ export function ProfileCard({ name, role, image, email }: ProfileCardProps) {
     .toUpperCase()
     .slice(0, 2);
 
-  // Fetch profile data and leave balance
+  // Only fetch once session is authenticated
   useEffect(() => {
+    if (status !== "authenticated") return;
     async function fetchData() {
       setLoadingProfile(true);
       try {
@@ -112,7 +115,7 @@ export function ProfileCard({ name, role, image, email }: ProfileCardProps) {
       }
     }
     fetchData();
-  }, []);
+  }, [status]);
 
   // Build accordion items dynamically
   const accordionItems: AccordionItemData[] = [

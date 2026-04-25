@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import {
   Globe,
   Server,
@@ -45,16 +46,18 @@ function fmtDueDate(dateStr: string | undefined): string {
 }
 
 export function UpcomingTasksCard() {
+  const { status } = useSession();
   const [tasks, setTasks] = useState<ApiTask[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (status !== "authenticated") return;
     fetch("/api/tasks?status=todo&limit=5")
       .then((r) => r.json())
       .then((data) => setTasks(data.items ?? []))
       .catch(() => setTasks([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [status]);
 
   const completedCount = 0; // todo tasks are not done
 

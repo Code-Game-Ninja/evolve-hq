@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { ChatSidebar } from "./components/chat-sidebar";
 import { useChatStore } from "@/lib/stores/chat-store";
 import { Loader2 } from "lucide-react";
 
-export default function ChatLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { setChannels } = useChatStore();
+export default function ChatLayout({ children }: { children: React.ReactNode }) {
+  const { status } = useSession();
+  const setChannels = useChatStore(state => state.setChannels);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (status !== "authenticated") return;
     async function loadChannels() {
       try {
         const res = await fetch("/api/chat/channels");
@@ -28,7 +27,7 @@ export default function ChatLayout({
       }
     }
     loadChannels();
-  }, [setChannels]);
+  }, [status, setChannels]);
 
   if (loading) {
     return (

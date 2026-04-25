@@ -73,25 +73,6 @@ export function DashboardClient() {
       </motion.div>
 
       {/* Bento Grid — 3 cols, 3 rows with CSS grid-area on desktop */}
-      {/* Desktop grid-area layout */}
-      <style>{`
-          @media (min-width: 1024px) {
-            .dashboard-grid {
-              grid-template-columns: 1fr 1fr 1fr !important;
-              grid-template-rows: auto auto auto;
-            }
-            .dashboard-grid .grid-profile { grid-area: 1 / 1 / 3 / 2; height: 560px; }
-            .dashboard-grid .grid-progress { grid-area: 1 / 2 / 2 / 3; height: 270px; }
-            .dashboard-grid .grid-tasks { grid-area: 1 / 3 / 2 / 4; height: 270px; }
-            .dashboard-grid .grid-calendar { grid-area: 2 / 2 / 4 / 4; height: 560px; }
-            .dashboard-grid .grid-daily { grid-area: 3 / 1 / 4 / 2; height: 270px; }
-          }
-          @media (min-width: 768px) and (max-width: 1023px) {
-            .dashboard-grid {
-              grid-template-columns: 1fr 1fr !important;
-            }
-          }
-      `}</style>
       <div className="grid gap-5 dashboard-grid" style={{ gridTemplateColumns: "1fr" }}>
           {/* div1: Profile (row 1-2, col 1) */}
           <motion.div

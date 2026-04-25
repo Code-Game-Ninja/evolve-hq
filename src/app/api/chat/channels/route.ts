@@ -20,8 +20,9 @@ export async function GET(req: Request) {
 
     const enrichedChannels = channels.map(channel => {
       const lastRead = receiptMap.get(channel._id.toString());
-      // A channel is unread if it has a message and we've either never read it or read it before the last message
-      const hasUnread = channel.lastMessageAt ? (!lastRead || new Date(channel.lastMessageAt) > new Date(lastRead)) : false;
+      const hasUnread = channel.lastMessageAt
+        ? (!lastRead || new Date(channel.lastMessageAt) > new Date(lastRead))
+        : false;
       return { ...channel, hasUnread };
     });
 
@@ -47,9 +48,7 @@ export async function POST(req: Request) {
 
     await connectDB();
 
-    // Ensure current user is in members
     const allMemberIds = Array.from(new Set([...(memberIds || []), session.user.id]));
-    
     const members = allMemberIds.map((id) => ({
       userId: id,
       role: id === session.user.id ? "owner" : "member",
@@ -68,6 +67,34 @@ export async function POST(req: Request) {
     return NextResponse.json(channel, { status: 201 });
   } catch (error) {
     console.error("Create channel error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Only superadmin can delete channels
+    if (session.user.role !== "superadmin") {
+      return NextResponse.json({ error: "Only superadmins can delete channels" }, { status: 403 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const channelId = searchParams.get("id");
+    if (!channelId) {
+      return NextResponse.json({ error: "Channel ID required" }, { status: 400 });
+    }
+
+    await connectDB();
+    await Channel.findByIdAndDelete(channelId);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Delete channel error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

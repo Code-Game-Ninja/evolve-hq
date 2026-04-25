@@ -183,8 +183,11 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
-    // Skip all static files (images, fonts, etc.)
-    "/((?!_next/static|_next/image|favicon.ico|api/auth|api/public|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|woff2?|ico|json)$).*)",
+    // Match all routes EXCEPT:
+    // - Next.js internals (_next/static, _next/image)
+    // - Static assets (images, fonts, icons, css, js bundles)
+    // - favicon
+    // - Public API routes (handled inside the middleware itself)
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff2?|ico)$).*)",
   ],
 };

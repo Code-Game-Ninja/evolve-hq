@@ -13,6 +13,7 @@ export function FloatingOrbs() {
           background: "radial-gradient(circle, rgba(232,127,36,0.12) 0%, rgba(232,127,36,0.04) 45%, transparent 70%)",
           filter: "blur(40px)",
           animation: "float-orb-1 20s ease-in-out infinite",
+          willChange: "transform",
         }}
       />
       {/* Medium gold orb — top right */}
@@ -26,6 +27,7 @@ export function FloatingOrbs() {
           background: "radial-gradient(circle, rgba(255,200,30,0.10) 0%, rgba(255,200,30,0.03) 50%, transparent 70%)",
           filter: "blur(50px)",
           animation: "float-orb-2 25s ease-in-out infinite",
+          willChange: "transform",
         }}
       />
       {/* Small orange orb — center */}
@@ -39,6 +41,7 @@ export function FloatingOrbs() {
           background: "radial-gradient(circle, rgba(232,127,36,0.08) 0%, rgba(232,127,36,0.02) 50%, transparent 70%)",
           filter: "blur(35px)",
           animation: "float-orb-3 18s ease-in-out infinite",
+          willChange: "transform",
         }}
       />
       {/* Bottom left gold glow */}
@@ -52,6 +55,7 @@ export function FloatingOrbs() {
           background: "radial-gradient(circle, rgba(255,200,30,0.09) 0%, rgba(255,200,30,0.03) 50%, transparent 70%)",
           filter: "blur(45px)",
           animation: "float-orb-4 22s ease-in-out infinite",
+          willChange: "transform",
         }}
       />
       {/* Bottom right subtle orange orb */}
@@ -65,8 +69,10 @@ export function FloatingOrbs() {
           background: "radial-gradient(circle, rgba(232,127,36,0.07) 0%, rgba(232,127,36,0.02) 50%, transparent 70%)",
           filter: "blur(30px)",
           animation: "float-orb-5 16s ease-in-out infinite",
+          willChange: "transform",
         }}
       />
+
     </div>
   );
 }

@@ -3,7 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Standalone output copies only required files — cuts runtime image from ~500MB to ~120MB
   output: "standalone",
-  reactCompiler: true,
+  // reactCompiler disabled — it was breaking useSession() re-renders, causing
+  // all client components to fire API calls before the session cookie was read,
+  // resulting in 401s on every protected route on first load.
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

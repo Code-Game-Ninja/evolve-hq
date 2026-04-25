@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -248,6 +249,7 @@ function AddEventModal({
 }
 
 export function WeeklyScheduleCard() {
+  const { status } = useSession();
   const today = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -305,10 +307,11 @@ export function WeeklyScheduleCard() {
     }
   }, []);
 
-  // Refetch when week changes
+  // Refetch when week changes — only after session is ready
   useEffect(() => {
+    if (status !== "authenticated") return;
     fetchMeetings(currentWeekStart);
-  }, [currentWeekStart, fetchMeetings]);
+  }, [currentWeekStart, fetchMeetings, status]);
 
   // Computed week days
   const weekDays = useMemo(

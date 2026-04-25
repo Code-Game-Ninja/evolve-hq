@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { Bell, Settings } from "lucide-react";
 import { workspaceNavItems } from "@/lib/nav-config";
 import { useUIStore } from "@/lib/stores/ui-store";
@@ -18,8 +19,10 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
   const pathname = usePathname();
   const { toggleNotificationSidebar } = useUIStore();
   const [unreadCount, setUnreadCount] = useState(0);
+  const { status } = useSession();
 
   useEffect(() => {
+    if (status !== "authenticated") return;
     const fetchUnreadCount = async () => {
       try {
         const res = await fetch("/api/notifications");
@@ -32,11 +35,9 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
       }
     };
     fetchUnreadCount();
-    
-    // Poll every 2 minutes or we could use Pusher here too
     const interval = setInterval(fetchUnreadCount, 120000);
     return () => clearInterval(interval);
-  }, []);
+  }, [status]);
 
   return (
     <div className="sticky top-0 z-50 pt-1 md:pt-2 pb-2 pointer-events-none">

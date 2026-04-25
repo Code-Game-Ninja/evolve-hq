@@ -9,20 +9,26 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 
 export function ChatThread() {
   const { data: session } = useSession();
-  const { 
-    activeChannelId, 
-    activeThreadMessageId, 
-    setActiveThread, 
-    messages, 
-    threads, 
-    addThreadMessage, 
-    setThreadMessages, 
-    updateMessage, 
-    deleteMessage,
-    toggleReaction,
-    togglePin
-  } = useChatStore();
-  
+
+  // Select primitives and stable references only — never inline .find()/.filter() in selectors
+  const activeChannelId = useChatStore(state => state.activeChannelId);
+  const activeThreadMessageId = useChatStore(state => state.activeThreadMessageId);
+  const messages = useChatStore(state => state.messages);
+  const threads = useChatStore(state => state.threads);
+  const addThreadMessage = useChatStore(state => state.addThreadMessage);
+  const setThreadMessages = useChatStore(state => state.setThreadMessages);
+  const updateMessage = useChatStore(state => state.updateMessage);
+  const deleteMessage = useChatStore(state => state.deleteMessage);
+  const toggleReaction = useChatStore(state => state.toggleReaction);
+  const togglePin = useChatStore(state => state.togglePin);
+  const setActiveThread = useChatStore(state => state.setActiveThread);
+
+  // Derive outside selectors — safe, no new reference on every render
+  const parentMessage = activeChannelId && activeThreadMessageId
+    ? (messages[activeChannelId] || []).find(m => m._id === activeThreadMessageId) ?? null
+    : null;
+  const activeMessages = activeThreadMessageId ? (threads[activeThreadMessageId] || []) : [];
+
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editInput, setEditInput] = useState("");
   const [showMessageEmojiPicker, setShowMessageEmojiPicker] = useState<string | null>(null);
@@ -34,12 +40,6 @@ export function ChatThread() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const commonEmojis = ["👍", "❤️", "🔥", "😂", "😮", "😢", "🙏", "✅"];
-
-  const parentMessage = activeChannelId && activeThreadMessageId 
-    ? (messages[activeChannelId] || []).find(m => m._id === activeThreadMessageId) 
-    : null;
-
-  const activeMessages = activeThreadMessageId ? threads[activeThreadMessageId] || [] : [];
 
   useEffect(() => {
     if (activeThreadMessageId && activeChannelId) {

@@ -9,16 +9,21 @@ export const pusherServer = new PusherServer({
   useTLS: true,
 })
 
-// Client-side instance is usually initialized within components or a custom hook
-// to handle dynamic configuration and connection state properly.
-// But we can export a creator function or a singleton.
+// Singleton client — reuse the same WebSocket connection across the entire app.
+// Previously getPusherClient() created a NEW instance on every call, causing
+// multiple simultaneous WebSocket connections and memory leaks.
+let pusherClientInstance: PusherClient | null = null
 
-export const getPusherClient = () => {
+export const getPusherClient = (): PusherClient | null => {
+  if (typeof window === 'undefined') return null
   if (!process.env.NEXT_PUBLIC_PUSHER_APP_KEY) {
     console.warn('Pusher App Key is missing')
     return null
   }
-  return new PusherClient(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
-    cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'mt1',
-  })
+  if (!pusherClientInstance) {
+    pusherClientInstance = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'mt1',
+    })
+  }
+  return pusherClientInstance
 }

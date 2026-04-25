@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { 
   Clock, 
   MapPin, 
@@ -34,6 +35,7 @@ interface AttendanceRecord {
 }
 
 export function AttendanceWidget() {
+  const { status } = useSession();
   const [activeTab, setActiveTab] = useState<"tracker" | "progress">("tracker");
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
@@ -61,8 +63,9 @@ export function AttendanceWidget() {
   }, []);
 
   useEffect(() => {
+    if (status !== "authenticated") return;
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, status]);
 
   // Timer for active session
   useEffect(() => {
