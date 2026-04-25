@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { recordAuditLog } from "@/lib/utils/audit";
 import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/mongodb";
 import { Task } from "@/lib/db/models";
@@ -122,6 +123,18 @@ export async function POST(req: NextRequest) {
 
     // Trigger pusher event
     pusherServer.trigger("tasks-channel", "task-created", obj).catch(console.error);
+
+    // Record Audit Log for Admin actions
+    if (["admin", "superadmin"].includes(session.user.role)) {
+      await recordAuditLog({
+        userId: session.user.id,
+        action: "Task Created",
+        details: `Assigned task "${title}" to user ${assigneeId}`,
+        type: "info",
+        targetType: "Task",
+        targetId: (obj.id as string)
+      });
+    }
 
     return NextResponse.json(obj, { status: 201 });
   } catch (err) {

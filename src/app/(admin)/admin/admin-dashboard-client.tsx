@@ -1,7 +1,7 @@
 // Admin Dashboard Client
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import {
@@ -96,28 +96,84 @@ export function AdminDashboardClient({ initialData }: AdminDashboardClientProps)
   const [isLoading, setIsLoading] = useState(!initialData);
   const [data, setData] = useState<DashboardData | null>(initialData || null);
   const [processingLeave, setProcessingLeave] = useState<string | null>(null);
+  const isRefreshingRef = useRef(false);
+
+  const fetchDashboard = useCallback(async (showLoading = false) => {
+    if (isRefreshingRef.current) return;
+    isRefreshingRef.current = true;
+
+    if (showLoading) {
+      setIsLoading(true);
+    }
+
+    try {
+      const res = await fetch("/api/admin/dashboard", { cache: "no-store" });
+      if (res.ok) {
+        const json: DashboardData = await res.json();
+        setData(json);
+      }
+    } catch (err) {
+      console.error("Failed to fetch admin dashboard:", err);
+    } finally {
+      if (showLoading) {
+        setIsLoading(false);
+      }
+      isRefreshingRef.current = false;
+    }
+  }, []);
 
   useEffect(() => {
     if (status !== "authenticated") return;
-    if (initialData && data) return; // Skip initial fetch if data is already provided
+    if (initialData) return; // Skip initial fetch if data is already provided
 
-    async function fetchDashboard() {
-      if (!initialData) setIsLoading(true);
-      try {
-        const res = await fetch("/api/admin/dashboard");
-        if (res.ok) {
-          const json: DashboardData = await res.json();
-          setData(json);
-        }
-      } catch (err) {
-        console.error("Failed to fetch admin dashboard:", err);
-      } finally {
-        setIsLoading(false);
-      }
+    fetchDashboard(!initialData);
+  }, [status, initialData, fetchDashboard]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    const userRole = sessionData?.user?.role;
+    if (!userRole || !["admin", "superadmin"].includes(userRole)) {
+      return;
     }
 
-    fetchDashboard();
-  }, [status, initialData, data]);
+    let isClosed = false;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+    let stream: EventSource | null = null;
+
+    const connectStream = () => {
+      if (isClosed) return;
+
+      stream = new EventSource("/api/admin/dashboard/stream");
+
+      const handleStreamUpdate = () => {
+        void fetchDashboard(false);
+      };
+
+      stream.addEventListener("tasks-update", handleStreamUpdate);
+      stream.addEventListener("audit-update", handleStreamUpdate);
+      // Backward-compatible event in case the stream emitter changes shape.
+      stream.addEventListener("dashboard-update", handleStreamUpdate);
+      stream.onerror = () => {
+        stream?.close();
+        stream = null;
+
+        if (!isClosed) {
+          reconnectTimer = setTimeout(connectStream, 2500);
+        }
+      };
+    };
+
+    connectStream();
+
+    return () => {
+      isClosed = true;
+      if (reconnectTimer) {
+        clearTimeout(reconnectTimer);
+      }
+      stream?.close();
+    };
+  }, [status, sessionData?.user?.role, fetchDashboard]);
 
   // Build stat cards from API data
   const stats = data

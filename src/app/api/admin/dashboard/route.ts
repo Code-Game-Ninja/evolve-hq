@@ -1,7 +1,7 @@
 // GET /api/admin/dashboard — aggregated admin dashboard data
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { getDashboardData } from "@/lib/data/dashboard";
+import { getAdminDashboardData } from "@/lib/data/admin";
 
 export async function GET() {
   try {
@@ -10,12 +10,12 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const role = (session.user as { role?: string }).role;
+    const { role } = session.user as { role?: string };
     if (!role || !["admin", "superadmin"].includes(role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const data = await getDashboardData();
+    const data = await getAdminDashboardData();
     return NextResponse.json(data);
   } catch (err) {
     console.error("GET /api/admin/dashboard error:", err);

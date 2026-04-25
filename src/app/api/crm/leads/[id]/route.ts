@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/mongodb";
 import { Lead } from "@/lib/db/models";
+import { recordAuditLog } from "@/lib/utils/audit";
 import { leadUpdateSchema } from "@/lib/validation/crm";
 
 export async function GET(
@@ -52,11 +53,15 @@ export async function PATCH(
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
 
+    const previousStatus = lead.status;
+    const hasStatusChanged =
+      !!validatedData.status && validatedData.status !== previousStatus;
+
     // If status changed, add activity
-    if (validatedData.status && validatedData.status !== lead.status) {
+    if (hasStatusChanged) {
       lead.activities.push({
         type: "status_change",
-        content: `Status changed from ${lead.status} to ${validatedData.status}`,
+        content: `Status changed from ${previousStatus} to ${validatedData.status}`,
         performedBy: session.user.id,
       });
     }
@@ -64,6 +69,18 @@ export async function PATCH(
     // Update fields
     Object.assign(lead, validatedData);
     await lead.save();
+
+    // Record Audit Log
+    if (hasStatusChanged) {
+      await recordAuditLog({
+        userId: session.user.id,
+        action: "Lead Status Updated",
+        details: `Updated status for lead "${lead.firstName} ${lead.lastName}" to ${validatedData.status}`,
+        type: "info",
+        targetType: "Lead",
+        targetId: id
+      });
+    }
 
     return NextResponse.json(lead);
   } catch (error: any) {
@@ -89,7 +106,22 @@ export async function DELETE(
 
     await connectDB();
     const { id } = await params;
+    
+    // Get lead name before deleting for audit log
+    const lead = await Lead.findById(id);
+    const leadName = lead ? `${lead.firstName} ${lead.lastName}` : id;
+
     await Lead.findByIdAndDelete(id);
+
+    // Record Audit Log
+    await recordAuditLog({
+      userId: session.user.id,
+      action: "Lead Deleted",
+      details: `Deleted lead "${leadName}"`,
+      type: "warning",
+      targetType: "Lead",
+      targetId: id
+    });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

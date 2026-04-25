@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/mongodb";
 import { Leave } from "@/lib/db/models";
 import { NextRequest, NextResponse } from "next/server";
+import { recordAuditLog } from "@/lib/utils/audit";
 
 async function requireAdmin() {
   const session = await auth();
@@ -65,6 +66,17 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       .populate("reviewedBy", "name role image");
 
     if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    // Record Audit Log
+    const applicantName = (doc.userId as any)?.name || "User";
+    await recordAuditLog({
+      userId: session.user.id,
+      action: `Leave ${status}`,
+      details: `${status === "approved" ? "Approved" : "Rejected"} ${doc.type} leave for ${applicantName}`,
+      type: status === "approved" ? "success" : "warning",
+      targetType: "Leave",
+      targetId: id
+    });
 
     const obj = doc.toObject() as Record<string, unknown>;
     obj.id = (obj._id as { toString(): string }).toString();

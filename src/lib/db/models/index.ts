@@ -1,4 +1,5 @@
 // Models barrel export
+export { AuditLog } from "./audit-log";
 export { User } from "./user";
 export { Leave } from "./leave";
 export { SiteSettings } from "./settings";
