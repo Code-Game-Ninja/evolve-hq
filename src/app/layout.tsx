@@ -23,6 +23,13 @@ export const metadata: Metadata = {
     shortcut: "/favicon.svg",
     apple: "/icons/icon-192x192.svg",
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    viewportFit: "cover",
+  },
 };
 
 export default function RootLayout({
