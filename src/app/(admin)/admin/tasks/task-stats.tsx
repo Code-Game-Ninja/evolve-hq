@@ -70,12 +70,7 @@ function StatCard({
       initial="hidden"
       animate="visible"
       variants={cardVariant}
-      className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderRadius: "24px",
-        padding: "20px 24px",
-      }}
+      className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px] p-5"
     >
       <div
         className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center"
@@ -83,16 +78,13 @@ function StatCard({
       >
         <Icon size={16} style={{ color: stat.iconColor }} />
       </div>
-      <p
-        className="text-xs uppercase font-medium tracking-wider"
-        style={{ color: "#737373" }}
-      >
+      <p className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
         {stat.label}
       </p>
-      <p className="text-3xl font-bold mt-1" style={{ color: "#1a1a1a" }}>
+      <p className="text-3xl font-bold mt-1 text-foreground">
         {animatedValue}
       </p>
-      <p className="text-xs mt-0.5" style={{ color: "#bbb" }}>
+      <p className="text-xs mt-0.5 text-muted-foreground/70">
         {stat.description}
       </p>
     </motion.div>
@@ -100,10 +92,10 @@ function StatCard({
 }
 
 const stats = [
-  { key: "total" as const, label: "Total", description: "All tasks", icon: ListTodo, iconBg: "rgba(0,0,0,0.06)", iconColor: "#1a1a1a" },
-  { key: "todo" as const, label: "To Do", description: "Pending", icon: Circle, iconBg: "rgba(59,130,246,0.1)", iconColor: "#3b82f6" },
-  { key: "in-progress" as const, label: "In Progress", description: "Active", icon: Clock, iconBg: "rgba(245,158,11,0.1)", iconColor: "#f59e0b" },
-  { key: "done" as const, label: "Completed", description: "Finished", icon: CheckCircle2, iconBg: "rgba(34,197,94,0.1)", iconColor: "#22c55e" },
+  { key: "total" as const, label: "Total", description: "All tasks", icon: ListTodo, iconBg: "hsl(var(--foreground) / 0.08)", iconColor: "hsl(var(--foreground))" },
+  { key: "todo" as const, label: "To Do", description: "Pending", icon: Circle, iconBg: "rgba(59,130,246,0.15)", iconColor: "#3b82f6" },
+  { key: "in-progress" as const, label: "In Progress", description: "Active", icon: Clock, iconBg: "rgba(245,158,11,0.15)", iconColor: "#f59e0b" },
+  { key: "done" as const, label: "Completed", description: "Finished", icon: CheckCircle2, iconBg: "rgba(34,197,94,0.15)", iconColor: "#22c55e" },
 ];
 
 export function TaskStats({ tasks }: TaskStatsProps) {

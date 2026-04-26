@@ -18,13 +18,10 @@ export function TaskHeader({ onNewTask }: TaskHeaderProps) {
     >
       {/* Left */}
       <div>
-        <h1
-          className="text-2xl sm:text-[2rem] font-semibold leading-tight"
-          style={{ color: "#1a1a1a" }}
-        >
+        <h1 className="text-2xl sm:text-[2rem] font-semibold leading-tight text-foreground">
           My Tasks
         </h1>
-        <p className="text-sm mt-1" style={{ color: "#737373" }}>
+        <p className="text-sm mt-1 text-muted-foreground">
           View and manage your assigned tasks.
         </p>
       </div>
@@ -34,11 +31,7 @@ export function TaskHeader({ onNewTask }: TaskHeaderProps) {
         {/* New Task button */}
         <button
           onClick={onNewTask}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2] cursor-pointer"
-          style={{
-            backgroundColor: "rgba(241,239,237,0.45)",
-            color: "#f3350c",
-          }}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent text-primary cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           New Task

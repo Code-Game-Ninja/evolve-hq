@@ -90,12 +90,12 @@ export function TestimonialsTab({
       <div className="space-y-5">
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="rounded-[20px] border border-[#dddddd] h-24 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+            <div key={i} className="rounded-[20px] border border-border h-24 animate-pulse bg-card/50" />
           ))}
         </div>
         <div className="grid md:grid-cols-2 gap-5">
           {[0, 1].map((i) => (
-            <div key={i} className="rounded-[24px] border border-[#dddddd] h-48 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+            <div key={i} className="rounded-[24px] border border-border h-48 animate-pulse bg-card/50" />
           ))}
         </div>
       </div>
@@ -104,9 +104,9 @@ export function TestimonialsTab({
 
   if (error) {
     return (
-      <div className="rounded-[24px] border border-[#dddddd] p-12 text-center" style={{ backgroundColor: "rgba(241,239,237,0.45)" }}>
-        <p className="text-sm font-medium mb-3" style={{ color: "#f3350c" }}>{error}</p>
-        <button onClick={fetchTestimonials} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer" style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}>
+      <div className="rounded-[24px] border border-border p-12 text-center bg-card/50">
+        <p className="text-sm font-medium mb-3 text-red-500">{error}</p>
+        <button onClick={fetchTestimonials} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90">
           Retry
         </button>
       </div>
@@ -188,22 +188,18 @@ function FeaturedTestimonialCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.24, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="rounded-[24px] backdrop-blur-lg border border-[#dddddd] p-6 transition-all duration-200"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderLeft: "3px solid #f3350c",
-      }}
+      className="rounded-[24px] backdrop-blur-lg border border-border bg-card/50 p-6 transition-all duration-200 border-l-[3px] border-l-primary"
     >
       {/* Featured label */}
       <div className="flex items-center gap-1.5 mb-3">
-        <Star className="h-3 w-3" style={{ color: "#8b5cf6" }} />
-        <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: "#8b5cf6" }}>
+        <Star className="h-3 w-3 text-violet-500" />
+        <span className="text-[10px] font-bold uppercase tracking-wide text-violet-500">
           Featured
         </span>
       </div>
 
       {/* Quote */}
-      <p className="text-base italic line-clamp-4" style={{ color: "#1a1a1a" }}>
+      <p className="text-base italic line-clamp-4 text-foreground">
         &ldquo;{testimonial.quote}&rdquo;
       </p>
 
@@ -211,28 +207,25 @@ function FeaturedTestimonialCard({
       <div className="flex items-center gap-3 mt-4">
         <AvatarCircle initials={initials} size={40} image={testimonial.image} />
         <div>
-          <p className="text-sm font-semibold" style={{ color: "#1a1a1a" }}>
+          <p className="text-sm font-semibold text-foreground">
             {testimonial.author}
           </p>
-          <p className="text-xs" style={{ color: "#707070" }}>
+          <p className="text-xs text-muted-foreground">
             {testimonial.title}
           </p>
         </div>
       </div>
 
       {/* Status + actions */}
-      <div className="flex items-center justify-between mt-4 pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}>
+      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/50">
         <div className="flex items-center gap-1.5">
           <StatusBadge {...statusCfg} />
-          <StatusBadge dot="#8b5cf6" bg="rgba(139,92,246,0.1)" text="#8b5cf6" label="Featured" icon={Star} />
+          <StatusBadge dot="#8b5cf6" bg="rgba(139,92,246,0.15)" text="#8b5cf6" label="Featured" icon={Star} />
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={onEdit}
-            className="px-3 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer"
-            style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#4d4d4d" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+            className="px-3 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer bg-muted text-muted-foreground hover:bg-muted/80"
           >
             Edit
           </button>
@@ -277,11 +270,10 @@ function TestimonialCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.3 + index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="rounded-[24px] backdrop-blur-lg border border-[#dddddd] p-5 transition-all duration-200 hover:border-[#bbbbbb] hover:shadow-sm"
-      style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+      className="rounded-[24px] backdrop-blur-lg border border-border bg-card/50 p-5 transition-all duration-200 hover:border-foreground/30 hover:shadow-sm"
     >
       {/* Quote */}
-      <p className="text-sm italic line-clamp-3" style={{ color: "#4d4d4d" }}>
+      <p className="text-sm italic line-clamp-3 text-muted-foreground">
         &ldquo;{testimonial.quote}&rdquo;
       </p>
 
@@ -289,25 +281,22 @@ function TestimonialCard({
       <div className="flex items-center gap-2.5 mt-3">
         <AvatarCircle initials={initials} size={32} image={testimonial.image} />
         <div>
-          <p className="text-[13px] font-semibold" style={{ color: "#1a1a1a" }}>
+          <p className="text-[13px] font-semibold text-foreground">
             {testimonial.author}
           </p>
-          <p className="text-xs" style={{ color: "#707070" }}>
+          <p className="text-xs text-muted-foreground">
             {testimonial.title}
           </p>
         </div>
       </div>
 
       {/* Status + actions */}
-      <div className="flex items-center justify-between mt-3 pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}>
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/50">
         <StatusBadge {...statusCfg} />
         <div className="flex items-center gap-1">
           <button
             onClick={onEdit}
-            className="px-3 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer"
-            style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#4d4d4d" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+            className="px-3 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer bg-muted text-muted-foreground hover:bg-muted/80"
           >
             Edit
           </button>

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { HelpCircle, Globe, GripVertical } from "lucide-react";
 import { type FAQ } from "./cms-data";
 import { useToast } from "./toast";
+import { cn } from "@/lib/utils";
 import { StatCard, MoreMenu, EmptyState } from "./cms-shared";
 
 interface FAQTabProps {
@@ -123,9 +124,9 @@ export function FAQTab({ onNewFAQ, onEditFAQ, onDeleteFAQ, refreshKey }: FAQTabP
 
   if (error) {
     return (
-      <div className="rounded-[24px] border border-[#dddddd] p-12 text-center" style={{ backgroundColor: "rgba(241,239,237,0.45)" }}>
-        <p className="text-sm font-medium mb-3" style={{ color: "#f3350c" }}>{error}</p>
-        <button onClick={fetchFAQs} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer" style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}>
+      <div className="rounded-[24px] border border-border p-12 text-center bg-card/50">
+        <p className="text-sm font-medium mb-3 text-red-500">{error}</p>
+        <button onClick={fetchFAQs} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90">
           Retry
         </button>
       </div>
@@ -159,20 +160,18 @@ export function FAQTab({ onNewFAQ, onEditFAQ, onDeleteFAQ, refreshKey }: FAQTabP
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.16, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)", borderRadius: "24px" }}
+        className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px]"
       >
         <div className="p-5 sm:p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+            <h3 className="text-base font-semibold text-foreground">
               FAQ Items on evolve.agency
             </h3>
             {!reorderMode ? (
               <button
                 onClick={startReorder}
-                className="text-[13px] font-medium cursor-pointer transition-colors hover:underline"
-                style={{ color: "#f3350c" }}
+                className="text-[13px] font-medium cursor-pointer transition-colors hover:underline text-primary"
               >
                 Reorder
               </button>
@@ -180,19 +179,13 @@ export function FAQTab({ onNewFAQ, onEditFAQ, onDeleteFAQ, refreshKey }: FAQTabP
               <div className="flex items-center gap-2">
                 <button
                   onClick={cancelReorder}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-medium border border-[#dddddd] cursor-pointer transition-colors"
-                  style={{ color: "#707070" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f1efed")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                  className="px-4 py-1.5 rounded-full text-[13px] font-medium border border-border cursor-pointer transition-colors text-muted-foreground hover:bg-accent"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={saveReorder}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-semibold cursor-pointer transition-colors"
-                  style={{ backgroundColor: "#f3350c", color: "#ffffff" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c82c09")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#f3350c")}
+                  className="px-4 py-1.5 rounded-full text-[13px] font-semibold cursor-pointer transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   Save
                 </button>

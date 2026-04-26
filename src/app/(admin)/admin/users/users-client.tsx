@@ -62,10 +62,10 @@ const positionPresets = [
 
 // Role badge styles
 const roleBadge: Record<string, { bg: string; text: string; icon: typeof Shield }> = {
-  superadmin: { bg: "rgba(243,53,12,0.12)", text: "#f3350c", icon: Crown },
-  admin: { bg: "rgba(243,53,12,0.08)", text: "#f3350c", icon: ShieldCheck },
-  manager: { bg: "rgba(0,0,0,0.06)", text: "#1a1a1a", icon: Shield },
-  employee: { bg: "rgba(0,0,0,0.04)", text: "#555", icon: UserIcon },
+  superadmin: { bg: "rgba(243,53,12,0.15)", text: "#f3350c", icon: Crown },
+  admin: { bg: "rgba(243,53,12,0.10)", text: "#f3350c", icon: ShieldCheck },
+  manager: { bg: "hsl(var(--foreground) / 0.08)", text: "hsl(var(--foreground))", icon: Shield },
+  employee: { bg: "hsl(var(--foreground) / 0.05)", text: "hsl(var(--muted-foreground))", icon: UserIcon },
 };
 
 interface UserManagementProps {
@@ -266,26 +266,23 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
       {!embedded && (
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#1a1a1a]">
+            <h1 className="text-2xl font-bold text-foreground">
               User Management
             </h1>
-            <p className="text-sm text-[#737373] mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Manage employee positions and access levels
             </p>
           </div>
 
           {/* Search */}
-          <div
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-[#dddddd] backdrop-blur-lg w-full sm:w-80"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-          >
-            <Search className="h-4 w-4 text-[#737373] shrink-0" />
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-border bg-card/50 backdrop-blur-lg w-full sm:w-80">
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
             <input
               type="text"
               placeholder="Search by name, email or position..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-transparent text-sm text-[#1a1a1a] placeholder:text-[#bbb] outline-none w-full"
+              className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 outline-none w-full"
             />
           </div>
         </div>
@@ -294,36 +291,30 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
       {/* Inline search when embedded */}
       {embedded && (
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-base font-semibold text-[#1a1a1a] shrink-0">Users</h2>
-          <div
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-[#dddddd] backdrop-blur-lg w-full sm:w-72"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-          >
-            <Search className="h-4 w-4 text-[#737373] shrink-0" />
+          <h2 className="text-base font-semibold text-foreground shrink-0">Users</h2>
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-border bg-card/50 backdrop-blur-lg w-full sm:w-72">
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
             <input
               type="text"
               placeholder="Search users..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="bg-transparent text-sm text-[#1a1a1a] placeholder:text-[#bbb] outline-none w-full"
+              className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 outline-none w-full"
             />
           </div>
         </div>
       )}
 
       {/* Users table */}
-      <div
-        className="rounded-3xl border border-[#dddddd] backdrop-blur-lg overflow-hidden"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-      >
+      <div className="rounded-3xl border border-border bg-card/50 backdrop-blur-lg overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-6 w-6 animate-spin text-[#737373]" />
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <UserCog className="h-10 w-10 text-[#bbb] mb-3" />
-            <p className="text-sm text-[#737373]">
+            <UserCog className="h-10 w-10 text-muted-foreground/40 mb-3" />
+            <p className="text-sm text-muted-foreground">
               {search ? "No users match your search" : "No users found"}
             </p>
           </div>
@@ -331,23 +322,23 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#dddddd]">
-                  <th className="text-left px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                <tr className="border-b border-border">
+                  <th className="text-left px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     User
                   </th>
-                  <th className="text-left px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                  <th className="text-left px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     Role
                   </th>
-                  <th className="text-left px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                  <th className="text-left px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     Positions
                   </th>
-                  <th className="text-left px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                  <th className="text-left px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="text-left px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                  <th className="text-left px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     Last Login
                   </th>
-                  <th className="text-right px-5 py-4 font-semibold text-[#737373] text-xs uppercase tracking-wider">
+                  <th className="text-right px-5 py-4 font-semibold text-muted-foreground text-xs uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -361,7 +352,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                   return (
                     <tr
                       key={user._id}
-                      className="border-b border-[#eeeeee] last:border-b-0 hover:bg-black/[0.02] transition-colors"
+                      className="border-b border-border/50 last:border-b-0 hover:bg-accent/50 transition-colors"
                     >
                       {/* User */}
                       <td className="px-5 py-4">
@@ -390,10 +381,10 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                             </div>
                           )}
                           <div>
-                            <p className="font-medium text-[#1a1a1a]">
+                            <p className="font-medium text-foreground">
                               {user.name}
                             </p>
-                            <p className="text-xs text-[#737373]">{user.email}</p>
+                            <p className="text-xs text-muted-foreground">{user.email}</p>
                           </div>
                         </div>
                       </td>
@@ -421,7 +412,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                               {editPositions.map((pos) => (
                                 <span
                                   key={pos}
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-[#0a0a0a] text-white"
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-primary text-primary-foreground"
                                 >
                                   {pos}
                                   <button
@@ -453,7 +444,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                                   onBlur={() => setTimeout(() => setShowPresets(false), 150)}
                                   onKeyDown={handlePosKeyDown}
                                   placeholder={editPositions.length === 0 ? "Add position..." : "+"}
-                                  className="bg-transparent text-xs text-[#1a1a1a] placeholder:text-[#bbb] outline-none w-24"
+                                  className="bg-transparent text-xs text-foreground placeholder:text-muted-foreground/50 outline-none w-24"
                                   autoFocus
                                 />
                               </div>
@@ -463,7 +454,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                               <button
                                 onClick={() => savePositions(user._id)}
                                 disabled={saving}
-                                className="h-7 w-7 rounded-full flex items-center justify-center bg-[#0a0a0a] text-white hover:bg-[#1a1a1a] transition-colors cursor-pointer"
+                                className="h-7 w-7 rounded-full flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
                               >
                                 {saving ? (
                                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -473,7 +464,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                               </button>
                               <button
                                 onClick={cancelEdit}
-                                className="h-7 w-7 rounded-full flex items-center justify-center border border-[#dddddd] text-[#737373] hover:text-[#1a1a1a] hover:border-[#aaa] transition-colors cursor-pointer"
+                                className="h-7 w-7 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors cursor-pointer"
                               >
                                 <X className="h-3.5 w-3.5" />
                               </button>
@@ -486,19 +477,18 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                                 {user.positions.map((pos) => (
                                   <span
                                     key={pos}
-                                    className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium"
-                                    style={{ backgroundColor: "rgba(0,0,0,0.06)", color: "#1a1a1a" }}
+                                    className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-muted text-foreground"
                                   >
                                     {pos}
                                   </span>
                                 ))}
                               </div>
                             ) : (
-                              <span className="text-[#bbb] italic text-xs">Not set</span>
+                              <span className="text-muted-foreground/50 italic text-xs">Not set</span>
                             )}
                             <button
                               onClick={() => startEdit(user)}
-                              className="h-6 w-6 rounded-full flex items-center justify-center text-[#bbb] hover:text-[#1a1a1a] hover:bg-black/5 transition-colors cursor-pointer shrink-0"
+                              className="h-6 w-6 rounded-full flex items-center justify-center text-muted-foreground/50 hover:text-foreground hover:bg-accent transition-colors cursor-pointer shrink-0"
                             >
                               <Pencil className="h-3 w-3" />
                             </button>
@@ -525,7 +515,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                       </td>
 
                       {/* Last Login */}
-                      <td className="px-5 py-4 text-[#737373]">
+                      <td className="px-5 py-4 text-muted-foreground">
                         {fmtDate(user.lastLogin)}
                       </td>
 
@@ -536,15 +526,15 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                           <button
                             onClick={() => toggleActive(user._id, user.isActive)}
                             disabled={togglingId === user._id}
-                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-black/5 disabled:opacity-50"
+                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-accent disabled:opacity-50"
                             title={user.isActive ? "Deactivate user" : "Activate user"}
                           >
                             {togglingId === user._id ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" style={{ color: "#707070" }} />
+                              <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
                             ) : user.isActive ? (
-                              <Ban className="h-3.5 w-3.5" style={{ color: "#f59e0b" }} />
+                              <Ban className="h-3.5 w-3.5 text-amber-500" />
                             ) : (
-                              <CheckCircle className="h-3.5 w-3.5" style={{ color: "#22c55e" }} />
+                              <CheckCircle className="h-3.5 w-3.5 text-green-500" />
                             )}
                           </button>
 
@@ -552,13 +542,13 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                           <button
                             onClick={() => resetPassword(user._id)}
                             disabled={resettingId === user._id}
-                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-orange-50 disabled:opacity-50"
+                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-amber-500/10 disabled:opacity-50"
                             title="Reset password"
                           >
                             {resettingId === user._id ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" style={{ color: "#f59e0b" }} />
+                              <Loader2 className="h-3.5 w-3.5 animate-spin text-amber-500" />
                             ) : (
-                              <RotateCcw className="h-3.5 w-3.5" style={{ color: "#f59e0b" }} />
+                              <RotateCcw className="h-3.5 w-3.5 text-amber-500" />
                             )}
                           </button>
 
@@ -566,13 +556,13 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                           <button
                             onClick={() => setDeleteConfirm({ id: user._id, name: user.name, email: user.email })}
                             disabled={deletingId === user._id}
-                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-red-50 disabled:opacity-50"
+                            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:bg-red-500/10 disabled:opacity-50"
                             title="Delete user"
                           >
                             {deletingId === user._id ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" style={{ color: "#ef4444" }} />
+                              <Loader2 className="h-3.5 w-3.5 animate-spin text-red-500" />
                             ) : (
-                              <Trash2 className="h-3.5 w-3.5" style={{ color: "#ef4444" }} />
+                              <Trash2 className="h-3.5 w-3.5 text-red-500" />
                             )}
                           </button>
                         </div>
@@ -587,16 +577,13 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
       </div>
 
       {/* Position info box */}
-      <div
-        className="rounded-2xl border border-[#dddddd] backdrop-blur-lg p-5"
-        style={{ backgroundColor: "rgba(241,239,237,0.30)" }}
-      >
-        <p className="text-xs font-semibold text-[#737373] uppercase tracking-wider mb-2">
+      <div className="rounded-2xl border border-border backdrop-blur-lg p-5 bg-card/30">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
           Positions determine CRM access
         </p>
-        <p className="text-sm text-[#555]">
-          Users with a <strong>BA</strong> or <strong>BD</strong> position will see
-          the <strong>CRM</strong> link in their profile dropdown. One person can
+        <p className="text-sm text-muted-foreground">
+          Users with a <strong className="text-foreground">BA</strong> or <strong className="text-foreground">BD</strong> position will see
+          the <strong className="text-foreground">CRM</strong> link in their profile dropdown. One person can
           have multiple positions (e.g. BA + Finance). Admin and superadmin roles
           always have CRM access.
         </p>
@@ -621,12 +608,10 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
         dropdownPos &&
         createPortal(
           <div
-            className="fixed rounded-xl border border-[#dddddd] shadow-xl py-1 max-h-44 overflow-y-auto w-52"
+            className="fixed rounded-xl border border-border shadow-xl py-1 max-h-44 overflow-y-auto w-52 bg-card z-[9999]"
             style={{
               top: dropdownPos.top,
               left: dropdownPos.left,
-              zIndex: 9999,
-              backgroundColor: "#fff",
             }}
           >
             {positionPresets
@@ -640,7 +625,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                   key={p}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => addPosition(p)}
-                  className="w-full text-left px-3 py-1.5 text-xs text-[#1a1a1a] hover:bg-black/5 transition-colors cursor-pointer"
+                  className="w-full text-left px-3 py-1.5 text-xs text-foreground hover:bg-accent transition-colors cursor-pointer"
                 >
                   {p}
                 </button>
@@ -655,7 +640,7 @@ export function UserManagementClient({ embedded = false }: UserManagementProps) 
                 <button
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => addPosition(posInput)}
-                  className="w-full text-left px-3 py-1.5 text-xs text-[#f3350c] hover:bg-red-50 transition-colors cursor-pointer flex items-center gap-1"
+                  className="w-full text-left px-3 py-1.5 text-xs text-primary hover:bg-red-500/10 transition-colors cursor-pointer flex items-center gap-1"
                 >
                   <Plus className="h-3 w-3" />
                   Add &quot;{posInput.trim()}&quot;

@@ -36,25 +36,20 @@ export function DashboardClient() {
     return (
       <div className="space-y-5 pb-12 animate-pulse">
         {/* Header skeleton */}
-        <div className="h-10 w-72 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.06)" }} />
-        {/* Grid skeleton matching layout */}
-        <div
-          className="hidden lg:grid gap-5"
-          style={{
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gridTemplateRows: "auto auto auto",
-          }}
-        >
-          <div className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.06)", gridArea: "1 / 1 / 3 / 2", height: "560px" }} />
-          <div className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.06)", gridArea: "1 / 2 / 2 / 3", height: "270px" }} />
-          <div className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.08)", gridArea: "1 / 3 / 2 / 4", height: "270px" }} />
-          <div className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.06)", gridArea: "2 / 2 / 4 / 4", height: "560px" }} />
-          <div className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.06)", gridArea: "3 / 1 / 4 / 2", height: "270px" }} />
+        <div className="h-10 w-72 rounded-xl bg-muted/50" />
+        {/* Bento grid skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[minmax(180px,auto)] gap-5 animate-pulse">
+          <div className="rounded-[40px] border border-border bg-muted/50" />
+          <div className="rounded-[40px] border border-border bg-muted/50" />
+          <div className="rounded-[40px] border border-border bg-muted/50" />
+          <div className="rounded-[40px] border border-border bg-muted/50" />
+          <div className="rounded-[40px] border border-border bg-muted/50" />
+          <div className="rounded-[40px] border border-border bg-muted/50" />
         </div>
         {/* Mobile skeleton */}
         <div className="lg:hidden flex flex-col gap-5">
           {[560, 270, 270, 560, 270].map((h, i) => (
-            <div key={i} className="rounded-3xl" style={{ backgroundColor: "rgba(255,255,255,0.06)", height: h }} />
+            <div key={i} className="rounded-3xl bg-muted/50" style={{ height: h }} />
           ))}
         </div>
       </div>

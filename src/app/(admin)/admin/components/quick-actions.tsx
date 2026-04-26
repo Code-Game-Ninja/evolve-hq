@@ -33,12 +33,11 @@ export function QuickActions() {
       initial="hidden"
       animate="visible"
       variants={cardVariant as any}
-      className="rounded-[32px] overflow-hidden backdrop-blur-xl border border-white/10 p-8 shadow-2xl"
-      style={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+      className="rounded-[32px] overflow-hidden backdrop-blur-xl border border-border p-8 shadow-2xl bg-card/30"
     >
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-white tracking-tight">Rapid Command</h2>
-        <p className="text-[11px] font-medium text-white/30 uppercase tracking-widest mt-0.5">Quick Access</p>
+        <h2 className="text-lg font-bold text-foreground tracking-tight">Rapid Command</h2>
+        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest mt-0.5">Quick Access</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -48,12 +47,12 @@ export function QuickActions() {
             <Link
               key={i}
               href={action.href}
-              className="flex flex-col items-center justify-center p-6 rounded-[24px] bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 group"
+              className="flex flex-col items-center justify-center p-6 rounded-[24px] bg-card/50 border border-border hover:bg-accent hover:border-foreground/20 transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-[#f3350c]/10 transition-all">
-                <Icon size={20} className="text-white/40 group-hover:text-[#f3350c] transition-colors" />
+              <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-primary/10 transition-all">
+                <Icon size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-white/30 group-hover:text-white transition-colors text-center">
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors text-center">
                 {action.label}
               </span>
             </Link>

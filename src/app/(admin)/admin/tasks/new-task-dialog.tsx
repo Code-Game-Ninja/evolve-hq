@@ -52,11 +52,7 @@ export function NewTaskDialog({ open, onClose, onSubmit, members }: NewTaskDialo
         <>
           {/* Overlay */}
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            style={{
-              backgroundColor: "rgba(0,0,0,0.4)",
-              backdropFilter: "blur(4px)",
-            }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -73,13 +69,7 @@ export function NewTaskDialog({ open, onClose, onSubmit, members }: NewTaskDialo
               role="dialog"
               aria-modal="true"
               aria-label="Create new task"
-              className="w-full max-w-[520px] mx-4 backdrop-blur-xl border border-[#dddddd]"
-              style={{
-                backgroundColor: "rgba(241,239,237,0.85)",
-                borderRadius: "24px",
-                boxShadow: "0 24px 64px rgba(0,0,0,0.16)",
-                padding: "32px",
-              }}
+              className="w-full max-w-[520px] mx-4 backdrop-blur-xl border border-border bg-card/85 rounded-[24px] shadow-xl p-8"
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
@@ -87,15 +77,14 @@ export function NewTaskDialog({ open, onClose, onSubmit, members }: NewTaskDialo
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold" style={{ color: "#1a1a1a" }}>
+                <h2 className="text-xl font-semibold text-foreground">
                   Create New Task
                 </h2>
                 <button
                   onClick={onClose}
-                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2] cursor-pointer"
-                  style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent cursor-pointer text-muted-foreground"
                 >
-                  <X className="h-4 w-4" style={{ color: "#737373" }} />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
@@ -104,7 +93,7 @@ export function NewTaskDialog({ open, onClose, onSubmit, members }: NewTaskDialo
                 {/* Title */}
                 <div>
                   <label style={labelStyle}>
-                    Task Title <span style={{ color: "#ef4444" }}>*</span>
+                    Task Title <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -142,7 +131,7 @@ export function NewTaskDialog({ open, onClose, onSubmit, members }: NewTaskDialo
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label style={labelStyle}>
-                      Assign To <span style={{ color: "#ef4444" }}>*</span>
+                      Assign To <span className="text-red-500">*</span>
                     </label>
                     <select
                       value={assigneeId}

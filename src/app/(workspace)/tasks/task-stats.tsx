@@ -63,12 +63,7 @@ function StatCard({ stat, index, count }: {
       initial="hidden"
       animate="visible"
       variants={cardVariant}
-      className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderRadius: "24px",
-        padding: "20px 24px",
-      }}
+      className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px] p-5 sm:p-6"
     >
       {/* Icon */}
       <div
@@ -77,13 +72,13 @@ function StatCard({ stat, index, count }: {
       >
         <Icon size={16} style={{ color: stat.iconColor }} />
       </div>
-      <p className="text-xs uppercase font-medium tracking-wider" style={{ color: "#737373" }}>
+      <p className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
         {stat.label}
       </p>
-      <p className="text-3xl font-bold mt-1" style={{ color: "#1a1a1a" }}>
+      <p className="text-3xl font-bold mt-1 text-foreground">
         {animatedValue}
       </p>
-      <p className="text-xs mt-0.5" style={{ color: "#bbb" }}>
+      <p className="text-xs mt-0.5 text-muted-foreground/60">
         {stat.description}
       </p>
     </motion.div>

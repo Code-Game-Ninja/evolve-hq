@@ -24,7 +24,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="relative h-screen overflow-y-auto bg-background transition-colors duration-500">
+    <div className="relative min-h-svh overflow-y-auto bg-background transition-colors duration-500">
       <BackgroundOrbs />
       <AdminTopNav />
       <TopBlur />

@@ -10,6 +10,9 @@ import { workspaceNavItems } from "@/lib/nav-config";
 import { useUIStore } from "@/lib/stores/ui-store";
 import { UserDropdown } from "@/components/layout/user-dropdown";
 import { GlassPillTabs } from "@/components/ui/glass-pill-tabs";
+import { getPusherClient } from "@/lib/pusher";
+import { useBrowserNotifications } from "@/lib/hooks/use-browser-notifications";
+import { useSound } from "@/lib/hooks/use-sound";
 
 interface TopNavProps {
   navItems?: typeof workspaceNavItems;
@@ -19,8 +22,18 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
   const pathname = usePathname();
   const { toggleNotificationSidebar } = useUIStore();
   const [unreadCount, setUnreadCount] = useState(0);
-  const { status } = useSession();
+  const { status, data: session } = useSession();
+  const { notifyMessage, notifyTaskAssigned, notifyLeaveStatus, notifyMeeting, requestPermission } = useBrowserNotifications();
+  const { playNotificationSound } = useSound();
 
+  // Request browser notification permission on mount
+  useEffect(() => {
+    if (status === "authenticated") {
+      requestPermission();
+    }
+  }, [status, requestPermission]);
+
+  // Fetch initial unread count
   useEffect(() => {
     if (status !== "authenticated") return;
     const fetchUnreadCount = async () => {
@@ -38,6 +51,58 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
     const interval = setInterval(fetchUnreadCount, 120000);
     return () => clearInterval(interval);
   }, [status]);
+
+  // Real-time notifications via Pusher
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user?.id) return;
+
+    const pusher = getPusherClient();
+    if (!pusher) return;
+
+    const userChannel = pusher.subscribe(`user-${session.user.id}`);
+
+    userChannel.bind("new-notification", (notification: any) => {
+      // Update badge count
+      setUnreadCount((prev) => prev + 1);
+
+      // Play sound
+      playNotificationSound();
+
+      // Show browser notification based on type
+      switch (notification.type) {
+        case "chat_message":
+          notifyMessage(
+            notification.title.split(" in ")[0] || "Someone",
+            notification.description,
+            notification.title.includes("#") ? notification.title.split("#")[1] : undefined
+          );
+          break;
+        case "task_assigned":
+          notifyTaskAssigned(
+            notification.description.split('"')[1] || "New task",
+            notification.description.split(" ")[0] || "Someone"
+          );
+          break;
+        case "leave_approved":
+          notifyLeaveStatus("approved", "leave");
+          break;
+        case "leave_rejected":
+          notifyLeaveStatus("rejected", "leave");
+          break;
+        case "meeting_reminder":
+          notifyMeeting(
+            notification.description.split('"')[1] || "Meeting",
+            notification.description.split(" ")[0] || "Someone"
+          );
+          break;
+      }
+    });
+
+    return () => {
+      userChannel.unbind_all();
+      pusher.unsubscribe(`user-${session.user.id}`);
+    };
+  }, [status, session?.user?.id, notifyMessage, notifyTaskAssigned, notifyLeaveStatus, notifyMeeting, playNotificationSound]);
 
   return (
     <div className="sticky top-0 z-50 pt-1 md:pt-2 pb-2 pointer-events-none">

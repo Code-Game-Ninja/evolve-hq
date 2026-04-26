@@ -1,6 +1,7 @@
 // Task List View — sortable table with status icons, project pills, priority badges
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ChevronUp, ChevronDown, Circle, Clock, CheckCircle2, Trash2 } from "lucide-react";
 import {
@@ -48,8 +49,7 @@ function StatusIcon({ status }: { status: TaskStatus }) {
   }
   return (
     <Circle
-      className="h-[18px] w-[18px] shrink-0"
-      style={{ color: "#dddddd" }}
+      className="h-[18px] w-[18px] shrink-0 text-muted-foreground"
       strokeWidth={1.5}
     />
   );
@@ -90,23 +90,19 @@ export function TaskListView({ tasks, totalCount, onToggleStatus, onDeleteTask, 
   function SortIcon({ field }: { field: SortField }) {
     if (sortField !== field) {
       return (
-        <ChevronDown className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-50" style={{ color: "#737373" }} />
+        <ChevronDown className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-50 text-muted-foreground" />
       );
     }
     return sortDir === "asc" ? (
-      <ChevronUp className="h-3 w-3 ml-1" style={{ color: "#1a1a1a" }} />
+      <ChevronUp className="h-3 w-3 ml-1 text-foreground" />
     ) : (
-      <ChevronDown className="h-3 w-3 ml-1" style={{ color: "#1a1a1a" }} />
+      <ChevronDown className="h-3 w-3 ml-1 text-foreground" />
     );
   }
 
   return (
     <div
-      className="overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderRadius: "24px",
-      }}
+      className="overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px]"
     >
       {/* Table Header */}
       <div
@@ -120,29 +116,25 @@ export function TaskListView({ tasks, totalCount, onToggleStatus, onDeleteTask, 
         <div /> {/* checkbox spacer */}
         <button
           onClick={() => handleSort("title")}
-          className="group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors text-left cursor-pointer"
-          style={{ color: sortField === "title" ? "#1a1a1a" : "#999" }}
+          className={cn("group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors text-left cursor-pointer", sortField === "title" ? "text-foreground" : "text-muted-foreground")}
         >
           Task <SortIcon field="title" />
         </button>
         <button
           onClick={() => handleSort("project")}
-          className="group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer"
-          style={{ color: sortField === "project" ? "#1a1a1a" : "#999" }}
+          className={cn("group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer", sortField === "project" ? "text-foreground" : "text-muted-foreground")}
         >
           Project <SortIcon field="project" />
         </button>
         <button
           onClick={() => handleSort("priority")}
-          className="group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer"
-          style={{ color: sortField === "priority" ? "#1a1a1a" : "#999" }}
+          className={cn("group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer", sortField === "priority" ? "text-foreground" : "text-muted-foreground")}
         >
           Priority <SortIcon field="priority" />
         </button>
         <button
           onClick={() => handleSort("dueDate")}
-          className="group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer"
-          style={{ color: sortField === "dueDate" ? "#1a1a1a" : "#999" }}
+          className={cn("group flex items-center text-xs uppercase font-semibold tracking-wider transition-colors cursor-pointer", sortField === "dueDate" ? "text-foreground" : "text-muted-foreground")}
         >
           Due <SortIcon field="dueDate" />
         </button>
@@ -152,16 +144,13 @@ export function TaskListView({ tasks, totalCount, onToggleStatus, onDeleteTask, 
       {/* Empty state */}
       {sorted.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16">
-          <div
-            className="h-12 w-12 rounded-full flex items-center justify-center backdrop-blur-lg border border-[#dddddd]"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-          >
-            <CheckCircle2 className="h-6 w-6" style={{ color: "#dddddd" }} />
+          <div className="h-12 w-12 rounded-full flex items-center justify-center backdrop-blur-lg border border-border bg-card/50">
+            <CheckCircle2 className="h-6 w-6 text-muted-foreground/30" />
           </div>
-          <p className="text-base font-semibold mt-3" style={{ color: "#737373" }}>
+          <p className="text-base font-semibold mt-3 text-muted-foreground">
             No tasks found
           </p>
-          <p className="text-sm mt-1" style={{ color: "#bbb" }}>
+          <p className="text-sm mt-1 text-muted-foreground/60">
             Try adjusting your filters or create a new task.
           </p>
         </div>
@@ -178,19 +167,12 @@ export function TaskListView({ tasks, totalCount, onToggleStatus, onDeleteTask, 
           <div key={task.id}>
             {/* Desktop row (sm+) */}
             <div
-              className="hidden sm:grid group items-center px-5 py-3.5 transition-colors cursor-pointer"
+              className="hidden sm:grid group items-center px-5 py-3.5 transition-colors cursor-pointer border-b border-border hover:bg-accent/50"
               style={{
                 gridTemplateColumns: "40px 1fr 140px 100px 100px 40px",
                 gap: "8px",
-                borderBottom: "1px solid #f1efed",
               }}
               onClick={() => onEditTask(task)}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.02)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "transparent")
-              }
             >
               {/* Status icon */}
               <button
@@ -202,11 +184,10 @@ export function TaskListView({ tasks, totalCount, onToggleStatus, onDeleteTask, 
 
               {/* Task title */}
               <p
-                className="text-sm font-medium truncate"
-                style={{
-                  color: task.status === "done" ? "#bbb" : "#1a1a1a",
-                  textDecoration: task.status === "done" ? "line-through" : "none",
-                }}
+                className={cn(
+                  "text-sm font-medium truncate",
+                  task.status === "done" ? "text-muted-foreground line-through" : "text-foreground"
+                )}
               >
                 {task.title}
               </p>

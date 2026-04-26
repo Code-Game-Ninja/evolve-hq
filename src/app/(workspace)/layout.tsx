@@ -13,7 +13,7 @@ export default function WorkspaceLayout({
 }) {
   return (
     <div
-      className="relative min-h-screen overflow-x-hidden bg-background"
+      className="relative min-h-svh overflow-x-hidden bg-background"
     >
       <FloatingOrbs />
 

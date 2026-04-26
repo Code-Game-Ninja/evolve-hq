@@ -3,6 +3,7 @@
 
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import {
   FolderKanban,
   Globe,
@@ -138,12 +139,12 @@ export function ProjectsTab({ onNewProject, onEditProject, onDeleteProject, refr
       <div className="space-y-5">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="rounded-[20px] border border-[#dddddd] h-24 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+            <div key={i} className="rounded-[20px] border border-border h-24 animate-pulse bg-card/50" />
           ))}
         </div>
         <div className="grid md:grid-cols-2 gap-5">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="rounded-[24px] border border-[#dddddd] h-64 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+            <div key={i} className="rounded-[24px] border border-border h-64 animate-pulse bg-card/50" />
           ))}
         </div>
       </div>
@@ -152,9 +153,9 @@ export function ProjectsTab({ onNewProject, onEditProject, onDeleteProject, refr
 
   if (error) {
     return (
-      <div className="rounded-[24px] border border-[#dddddd] p-12 text-center" style={{ backgroundColor: "rgba(241,239,237,0.45)" }}>
-        <p className="text-sm font-medium mb-3" style={{ color: "#f3350c" }}>{error}</p>
-        <button onClick={fetchProjects} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer" style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}>
+      <div className="rounded-[24px] border border-border p-12 text-center bg-card/50">
+        <p className="text-sm font-medium mb-3 text-red-500">{error}</p>
+        <button onClick={fetchProjects} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90">
           Retry
         </button>
       </div>
@@ -186,19 +187,15 @@ export function ProjectsTab({ onNewProject, onEditProject, onDeleteProject, refr
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         {/* View toggle */}
-        <div
-          className="inline-flex items-center rounded-full p-1 gap-0.5"
-          style={{ backgroundColor: "rgba(0,0,0,0.04)" }}
-        >
+        <div className="inline-flex items-center rounded-full p-1 gap-0.5 bg-muted">
           {(["grid", "list"] as const).map((mode) => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors cursor-pointer whitespace-nowrap"
-              style={{
-                backgroundColor: viewMode === mode ? "#0a0a0a" : "transparent",
-                color: viewMode === mode ? "#ffffff" : "#707070",
-              }}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors cursor-pointer whitespace-nowrap",
+                viewMode === mode ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              )}
             >
               {mode === "grid" ? <LayoutGrid className="h-3 w-3" /> : <List className="h-3 w-3" />}
               <span className="hidden sm:inline">{mode === "grid" ? "Grid" : "List"}</span>
@@ -220,11 +217,8 @@ export function ProjectsTab({ onNewProject, onEditProject, onDeleteProject, refr
 
       {/* Content */}
       {filtered.length === 0 ? (
-        <div
-          className="rounded-[24px] border border-[#dddddd] backdrop-blur-lg p-12 text-center"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-        >
-          <p className="text-sm" style={{ color: "#737373" }}>
+        <div className="rounded-[24px] border border-border backdrop-blur-lg p-12 text-center bg-card/50">
+          <p className="text-sm text-muted-foreground">
             No projects match your filters
           </p>
         </div>
@@ -247,8 +241,7 @@ export function ProjectsTab({ onNewProject, onEditProject, onDeleteProject, refr
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)", borderRadius: "24px" }}
+          className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px]"
         >
           <div className="p-5 sm:p-6">
           {filtered.map((project, i) => (
@@ -294,23 +287,22 @@ function ProjectGridCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-[#dddddd] transition-all duration-200 hover:border-[#bbbbbb] hover:shadow-sm"
-      style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+      className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-border bg-card/50 transition-all duration-200 hover:border-foreground/30 hover:shadow-sm"
     >
       {/* Thumbnail */}
-      <div className="aspect-video w-full flex items-center justify-center" style={{ backgroundColor: "#f1efed" }}>
+      <div className="aspect-video w-full flex items-center justify-center bg-muted">
         {project.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
         ) : (
-          <ImageIcon className="h-12 w-12" style={{ color: "#dddddd" }} />
+          <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
         )}
       </div>
 
       {/* Body */}
       <div className="p-5">
         {/* Title */}
-        <h3 className="text-base font-semibold line-clamp-2" style={{ color: "#1a1a1a" }}>
+        <h3 className="text-base font-semibold line-clamp-2 text-foreground">
           {project.title}
         </h3>
 
@@ -327,24 +319,20 @@ function ProjectGridCard({
           {project.technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
-              className="text-[11px] font-medium px-2.5 py-0.5 rounded-full"
-              style={{ backgroundColor: "#f1efed", color: "#4d4d4d" }}
+              className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span
-              className="text-[11px] font-medium px-2.5 py-0.5 rounded-full"
-              style={{ backgroundColor: "#f1efed", color: "#737373" }}
-            >
+            <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground">
               +{project.technologies.length - 4} more
             </span>
           )}
         </div>
 
         {/* Year */}
-        <p className="text-xs mt-1.5" style={{ color: "#b6b6b6" }}>
+        <p className="text-xs mt-1.5 text-muted-foreground">
           {project.year}
         </p>
 
@@ -366,16 +354,10 @@ function ProjectGridCard({
         </div>
 
         {/* Actions */}
-        <div
-          className="flex items-center gap-2 mt-3 pt-3"
-          style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}
-        >
+        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">
           <button
             onClick={onEdit}
-            className="px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer"
-            style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#4d4d4d" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+            className="px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer bg-muted text-muted-foreground hover:bg-muted/80"
           >
             Edit
           </button>
@@ -384,10 +366,7 @@ function ProjectGridCard({
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer flex items-center gap-1"
-              style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#4d4d4d" }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+              className="px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors cursor-pointer flex items-center gap-1 bg-muted text-muted-foreground hover:bg-muted/80"
             >
               Preview <ExternalLink className="h-3 w-3" />
             </a>

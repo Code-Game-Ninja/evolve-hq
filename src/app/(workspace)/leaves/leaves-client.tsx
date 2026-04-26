@@ -74,7 +74,7 @@ const STATUS_CONFIG = {
   pending: { color: "#f59e0b", bg: "rgba(245,158,11,0.1)", label: "Pending" },
   approved: { color: "#22c55e", bg: "rgba(34,197,94,0.1)", label: "Approved" },
   rejected: { color: "#ef4444", bg: "rgba(239,68,68,0.1)", label: "Rejected" },
-  cancelled: { color: "#b6b6b6", bg: "#f1efed", label: "Cancelled" },
+  cancelled: { color: "#b6b6b6", bg: "rgba(182,182,182,0.1)", label: "Cancelled" },
 } as const;
 
 const MONTH_NAMES = [
@@ -188,12 +188,10 @@ function AnimatedBalance({ remaining, total }: { remaining: number; total: numbe
   const animated = useCountUp(remaining);
   return (
     <div className="mt-5 text-center">
-      <span className="text-[2.5rem] font-bold" style={{ color: "#1a1a1a" }}>
+      <span className="text-[2.5rem] font-bold text-foreground">
         {animated}
       </span>
-      <span className="text-xl ml-1" style={{ color: "#bbb" }}>
-        / {total}
-      </span>
+      <span className="text-lg text-muted-foreground ml-1">/ {total}</span>
     </div>
   );
 }

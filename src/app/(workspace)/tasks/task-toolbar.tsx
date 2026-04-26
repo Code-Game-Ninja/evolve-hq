@@ -4,6 +4,7 @@
 import { Search, ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 import { statusColors, type TaskPriority, type TaskProject, type TaskStatus } from "./task-data";
 import { GlassPillTabs } from "@/components/ui/glass-pill-tabs";
 
@@ -55,29 +56,26 @@ function FilterDropdown({
       {/* Trigger — Settings button style */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:text-[#1a1a1a] hover:bg-[#e8e5e2] cursor-pointer"
-        style={{
-          color: open ? "#1a1a1a" : "#4d4d4d",
-          backgroundColor: open ? "#e8e5e2" : "rgba(241,239,237,0.45)",
-          borderColor: open ? "#aaaaaa" : undefined,
-        }}
+        className={cn(
+          "flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border cursor-pointer",
+          open
+            ? "border-foreground/30 bg-accent text-foreground"
+            : "border-border bg-card/50 text-muted-foreground hover:border-foreground/30 hover:text-foreground hover:bg-accent"
+        )}
       >
         {displayLabel}
         <ChevronDown
-          className="h-3.5 w-3.5 transition-transform duration-200"
-          style={{
-            color: open ? "#1a1a1a" : "#999",
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          }}
+          className={cn(
+            "h-3.5 w-3.5 transition-transform duration-200",
+            open ? "text-foreground" : "text-muted-foreground",
+            open && "rotate-180"
+          )}
         />
       </button>
 
       {/* Panel — glass dropdown matching UserDropdown */}
       {open && (
-        <div
-          className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-[#dddddd] backdrop-blur-lg shadow-lg p-1"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-        >
+        <div className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-border backdrop-blur-lg shadow-lg p-1 bg-card">
           {options.map((opt) => (
             <button
               key={opt.value}
@@ -85,21 +83,12 @@ function FilterDropdown({
                 onChange(opt.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer"
-              style={{
-                color: value === opt.value ? "#1a1a1a" : "#4d4d4d",
-                fontWeight: value === opt.value ? 600 : 400,
-                backgroundColor:
-                  value === opt.value ? "rgba(0,0,0,0.05)" : "transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (value !== opt.value)
-                  e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                if (value !== opt.value)
-                  e.currentTarget.style.backgroundColor = "transparent";
-              }}
+              className={cn(
+                "w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer",
+                value === opt.value
+                  ? "text-foreground font-semibold bg-accent"
+                  : "text-muted-foreground hover:bg-accent"
+              )}
             >
               {opt.label}
             </button>

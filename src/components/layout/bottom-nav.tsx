@@ -31,7 +31,10 @@ export function BottomNav() {
       {/* Nav bar */}
       <nav
         className="pointer-events-auto mx-4 mb-4 rounded-2xl px-1 py-1.5 backdrop-blur-2xl border border-white/10 shadow-2xl"
-        style={{ backgroundColor: "rgba(11, 17, 32, 0.85)" }}
+        style={{ 
+          backgroundColor: "rgba(11, 17, 32, 0.85)",
+          marginBottom: "max(1rem, env(safe-area-inset-bottom))"
+        }}
       >
         <div className="flex items-center justify-around">
           {bottomNavItems.map((item) => {

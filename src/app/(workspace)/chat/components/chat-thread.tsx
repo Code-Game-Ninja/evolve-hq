@@ -206,7 +206,7 @@ export function ChatThread() {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 320, opacity: 0 }}
       transition={{ type: "spring", damping: 25, stiffness: 200 }}
-      className="w-[380px] flex flex-col h-full bg-black/40 backdrop-blur-3xl border-l border-white/10 shadow-[-10px_0_30px_rgba(0,0,0,0.5)] relative z-20"
+      className="w-full md:w-[380px] flex flex-col h-full bg-black/40 backdrop-blur-3xl border-l border-white/10 shadow-[-10px_0_30px_rgba(0,0,0,0.5)] absolute md:relative inset-0 z-20"
     >
       <div className="h-14 border-b border-white/10 flex items-center justify-between px-5 shrink-0 bg-white/5 backdrop-blur-md">
         <div className="flex items-center gap-2">

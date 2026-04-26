@@ -21,6 +21,7 @@ import {
   serviceStatusConfig,
 } from "./cms-data";
 import { useToast } from "./toast";
+import { cn } from "@/lib/utils";
 import { StatCard, StatusBadge, MoreMenu, EmptyState } from "./cms-shared";
 
 // Icon map for services
@@ -177,19 +178,19 @@ export function ServicesTab({ onNewService, onEditService, onDeleteService, refr
       <div className="space-y-5">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="rounded-[20px] border border-[#dddddd] h-24 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+            <div key={i} className="rounded-[20px] border border-border h-24 animate-pulse bg-card/50" />
           ))}
         </div>
-        <div className="rounded-[24px] border border-[#dddddd] h-64 animate-pulse" style={{ backgroundColor: "rgba(241,239,237,0.45)" }} />
+        <div className="rounded-[24px] border border-border h-64 animate-pulse bg-card/50" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="rounded-[24px] border border-[#dddddd] p-12 text-center" style={{ backgroundColor: "rgba(241,239,237,0.45)" }}>
-        <p className="text-sm font-medium mb-3" style={{ color: "#f3350c" }}>{error}</p>
-        <button onClick={fetchServices} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer" style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}>
+      <div className="rounded-[24px] border border-border p-12 text-center bg-card/50">
+        <p className="text-sm font-medium mb-3 text-red-500">{error}</p>
+        <button onClick={fetchServices} className="px-4 py-2 rounded-full text-sm font-medium cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90">
           Retry
         </button>
       </div>
@@ -225,20 +226,18 @@ export function ServicesTab({ onNewService, onEditService, onDeleteService, refr
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)", borderRadius: "24px" }}
+        className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px]"
       >
         <div className="p-5 sm:p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+            <h3 className="text-base font-semibold text-foreground">
               Services on evolve.agency
             </h3>
             {!reorderMode ? (
               <button
                 onClick={startReorder}
-                className="text-[13px] font-medium cursor-pointer transition-colors hover:underline"
-                style={{ color: "#f3350c" }}
+                className="text-[13px] font-medium cursor-pointer transition-colors hover:underline text-primary"
               >
                 Reorder
               </button>
@@ -246,19 +245,13 @@ export function ServicesTab({ onNewService, onEditService, onDeleteService, refr
               <div className="flex items-center gap-2">
                 <button
                   onClick={cancelReorder}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-medium border border-[#dddddd] cursor-pointer transition-colors"
-                  style={{ color: "#707070" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f1efed")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                  className="px-4 py-1.5 rounded-full text-[13px] font-medium border border-border cursor-pointer transition-colors text-muted-foreground hover:bg-accent"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={saveReorder}
-                  className="px-4 py-1.5 rounded-full text-[13px] font-semibold cursor-pointer transition-colors"
-                  style={{ backgroundColor: "#f3350c", color: "#ffffff" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c82c09")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#f3350c")}
+                  className="px-4 py-1.5 rounded-full text-[13px] font-semibold cursor-pointer transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   Save
                 </button>
@@ -278,38 +271,28 @@ export function ServicesTab({ onNewService, onEditService, onDeleteService, refr
                 onDragStart={() => handleDragStart(i)}
                 onDragOver={(e) => handleDragOver(e, i)}
                 onDragEnd={handleDragEnd}
-                className="flex items-start sm:items-center gap-3 sm:gap-4 py-4 transition-colors"
-                style={{
-                  borderBottom: i < displayList.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none",
-                  backgroundColor: dragIdx === i && reorderMode ? "rgba(0,0,0,0.03)" : "transparent",
-                  cursor: reorderMode ? "grab" : "default",
-                }}
-                onMouseEnter={(e) => {
-                  if (!reorderMode) e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.02)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!reorderMode && dragIdx !== i) e.currentTarget.style.backgroundColor = "transparent";
-                }}
+                className={cn(
+                  "flex items-start sm:items-center gap-3 sm:gap-4 py-4 transition-colors border-b border-border/50 last:border-b-0",
+                  reorderMode ? "cursor-grab" : "hover:bg-accent/50",
+                  dragIdx === i && reorderMode && "bg-accent"
+                )}
               >
                 {/* Drag handle */}
                 {reorderMode && (
-                  <GripVertical className="h-3.5 w-3.5 shrink-0 mt-1" style={{ color: "#b6b6b6" }} />
+                  <GripVertical className="h-3.5 w-3.5 shrink-0 mt-1 text-muted-foreground" />
                 )}
 
                 {/* Number */}
-                <span
-                  className="text-xl font-bold shrink-0 w-8 text-right"
-                  style={{ color: "#f3350c" }}
-                >
+                <span className="text-xl font-bold shrink-0 w-8 text-right text-primary">
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
                 {/* Icon */}
-                <IconComp className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#707070" }} />
+                <IconComp className="h-5 w-5 shrink-0 mt-0.5 text-muted-foreground" />
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[15px] font-semibold" style={{ color: "#1a1a1a" }}>
+                  <p className="text-[15px] font-semibold text-foreground">
                     {service.title}
                   </p>
                   {/* Features */}
@@ -317,17 +300,13 @@ export function ServicesTab({ onNewService, onEditService, onDeleteService, refr
                     {(service.features || service.tags || []).slice(0, 4).map((f) => (
                       <span
                         key={f}
-                        className="text-[11px] font-medium px-2.5 py-0.5 rounded-full"
-                        style={{ backgroundColor: "#f1efed", color: "#4d4d4d" }}
+                        className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground"
                       >
                         {f}
                       </span>
                     ))}
                     {(service.features || service.tags || []).length > 4 && (
-                      <span
-                        className="text-[11px] font-medium px-2.5 py-0.5 rounded-full"
-                        style={{ backgroundColor: "#f1efed", color: "#737373" }}
-                      >
+                      <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground">
                         +{(service.features || service.tags || []).length - 4} more
                       </span>
                     )}

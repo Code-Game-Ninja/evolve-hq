@@ -17,7 +17,7 @@ const NotificationSchema = new Schema<INotification>(
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
     type: {
       type: String,
-      enum: ["leave_approved", "leave_rejected", "task_assigned", "task_updated", "meeting_reminder", "attendance", "team_update", "system"],
+      enum: ["leave_approved", "leave_rejected", "task_assigned", "task_updated", "meeting_reminder", "attendance", "team_update", "system", "chat_message"],
       required: true,
     },
     title: { type: String, required: true, maxlength: 200 },

@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { recordAuditLog } from "@/lib/utils/audit";
 import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/mongodb";
-import { Task } from "@/lib/db/models";
+import { Task, User } from "@/lib/db/models";
 import mongoose from "mongoose";
 import { pusherServer } from "@/lib/pusher";
+import { notifyTaskAssigned } from "@/lib/notification-service";
 
 // Workspace tasks route — any logged-in user
 
@@ -123,6 +124,15 @@ export async function POST(req: NextRequest) {
 
     // Trigger pusher event
     pusherServer.trigger("tasks-channel", "task-created", obj).catch(console.error);
+
+    // Send notification to assignee (non-blocking)
+    const assignee = await User.findById(assigneeId).select("name").lean();
+    notifyTaskAssigned({
+      assigneeId,
+      assigneeName: assignee?.name || "",
+      taskTitle: title.trim(),
+      assignedByName: session.user.name || "Someone",
+    }).catch(console.error);
 
     // Record Audit Log for Admin actions
     if (["admin", "superadmin"].includes(session.user.role)) {

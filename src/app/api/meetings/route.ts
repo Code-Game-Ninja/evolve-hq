@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth/auth";
 import { connectDB } from "@/lib/db/mongodb";
 import { Meeting } from "@/lib/db/models";
 import mongoose from "mongoose";
+import { notifyMeetingInvite } from "@/lib/notification-service";
 
 // Workspace meetings route — any logged-in user
 
@@ -134,6 +135,16 @@ export async function POST(req: NextRequest) {
     obj.id = (obj._id as { toString(): string }).toString();
     delete obj._id;
     if (obj.__v !== undefined) delete obj.__v;
+
+    // Send notifications to attendees (non-blocking)
+    if (attendeeIds && attendeeIds.length > 0) {
+      notifyMeetingInvite({
+        attendeeIds,
+        meetingTitle: title.trim(),
+        organizerName: session.user.name || "Someone",
+        startTime: start.toISOString(),
+      }).catch(console.error);
+    }
 
     return NextResponse.json(obj, { status: 201 });
   } catch (err) {

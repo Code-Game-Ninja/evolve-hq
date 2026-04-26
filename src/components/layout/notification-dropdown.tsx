@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   Bell,
   Check,
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { getPusherClient } from "@/lib/pusher";
 
 interface NotificationData {
   _id: string;
@@ -54,6 +56,7 @@ const typeConfig: Record<string, { icon: LucideIcon; iconBg: string; iconColor: 
   attendance: { icon: Check, iconBg: "rgba(255,255,255,0.08)", iconColor: "#94a3b8" },
   team_update: { icon: UserPlus, iconBg: "rgba(139,92,246,0.15)", iconColor: "#8b5cf6" },
   system: { icon: Settings, iconBg: "rgba(255,255,255,0.08)", iconColor: "#94a3b8" },
+  chat_message: { icon: MessageCircle, iconBg: "rgba(59,130,246,0.15)", iconColor: "#3b82f6" },
 };
 
 function formatTime(dateStr: string): string {
@@ -118,6 +121,7 @@ const itemVariants = {
 
 export function NotificationDropdown() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState<DisplayNotification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -154,6 +158,27 @@ export function NotificationDropdown() {
   useEffect(() => {
     if (open) fetchNotifications();
   }, [open, fetchNotifications]);
+
+  // Real-time notifications via Pusher
+  useEffect(() => {
+    if (!session?.user?.id) return;
+
+    const pusher = getPusherClient();
+    if (!pusher) return;
+
+    const userChannel = pusher.subscribe(`user-${session.user.id}`);
+
+    userChannel.bind("new-notification", (notification: NotificationData) => {
+      // Add new notification to the list
+      setNotifications((prev) => [toDisplay(notification), ...prev]);
+      setUnreadCount((prev) => prev + 1);
+    });
+
+    return () => {
+      userChannel.unbind_all();
+      pusher.unsubscribe(`user-${session.user.id}`);
+    };
+  }, [session?.user?.id]);
 
   // Close on outside click
   useEffect(() => {

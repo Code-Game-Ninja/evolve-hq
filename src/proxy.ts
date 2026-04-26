@@ -130,6 +130,10 @@ export default auth((req) => {
       if (!isAdminRole) {
         return NextResponse.redirect(new URL("/dashboard", hqUrl));
       }
+      // Redirect HQ dashboard requests to HQ subdomain
+      if (pathname === "/dashboard") {
+        return NextResponse.redirect(new URL("/dashboard", hqUrl));
+      }
       // Rewrite clean URLs to /admin/* internally (e.g. /tasks → /admin/tasks)
       if (!isAdminRoute && !isApiRoute && !isPublicRoute && !pathname.startsWith("/change-password")) {
         const rewritePath = pathname === "/" ? "/admin" : `/admin${pathname}`;
@@ -165,7 +169,7 @@ export default auth((req) => {
     }
   }
 
-  // Pathname-based access control (development / fallback)
+  // Pathname-based access control (development / fallback / single-domain like Vercel)
   if (!hasSubdomain && isLoggedIn) {
     // Protect admin routes - check role
     if (isAdminRoute && !isAdminRole) {
@@ -175,6 +179,13 @@ export default auth((req) => {
     // Protect CRM routes - check position / role
     if (isCrmRoute && !hasCrmAccess) {
       return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    // Single-domain: Allow admin users to navigate to HQ dashboard
+    // When on /admin/* and navigating to /dashboard, allow it (don't rewrite)
+    if (isAdminRole && pathname === "/dashboard") {
+      // Admin wants to go to HQ dashboard - allow it
+      return NextResponse.next();
     }
   }
 

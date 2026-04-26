@@ -23,6 +23,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { cn } from "@/lib/utils";
 import {
   type Task,
   type TaskStatus,
@@ -63,34 +64,23 @@ function TaskCardContent({
 
   return (
     <div
-      className={`
-        group backdrop-blur-lg border transition-all duration-200
-        ${isDragging
-          ? "border-[#aaaaaa] shadow-xl scale-[1.03]"
-          : "border-[#dddddd]/50 hover:border-[#bbbbbb] hover:shadow-sm"
-        }
-      `}
-      style={{
-        backgroundColor: isDragging
-          ? "rgba(255,255,255,0.92)"
-          : "rgba(255,255,255,0.6)",
-        borderRadius: "18px",
-        padding: "16px",
-        opacity: isDragging ? 0.95 : 1,
-      }}
+      className={cn(
+        "group backdrop-blur-lg border transition-all duration-200 rounded-[18px] p-4",
+        isDragging
+          ? "border-foreground/30 shadow-xl scale-[1.03] bg-card/95 opacity-95"
+          : "border-border/50 hover:border-foreground/20 hover:shadow-sm bg-card/60"
+      )}
     >
       {/* Title row with drag handle */}
       <div className="flex items-start gap-2">
         <GripVertical
-          className="h-4 w-4 mt-0.5 shrink-0 opacity-0 group-hover:opacity-40 transition-opacity"
-          style={{ color: "#737373" }}
+          className="h-4 w-4 mt-0.5 shrink-0 opacity-0 group-hover:opacity-40 transition-opacity text-muted-foreground"
         />
         <p
-          className="text-sm font-medium mb-2 leading-snug flex-1 cursor-pointer"
-          style={{
-            color: isDone ? "#bbb" : "#1a1a1a",
-            textDecoration: isDone ? "line-through" : "none",
-          }}
+          className={cn(
+            "text-sm font-medium mb-2 leading-snug flex-1 cursor-pointer",
+            isDone && "text-muted-foreground line-through"
+          )}
           onClick={(e) => {
             e.stopPropagation();
             onEdit?.(task);
@@ -109,17 +99,14 @@ function TaskCardContent({
             title="Delete task"
             onPointerDown={(e) => e.stopPropagation()}
           >
-            <Trash2 className="h-3.5 w-3.5" style={{ color: "#bbb" }} />
+            <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
           </button>
         )}
       </div>
 
       {/* Description */}
       {task.description && (
-        <p
-          className="text-xs mb-3 line-clamp-2 pl-6"
-          style={{ color: "#888" }}
-        >
+        <p className="text-xs mb-3 line-clamp-2 pl-6 text-muted-foreground">
           {task.description}
         </p>
       )}
@@ -136,16 +123,15 @@ function TaskCardContent({
           />
         ) : (
           <div
-            className="h-5 w-5 rounded-full flex items-center justify-center shrink-0"
-            style={{ backgroundColor: "#f1efed" }}
+            className="h-5 w-5 rounded-full flex items-center justify-center shrink-0 bg-muted"
             title={member.name}
           >
-            <span className="text-[9px] font-semibold" style={{ color: "#707070" }}>
+            <span className="text-[9px] font-semibold text-muted-foreground">
               {member.initials}
             </span>
           </div>
         )}
-        <span className="text-xs" style={{ color: "#707070" }}>
+        <span className="text-xs text-muted-foreground">
           {member.name.split(" ")[0]}
         </span>
       </div>
@@ -165,22 +151,19 @@ function TaskCardContent({
 
         <div className="flex items-center gap-1.5">
           <div
-            className="h-2 w-2 rounded-full"
-            style={{
-              backgroundColor:
-                task.priority === "high"
-                  ? "#ef4444"
-                  : task.priority === "medium"
-                  ? "#f59e0b"
-                  : "#dddddd",
-            }}
+            className={cn(
+              "h-2 w-2 rounded-full",
+              task.priority === "high" && "bg-red-500",
+              task.priority === "medium" && "bg-amber-500",
+              task.priority === "low" && "bg-muted-foreground/30"
+            )}
           />
           <span
-            className="text-xs font-mono"
-            style={{
-              color: overdue ? "#ef4444" : "#888",
-              fontWeight: overdue ? 600 : 400,
-            }}
+            className={cn(
+              "text-xs font-mono",
+              overdue && "text-red-500 font-semibold",
+              !overdue && "text-muted-foreground"
+            )}
           >
             {formatDate(task.dueDate)}
           </span>
@@ -259,20 +242,12 @@ function SortableColumn({
   return (
     <div
       ref={setNodeRef}
-      className={`
-        min-h-[400px] flex flex-col backdrop-blur-lg border transition-all duration-200
-        ${isOver
-          ? "border-[#f3350c]/40 shadow-[0_0_20px_rgba(243,53,12,0.08)]"
-          : "border-[#dddddd]"
-        }
-      `}
-      style={{
-        backgroundColor: isOver
-          ? "rgba(243,53,12,0.04)"
-          : "rgba(241,239,237,0.45)",
-        borderRadius: "20px",
-        padding: "16px",
-      }}
+      className={cn(
+        "min-h-[400px] flex flex-col backdrop-blur-lg border transition-all duration-200 rounded-[20px] p-4",
+        isOver
+          ? "border-primary/40 shadow-[0_0_20px_rgba(243,53,12,0.08)] bg-primary/5"
+          : "border-border bg-card/50"
+      )}
     >
       {/* Column header */}
       <div className="flex items-center justify-between mb-4">
@@ -284,21 +259,11 @@ function SortableColumn({
               transform: isOver ? "scale(1.3)" : "scale(1)",
             }}
           />
-          <span
-            className="text-sm font-semibold uppercase"
-            style={{ color: "#1a1a1a" }}
-          >
+          <span className="text-sm font-semibold uppercase text-foreground">
             {sc.label}
           </span>
         </div>
-        <span
-          className="text-xs font-semibold px-2 py-0.5 border border-[#dddddd]/50"
-          style={{
-            color: "#737373",
-            backgroundColor: "rgba(255,255,255,0.6)",
-            borderRadius: "9999px",
-          }}
-        >
+        <span className="text-xs font-semibold px-2 py-0.5 border border-border bg-background/60 rounded-full text-muted-foreground">
           {tasks.length}
         </span>
       </div>
@@ -306,10 +271,9 @@ function SortableColumn({
       {/* Drop indicator when hovering empty column */}
       {isOver && tasks.length === 0 && (
         <div
-          className="flex-1 flex items-center justify-center rounded-xl border-2 border-dashed border-[#f3350c]/20 mb-3"
-          style={{ minHeight: "80px" }}
+          className="flex-1 flex items-center justify-center rounded-xl border-2 border-dashed border-primary/20 mb-3 min-h-[80px]"
         >
-          <span className="text-xs" style={{ color: "#f3350c", opacity: 0.5 }}>
+          <span className="text-xs text-primary/50">
             Drop here
           </span>
         </div>
@@ -333,23 +297,10 @@ function SortableColumn({
       {/* Add task button */}
       <button
         onClick={onNewTask}
-        className="group mt-3 flex items-center justify-center gap-2 w-full py-3 transition-colors cursor-pointer"
-        style={{
-          border: "1.5px dashed #dddddd",
-          borderRadius: "9999px",
-          backgroundColor: "transparent",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.6)";
-          e.currentTarget.style.borderColor = "#aaaaaa";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "transparent";
-          e.currentTarget.style.borderColor = "#dddddd";
-        }}
+        className="group mt-3 flex items-center justify-center gap-2 w-full py-3 transition-colors cursor-pointer border-[1.5px] border-dashed border-border rounded-full bg-transparent hover:bg-background/60 hover:border-foreground/30"
       >
-        <Plus className="h-4 w-4" style={{ color: "#bbb" }} />
-        <span className="text-[13px]" style={{ color: "#bbb" }}>
+        <Plus className="h-4 w-4 text-muted-foreground" />
+        <span className="text-[13px] text-muted-foreground">
           Add task
         </span>
       </button>

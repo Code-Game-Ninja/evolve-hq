@@ -187,26 +187,23 @@ export function AttendanceClient() {
   };
 
   return (
-    <div className="p-6 lg:p-10 max-w-7xl mx-auto space-y-8">
+    <div className="space-y-6 pb-12">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Attendance</h1>
-          <p className="text-slate-400 mt-1">Track your daily work hours and manage your schedule.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Attendance</h1>
+          <p className="text-slate-400 mt-1 text-sm">Track your daily work hours and manage your schedule.</p>
         </div>
-
-        <div className="flex items-center gap-3">
-          <GlassPillTabs
-            tabs={[
-              { label: "Today", value: "Today", icon: Clock },
-              { label: "History", value: "History", icon: History },
-            ]}
-            activeValue={activeTab}
-            onChange={(val) => setActiveTab(val as any)}
-            layoutId="attendance-tabs"
-            size="sm"
-          />
-        </div>
+        <GlassPillTabs
+          tabs={[
+            { label: "Today", value: "Today", icon: Clock },
+            { label: "History", value: "History", icon: History },
+          ]}
+          activeValue={activeTab}
+          onChange={(val) => setActiveTab(val as any)}
+          layoutId="attendance-tabs"
+          size="sm"
+        />
       </div>
 
       <AnimatePresence mode="wait">
@@ -266,34 +263,34 @@ export function AttendanceClient() {
                   ) : null}
                 </div>
 
-                <div className="flex-1 flex flex-col items-center justify-center py-10">
-                  <div className="text-[5rem] font-bold tracking-tighter text-white tabular-nums leading-none">
+                <div className="flex-1 flex flex-col items-center justify-center py-6 sm:py-10">
+                  <div className="text-[2.5rem] sm:text-[4rem] lg:text-[5rem] font-bold tracking-tighter text-white tabular-nums leading-none">
                     {formatTime(elapsedTime)}
                   </div>
-                  <p className="text-slate-400 mt-4 flex items-center gap-2">
+                  <p className="text-slate-400 mt-4 flex items-center gap-2 text-sm">
                     <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
                     Total work time recorded for today
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="grid grid-cols-2 gap-3 mt-6">
                   <Button
                     size="lg"
-                    className={`rounded-2xl h-16 text-lg font-bold transition-all duration-300 ${
-                      todayRecord?.status === "active" 
-                        ? "bg-slate-800 text-slate-400 cursor-not-allowed" 
+                    className={`rounded-2xl h-12 sm:h-16 text-base sm:text-lg font-bold transition-all duration-300 ${
+                      todayRecord?.status === "active"
+                        ? "bg-slate-800 text-slate-400 cursor-not-allowed"
                         : "bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20"
                     }`}
                     onClick={handleClockIn}
                     disabled={actionLoading || todayRecord?.status === "active"}
                   >
-                    <Play className="w-5 h-5 mr-2 fill-current" />
+                    <Play className="w-4 h-4 mr-2 fill-current" />
                     Clock In
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
-                    className={`rounded-2xl h-16 text-lg font-bold border-white/10 hover:bg-white/5 transition-all duration-300 ${
+                    className={`rounded-2xl h-12 sm:h-16 text-base sm:text-lg font-bold border-white/10 hover:bg-white/5 transition-all duration-300 ${
                       todayRecord?.status !== "active"
                         ? "text-slate-500 cursor-not-allowed opacity-50"
                         : "text-white"
@@ -301,7 +298,7 @@ export function AttendanceClient() {
                     onClick={handleClockOut}
                     disabled={actionLoading || todayRecord?.status !== "active"}
                   >
-                    <Square className="w-5 h-5 mr-2 fill-current" />
+                    <Square className="w-4 h-4 mr-2 fill-current" />
                     Clock Out
                   </Button>
                 </div>
@@ -380,68 +377,92 @@ export function AttendanceClient() {
               </div>
 
               <div className="overflow-x-auto">
+                {/* Desktop table */}
+                <div className="hidden sm:block">
                 <Table>
                   <TableHeader className="bg-white/5">
                     <TableRow className="border-white/5 hover:bg-transparent">
-                      <TableHead className="text-slate-400 py-4 px-8">Date</TableHead>
+                      <TableHead className="text-slate-400 py-4 px-6">Date</TableHead>
                       <TableHead className="text-slate-400 py-4">Status</TableHead>
-                      <TableHead className="text-slate-400 py-4">Work Mode</TableHead>
+                      <TableHead className="text-slate-400 py-4">Mode</TableHead>
                       <TableHead className="text-slate-400 py-4">Clock In</TableHead>
                       <TableHead className="text-slate-400 py-4">Clock Out</TableHead>
                       <TableHead className="text-slate-400 py-4">Duration</TableHead>
-                      <TableHead className="text-slate-400 py-4 text-right px-8">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {loading ? (
                       Array.from({ length: 5 }).map((_, i) => (
                         <TableRow key={i} className="border-white/5">
-                          <TableCell className="px-8 py-4"><div className="h-5 w-24 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell><div className="h-5 w-20 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell><div className="h-5 w-16 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell><div className="h-5 w-20 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell><div className="h-5 w-20 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell><div className="h-5 w-16 bg-white/5 rounded animate-pulse" /></TableCell>
-                          <TableCell className="text-right px-8"><div className="h-8 w-8 ml-auto bg-white/5 rounded animate-pulse" /></TableCell>
+                          {Array.from({ length: 6 }).map((_, j) => (
+                            <TableCell key={j} className="px-6 py-4"><div className="h-5 w-20 bg-white/5 rounded animate-pulse" /></TableCell>
+                          ))}
                         </TableRow>
                       ))
                     ) : records.length === 0 ? (
                       <TableRow className="hover:bg-transparent">
-                        <TableCell colSpan={7} className="h-64 text-center">
+                        <TableCell colSpan={6} className="h-40 text-center">
                           <div className="flex flex-col items-center justify-center">
-                            <History className="w-12 h-12 text-slate-700 mb-4" />
-                            <p className="text-slate-500 font-medium">No records found for this period.</p>
+                            <History className="w-10 h-10 text-slate-700 mb-3" />
+                            <p className="text-slate-500 text-sm">No records found.</p>
                           </div>
                         </TableCell>
                       </TableRow>
                     ) : (
                       records.map((record) => (
-                        <TableRow key={record._id} className="border-white/5 group hover:bg-white/[0.02] transition-colors">
-                          <TableCell className="px-8 py-4 font-medium text-white">
-                            {format(new Date(record.date), "MMM dd, yyyy")}
-                          </TableCell>
+                        <TableRow key={record._id} className="border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <TableCell className="px-6 py-4 font-medium text-white">{format(new Date(record.date), "MMM dd, yyyy")}</TableCell>
                           <TableCell>{getStatusBadge(record.status)}</TableCell>
                           <TableCell>
-                            <div className="flex items-center gap-2 text-slate-300">
+                            <div className="flex items-center gap-1.5 text-slate-300">
                               {record.workMode === "office" ? <MapPin className="w-3.5 h-3.5 text-orange-500" /> : <Home className="w-3.5 h-3.5 text-blue-500" />}
-                              <span className="capitalize">{record.workMode}</span>
+                              <span className="capitalize text-sm">{record.workMode}</span>
                             </div>
                           </TableCell>
-                          <TableCell className="text-slate-300">{format(new Date(record.clockIn), "hh:mm a")}</TableCell>
-                          <TableCell className="text-slate-300">{record.clockOut ? format(new Date(record.clockOut), "hh:mm a") : "—"}</TableCell>
-                          <TableCell className="text-slate-300">
-                            {record.duration ? `${Math.floor(record.duration / 60)}h ${record.duration % 60}m` : "—"}
-                          </TableCell>
-                          <TableCell className="text-right px-8">
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-slate-400 group-hover:text-white transition-colors">
-                              <ArrowRight className="w-4 h-4" />
-                            </Button>
-                          </TableCell>
+                          <TableCell className="text-slate-300 text-sm">{format(new Date(record.clockIn), "hh:mm a")}</TableCell>
+                          <TableCell className="text-slate-300 text-sm">{record.clockOut ? format(new Date(record.clockOut), "hh:mm a") : "—"}</TableCell>
+                          <TableCell className="text-slate-300 text-sm">{record.duration ? `${Math.floor(record.duration / 60)}h ${record.duration % 60}m` : "—"}</TableCell>
                         </TableRow>
                       ))
                     )}
                   </TableBody>
                 </Table>
+                </div>
+
+                {/* Mobile cards */}
+                <div className="sm:hidden divide-y divide-white/5">
+                  {loading ? (
+                    Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="p-4 animate-pulse space-y-2">
+                        <div className="h-4 w-32 bg-white/5 rounded" />
+                        <div className="h-4 w-24 bg-white/5 rounded" />
+                      </div>
+                    ))
+                  ) : records.length === 0 ? (
+                    <div className="py-12 text-center">
+                      <History className="w-10 h-10 text-slate-700 mx-auto mb-3" />
+                      <p className="text-slate-500 text-sm">No records found.</p>
+                    </div>
+                  ) : (
+                    records.map((record) => (
+                      <div key={record._id} className="p-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-white font-medium text-sm">{format(new Date(record.date), "MMM dd, yyyy")}</span>
+                          {getStatusBadge(record.status)}
+                        </div>
+                        <div className="flex items-center gap-4 text-xs text-slate-400">
+                          <span className="flex items-center gap-1">
+                            {record.workMode === "office" ? <MapPin className="w-3 h-3 text-orange-500" /> : <Home className="w-3 h-3 text-blue-500" />}
+                            {record.workMode}
+                          </span>
+                          <span>In: {format(new Date(record.clockIn), "hh:mm a")}</span>
+                          <span>Out: {record.clockOut ? format(new Date(record.clockOut), "hh:mm a") : "—"}</span>
+                          {record.duration && <span>{Math.floor(record.duration / 60)}h {record.duration % 60}m</span>}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             </Card>
           </motion.div>

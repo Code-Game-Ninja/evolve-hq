@@ -5,6 +5,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { ChevronDown, type LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // useCountUp hook
 export function useCountUp(target: number, duration = 1200) {
@@ -99,12 +100,7 @@ export function StatCard({
   return (
     <motion.div
       {...cardVariant(index)}
-      className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderRadius: "24px",
-        padding: "20px 24px",
-      }}
+      className="relative overflow-hidden backdrop-blur-lg border border-border bg-card/50 rounded-[24px] p-5 sm:p-6"
     >
       <div
         className="absolute top-5 right-5 w-10 h-10 rounded-2xl flex items-center justify-center"
@@ -112,20 +108,14 @@ export function StatCard({
       >
         <Icon size={20} style={{ color: iconColor }} />
       </div>
-      <p
-        className="text-xs uppercase font-medium tracking-wider"
-        style={{ color: "#737373" }}
-      >
+      <p className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
         {label}
       </p>
-      <p
-        className="text-[2rem] sm:text-[2.5rem] font-bold mt-1 leading-tight"
-        style={{ color: "#1a1a1a" }}
-      >
+      <p className="text-[2rem] sm:text-[2.5rem] font-bold mt-1 leading-tight text-foreground">
         {count}
       </p>
       {description && (
-        <p className="text-xs mt-0.5" style={{ color: "#bbb" }}>
+        <p className="text-xs mt-0.5 text-muted-foreground/60">
           {description}
         </p>
       )}
@@ -170,27 +160,24 @@ export function FilterDropdown({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:text-[#1a1a1a] hover:bg-[#e8e5e2] cursor-pointer"
-        style={{
-          color: open ? "#1a1a1a" : "#4d4d4d",
-          backgroundColor: open ? "#e8e5e2" : "rgba(241,239,237,0.45)",
-          borderColor: open ? "#aaaaaa" : undefined,
-        }}
+        className={cn(
+          "flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border cursor-pointer",
+          open
+            ? "border-foreground/30 bg-accent text-foreground"
+            : "border-border bg-card/50 text-muted-foreground hover:border-foreground/30 hover:text-foreground hover:bg-accent"
+        )}
       >
         {displayLabel}
         <ChevronDown
-          className="h-3.5 w-3.5 transition-transform duration-200"
-          style={{
-            color: open ? "#1a1a1a" : "#999",
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          }}
+          className={cn(
+            "h-3.5 w-3.5 transition-transform duration-200",
+            open ? "text-foreground" : "text-muted-foreground",
+            open && "rotate-180"
+          )}
         />
       </button>
       {open && (
-        <div
-          className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-[#dddddd] backdrop-blur-lg shadow-lg p-1"
-          style={{ backgroundColor: "rgba(241,239,237,0.95)" }}
-        >
+        <div className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-border backdrop-blur-lg shadow-lg p-1 bg-card">
           {options.map((opt) => (
             <button
               key={opt.value}
@@ -198,18 +185,12 @@ export function FilterDropdown({
                 onChange(opt.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer"
-              style={{
-                color: value === opt.value ? "#1a1a1a" : "#4d4d4d",
-                fontWeight: value === opt.value ? 600 : 400,
-                backgroundColor: value === opt.value ? "rgba(0,0,0,0.05)" : "transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (value !== opt.value) e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                if (value !== opt.value) e.currentTarget.style.backgroundColor = "transparent";
-              }}
+              className={cn(
+                "w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer",
+                value === opt.value
+                  ? "text-foreground font-semibold bg-accent"
+                  : "text-muted-foreground hover:bg-accent"
+              )}
             >
               {opt.label}
             </button>
@@ -243,8 +224,8 @@ export function AvatarCircle({
   }
   return (
     <div
-      className="rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
-      style={{ width: size, height: size, backgroundColor: "#f1efed", color: "#707070" }}
+      className="rounded-full flex items-center justify-center text-xs font-semibold shrink-0 bg-muted text-muted-foreground"
+      style={{ width: size, height: size }}
     >
       {initials}
     </div>
@@ -266,27 +247,20 @@ export function EmptyState({
   onAction?: () => void;
 }) {
   return (
-    <div
-      className="rounded-[24px] border border-[#dddddd] backdrop-blur-lg p-12 flex flex-col items-center justify-center text-center"
-      style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-    >
-      <div
-        className="h-16 w-16 rounded-3xl flex items-center justify-center mb-4"
-        style={{ backgroundColor: "rgba(0,0,0,0.04)" }}
-      >
-        <Icon className="h-8 w-8" style={{ color: "#dddddd" }} />
+    <div className="rounded-[24px] border border-border backdrop-blur-lg bg-card/50 p-12 flex flex-col items-center justify-center text-center">
+      <div className="h-16 w-16 rounded-3xl flex items-center justify-center mb-4 bg-muted">
+        <Icon className="h-8 w-8 text-muted-foreground/30" />
       </div>
-      <h2 className="text-base font-semibold mb-1" style={{ color: "#707070" }}>
+      <h2 className="text-base font-semibold mb-1 text-muted-foreground">
         {title}
       </h2>
-      <p className="text-sm max-w-md" style={{ color: "#b6b6b6" }}>
+      <p className="text-sm max-w-md text-muted-foreground/60">
         {description}
       </p>
       {actionLabel && onAction && (
         <button
           onClick={onAction}
-          className="mt-4 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 cursor-pointer hover:brightness-110"
-          style={{ backgroundColor: "#f3350c", color: "#ffffff" }}
+          className="mt-4 px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
         >
           {actionLabel}
         </button>
@@ -355,23 +329,18 @@ export function MoreMenu({
       <button
         ref={buttonRef}
         onClick={onToggle}
-        className="w-7 h-7 rounded-full flex items-center justify-center text-[13px] transition-colors cursor-pointer"
-        style={{ backgroundColor: "rgba(0,0,0,0.04)" }}
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+        className="w-7 h-7 rounded-full flex items-center justify-center text-[13px] transition-colors cursor-pointer bg-muted text-muted-foreground hover:bg-muted/80"
       >
-        <span style={{ color: "#707070", letterSpacing: "1px" }}>...</span>
+        <span className="tracking-wider">...</span>
       </button>
       {open &&
         createPortal(
           <div
             ref={dropdownRef}
-            className="fixed min-w-[160px] rounded-2xl border border-[#dddddd] backdrop-blur-lg shadow-lg p-1"
+            className="fixed min-w-[160px] rounded-2xl border border-border backdrop-blur-lg shadow-lg p-1 bg-card z-[9999]"
             style={{
-              backgroundColor: "rgba(248,247,243,0.95)",
               top: pos.top,
               right: pos.right,
-              zIndex: 9999,
             }}
           >
             {items.map((item) => (
@@ -381,13 +350,10 @@ export function MoreMenu({
                   item.onClick();
                   onToggle();
                 }}
-                className="w-full text-left px-3 py-2 rounded-xl text-[13px] transition-colors cursor-pointer"
-                style={{
-                  color: item.destructive ? "#ef4444" : "#4d4d4d",
-                  fontWeight: item.destructive ? 500 : 400,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                className={cn(
+                  "w-full text-left px-3 py-2 rounded-xl text-[13px] transition-colors cursor-pointer",
+                  item.destructive ? "text-red-500 font-medium hover:bg-red-500/10" : "text-foreground hover:bg-accent"
+                )}
               >
                 {item.label}
               </button>

@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import { GlassPillTabs } from "@/components/ui/glass-pill-tabs";
 import { UserManagementClient } from "../users/users-client";
 import {
@@ -82,10 +83,10 @@ const roleConfig: Record<
   string,
   { icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>; bg: string; text: string; label: string }
 > = {
-  superadmin: { icon: Crown, bg: "rgba(243,53,12,0.12)", text: "#f3350c", label: "Super Admin" },
-  admin: { icon: ShieldCheck, bg: "rgba(243,53,12,0.08)", text: "#f3350c", label: "Admin" },
-  manager: { icon: Shield, bg: "rgba(0,0,0,0.06)", text: "#1a1a1a", label: "Manager" },
-  employee: { icon: User, bg: "rgba(0,0,0,0.04)", text: "#555", label: "Employee" },
+  superadmin: { icon: Crown, bg: "rgba(243,53,12,0.15)", text: "#f3350c", label: "Super Admin" },
+  admin: { icon: ShieldCheck, bg: "rgba(243,53,12,0.10)", text: "#f3350c", label: "Admin" },
+  manager: { icon: Shield, bg: "hsl(var(--foreground) / 0.08)", text: "hsl(var(--foreground))", label: "Manager" },
+  employee: { icon: User, bg: "hsl(var(--foreground) / 0.05)", text: "hsl(var(--muted-foreground))", label: "Employee" },
 };
 
 // Status config
@@ -146,13 +147,10 @@ export function TeamPageClient({ initialData }: { initialData: TeamMember[] }) {
         className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
       >
         <div>
-          <h1
-            className="text-2xl sm:text-[2rem] font-semibold leading-tight"
-            style={{ color: "#1a1a1a" }}
-          >
+          <h1 className="text-2xl sm:text-[2rem] font-semibold leading-tight text-foreground">
             Team
           </h1>
-          <p className="text-sm mt-1" style={{ color: "#737373" }}>
+          <p className="text-sm mt-1 text-muted-foreground">
             Manage team members, roles and permissions
           </p>
         </div>
@@ -213,20 +211,12 @@ function StatCard({
       initial="hidden"
       animate="visible"
       variants={cardVariant}
-      className="backdrop-blur-lg border border-[#dddddd]"
-      style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
-        borderRadius: "24px",
-        padding: "16px 20px",
-      }}
+      className="backdrop-blur-lg border border-border bg-card/50 rounded-[24px] px-5 py-4"
     >
-      <p
-        className="text-xs uppercase font-medium tracking-wider"
-        style={{ color: "#737373" }}
-      >
+      <p className="text-xs uppercase font-medium tracking-wider text-muted-foreground">
         {label}
       </p>
-      <p className="text-2xl font-bold mt-1" style={{ color: "#1a1a1a" }}>
+      <p className="text-2xl font-bold mt-1 text-foreground">
         {animated}
       </p>
     </motion.div>
@@ -429,14 +419,14 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
       <div className="space-y-5 animate-pulse">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-[80px] rounded-3xl" style={{ backgroundColor: "rgba(0,0,0,0.06)" }} />
+            <div key={i} className="h-[80px] rounded-3xl bg-muted" />
           ))}
         </div>
-        <div className="rounded-3xl p-6" style={{ backgroundColor: "rgba(0,0,0,0.06)" }}>
-          <div className="h-10 w-56 rounded-xl mb-4" style={{ backgroundColor: "rgba(0,0,0,0.06)" }} />
+        <div className="rounded-3xl p-6 bg-muted">
+          <div className="h-10 w-56 rounded-xl mb-4 bg-muted-foreground/10" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-[180px] rounded-2xl" style={{ backgroundColor: "rgba(0,0,0,0.04)" }} />
+              <div key={i} className="h-[180px] rounded-2xl bg-muted-foreground/5" />
             ))}
           </div>
         </div>
@@ -459,33 +449,27 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
         initial="hidden"
         animate="visible"
         variants={cardVariant}
-        className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-[#dddddd]"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+        className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-border bg-card/50"
       >
         {/* Card header with search + add */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 pt-6 pb-4">
-          <h2 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+          <h2 className="text-base font-semibold text-foreground">
             Team Members
           </h2>
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <div
-              className="flex items-center gap-2 rounded-2xl px-4 py-2.5 backdrop-blur-lg border border-[#dddddd] flex-1 sm:w-56"
-              style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-            >
-              <Search className="h-4 w-4 shrink-0" style={{ color: "#737373" }} />
+            <div className="flex items-center gap-2 rounded-2xl px-4 py-2.5 backdrop-blur-lg border border-border bg-card/50 flex-1 sm:w-56">
+              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search team..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="bg-transparent outline-none text-sm w-full placeholder:text-[#bbb]"
-                style={{ color: "#1a1a1a" }}
+                className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground/50 text-foreground"
               />
             </div>
             <button
               onClick={() => { setEditingMember(null); setDialogOpen(true); }}
-              className="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-xs font-semibold text-white transition-all duration-200 cursor-pointer hover:opacity-90 active:scale-95"
-              style={{ backgroundColor: "#0a0a0a" }}
+              className="shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-xs font-semibold text-primary-foreground transition-all duration-200 cursor-pointer hover:opacity-90 active:scale-95 bg-primary"
             >
               <Plus className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Add Member</span>
@@ -502,15 +486,7 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
               initial="hidden"
               animate="visible"
               variants={cardVariant}
-              className="rounded-2xl p-5 transition-all duration-200 hover:scale-[1.01] cursor-pointer"
-              style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
-              onClick={() => setSelectedMember(member)}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.03)")
-              }
+              className="rounded-2xl p-5 transition-all duration-200 hover:scale-[1.01] cursor-pointer bg-muted/30 hover:bg-muted/50"
             >
               {/* Avatar */}
               {member.image ? (
@@ -521,19 +497,13 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
                   className="w-14 h-14 rounded-full object-cover"
                 />
               ) : (
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center text-base font-semibold"
-                  style={{ backgroundColor: "#f1efed", color: "#707070" }}
-                >
+                <div className="w-14 h-14 rounded-full flex items-center justify-center text-base font-semibold bg-muted text-muted-foreground">
                   {member.avatar}
                 </div>
               )}
 
               {/* Name */}
-              <p
-                className="text-sm font-semibold mt-3 truncate"
-                style={{ color: "#1a1a1a" }}
-              >
+              <p className="text-sm font-semibold mt-3 truncate text-foreground">
                 {member.name}
               </p>
 
@@ -543,12 +513,9 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
               </div>
 
               {/* Position */}
-              <p
-                className="text-xs mt-2 truncate"
-                style={{ color: "#707070" }}
-              >
+              <p className="text-xs mt-2 truncate text-muted-foreground">
                 {member.position || (
-                  <span className="italic" style={{ color: "#bbb" }}>
+                  <span className="italic text-muted-foreground/50">
                     Not set
                   </span>
                 )}
@@ -565,8 +532,8 @@ function TeamMembersContent({ initialData }: { initialData?: TeamMember[] }) {
         {/* Empty state */}
         {filtered.length === 0 && (
           <div className="px-6 pb-12 flex flex-col items-center justify-center text-center">
-            <Users className="h-12 w-12 mb-3" style={{ color: "#bbb" }} />
-            <p className="text-sm" style={{ color: "#737373" }}>
+            <Users className="h-12 w-12 mb-3 text-muted-foreground/40" />
+            <p className="text-sm text-muted-foreground">
               {search ? "No team members match your search" : "No team members yet. Add your first member above."}
             </p>
           </div>
@@ -628,18 +595,15 @@ function InfoRow({
   value: string;
 }) {
   return (
-    <div className="flex items-start gap-3 py-3" style={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
-      <div
-        className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-        style={{ backgroundColor: "rgba(0,0,0,0.04)" }}
-      >
-        <Icon className="h-4 w-4" style={{ color: "#707070" }} />
+    <div className="flex items-start gap-3 py-3 border-b border-border/50">
+      <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 bg-muted">
+        <Icon className="h-4 w-4 text-muted-foreground" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-[11px] uppercase tracking-wider font-medium" style={{ color: "#737373" }}>
+        <p className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground">
           {label}
         </p>
-        <p className="text-sm font-medium mt-0.5 break-all" style={{ color: "#1a1a1a" }}>
+        <p className="text-sm font-medium mt-0.5 break-all text-foreground">
           {value}
         </p>
       </div>
@@ -667,36 +631,32 @@ function MemberDetailSheet({
     <Sheet open={!!member} onOpenChange={(open) => !open && onClose()}>
       <SheetContent
         side="right"
-        className="w-full sm:w-[440px] p-0 border-l border-[#dddddd] overflow-y-auto"
-        style={{ backgroundColor: "#f8f7f3" }}
+        className="w-full sm:w-[440px] p-0 border-l border-border overflow-y-auto bg-card"
         showCloseButton={false}
       >
         <SheetTitle className="sr-only">{member.name} Profile</SheetTitle>
 
         {/* Hero header */}
-        <div className="relative px-6 pt-6 pb-5">
+        <div className="relative px-6 pt-6 pb-5 border-b border-border/50">
           {/* Action buttons */}
           <div className="absolute top-4 right-4 flex items-center gap-1">
             <button
               onClick={() => onEdit(member)}
-              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-black/5"
-              style={{ color: "#707070" }}
+              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-accent text-muted-foreground"
               title="Edit member"
             >
               <Pencil className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={() => onDelete(member)}
-              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-red-50"
-              style={{ color: "#ef4444" }}
+              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-red-500/10 text-red-500"
               title="Remove member"
             >
               <Trash2 className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={onClose}
-              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-black/5"
-              style={{ color: "#737373" }}
+              className="h-8 w-8 rounded-full flex items-center justify-center transition-colors cursor-pointer hover:bg-accent text-muted-foreground"
             >
               <X className="h-4 w-4" />
             </button>
@@ -712,18 +672,15 @@ function MemberDetailSheet({
                 className="w-16 h-16 rounded-full object-cover shrink-0"
               />
             ) : (
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold shrink-0"
-                style={{ backgroundColor: "#f1efed", color: "#707070" }}
-              >
+              <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold shrink-0 bg-muted text-muted-foreground">
                 {member.avatar}
               </div>
             )}
             <div className="min-w-0">
-              <h2 className="text-lg font-semibold truncate" style={{ color: "#1a1a1a" }}>
+              <h2 className="text-lg font-semibold truncate text-foreground">
                 {member.name}
               </h2>
-              <p className="text-sm mt-0.5 truncate" style={{ color: "#707070" }}>
+              <p className="text-sm mt-0.5 truncate text-muted-foreground">
                 {member.position}
               </p>
               <div className="flex items-center gap-2 mt-2 flex-wrap">
@@ -747,42 +704,36 @@ function MemberDetailSheet({
         </div>
 
         {/* Divider */}
-        <div className="h-px mx-6" style={{ backgroundColor: "rgba(0,0,0,0.06)" }} />
+        <div className="h-px mx-6 bg-border" />
 
         {/* Task stats */}
         <div className="px-6 py-4 grid grid-cols-2 gap-3">
-          <div
-            className="rounded-2xl p-4 text-center"
-            style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
-          >
+          <div className="rounded-2xl p-4 text-center bg-muted/50">
             <div className="flex items-center justify-center gap-1.5 mb-1">
-              <CheckSquare className="h-3.5 w-3.5" style={{ color: "#22c55e" }} />
-              <span className="text-[11px] uppercase tracking-wider font-medium" style={{ color: "#737373" }}>
+              <CheckSquare className="h-3.5 w-3.5 text-green-500" />
+              <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground">
                 Completed
               </span>
             </div>
-            <p className="text-2xl font-bold" style={{ color: "#1a1a1a" }}>
+            <p className="text-2xl font-bold text-foreground">
               {member.tasksCompleted}
             </p>
           </div>
-          <div
-            className="rounded-2xl p-4 text-center"
-            style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
-          >
+          <div className="rounded-2xl p-4 text-center bg-muted/50">
             <div className="flex items-center justify-center gap-1.5 mb-1">
-              <Clock className="h-3.5 w-3.5" style={{ color: "#f59e0b" }} />
-              <span className="text-[11px] uppercase tracking-wider font-medium" style={{ color: "#737373" }}>
+              <Clock className="h-3.5 w-3.5 text-amber-500" />
+              <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground">
                 In Progress
               </span>
             </div>
-            <p className="text-2xl font-bold" style={{ color: "#1a1a1a" }}>
+            <p className="text-2xl font-bold text-foreground">
               {member.tasksInProgress}
             </p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="h-px mx-6" style={{ backgroundColor: "rgba(0,0,0,0.06)" }} />
+        <div className="h-px mx-6 bg-border" />
 
         {/* Contact & Info */}
         <div className="px-6 py-2">
@@ -799,30 +750,27 @@ function MemberDetailSheet({
 
         {/* Recent Activity */}
         <div className="px-6 py-4 pb-8">
-          <h3 className="text-xs uppercase tracking-wider font-semibold mb-3" style={{ color: "#737373" }}>
+          <h3 className="text-xs uppercase tracking-wider font-semibold mb-3 text-muted-foreground">
             Recent Activity
           </h3>
           <div className="space-y-0">
             {member.recentActivity.map((activity, i) => (
               <div
                 key={i}
-                className="flex gap-3 py-2.5"
-                style={{
-                  borderBottom:
-                    i < member.recentActivity.length - 1
-                      ? "1px solid rgba(0,0,0,0.04)"
-                      : "none",
-                }}
+                className={cn(
+                  "flex gap-3 py-2.5",
+                  i < member.recentActivity.length - 1 && "border-b border-border/50"
+                )}
               >
                 <div
                   className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
                   style={{ backgroundColor: "#22c55e" }}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm" style={{ color: "#1a1a1a" }}>
+                  <p className="text-sm text-foreground">
                     {activity.action}
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: "#737373" }}>
+                  <p className="text-xs mt-0.5 text-muted-foreground">
                     {activity.time}
                   </p>
                 </div>
@@ -853,8 +801,8 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="text-[11px] uppercase tracking-wider font-semibold mb-1.5 block" style={{ color: "#737373" }}>
-        {label} {required && <span style={{ color: "#f3350c" }}>*</span>}
+      <label className="text-[11px] uppercase tracking-wider font-semibold mb-1.5 block text-muted-foreground">
+        {label} {required && <span className="text-primary">*</span>}
       </label>
       <input
         type={type}
@@ -862,8 +810,7 @@ function FormField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-2.5 rounded-2xl text-sm border border-[#dddddd] backdrop-blur-lg outline-none transition-all focus:border-[#aaa]"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)", color: "#1a1a1a" }}
+        className="w-full px-4 py-2.5 rounded-2xl text-sm border border-border backdrop-blur-lg outline-none transition-all focus:border-primary bg-card/50 text-foreground placeholder:text-muted-foreground/50"
       />
     </div>
   );
@@ -883,14 +830,19 @@ function FormSelect({
 }) {
   return (
     <div>
-      <label className="text-[11px] uppercase tracking-wider font-semibold mb-1.5 block" style={{ color: "#737373" }}>
+      <label className="text-[11px] uppercase tracking-wider font-semibold mb-1.5 block text-muted-foreground">
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-4 py-2.5 rounded-2xl text-sm border border-[#dddddd] backdrop-blur-lg outline-none transition-all focus:border-[#aaa] cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_12px_center] bg-no-repeat pr-10"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)", color: "#1a1a1a" }}
+        className="w-full px-4 py-2.5 rounded-2xl text-sm border border-border backdrop-blur-lg outline-none transition-all focus:border-primary cursor-pointer appearance-none bg-card/50 text-foreground pr-10"
+        style={{
+          backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22hsl(var(--muted-foreground))%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")`,
+          backgroundSize: "12px",
+          backgroundPosition: "right 12px center",
+          backgroundRepeat: "no-repeat"
+        }}
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

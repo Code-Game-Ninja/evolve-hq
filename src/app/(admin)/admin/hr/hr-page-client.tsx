@@ -692,46 +692,31 @@ function AttendanceTab({ initialData }: { initialData?: any[] }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-[#dddddd] flex flex-col"
-        style={{
-          backgroundColor: "rgba(241,239,237,0.45)",
-        }}
+        className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-border bg-card/50 flex flex-col"
       >
         {/* Header */}
         <div className="px-6 pt-6 pb-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+            <h2 className="text-base font-semibold text-foreground">
               Today&apos;s Team Attendance
             </h2>
-            <span className="text-sm font-medium" style={{ color: "#707070" }}>
+            <span className="text-sm font-medium text-muted-foreground">
               {new Date().toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric", timeZone: "Asia/Kolkata" })}
             </span>
           </div>
           {/* Toolbar */}
           <div className="flex flex-wrap items-center gap-3 mt-4">
             <div className="relative flex-1 min-w-[200px] max-w-[280px]">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
-                style={{ color: "#b6b6b6" }}
-              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search employee..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-10 pl-9 pr-4 rounded-full text-[13px] font-medium outline-none transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
-                style={{
-                  backgroundColor: "rgba(241,239,237,0.45)",
-                  color: "#1a1a1a",
-                }}
+                className="w-full h-10 pl-9 pr-4 rounded-full text-[13px] font-medium outline-none transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground"
               />
             </div>
-            <button
-              className="flex items-center gap-2 h-10 px-3 sm:px-4 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2] cursor-pointer"
-              style={{
-                color: "#4d4d4d",
-                backgroundColor: "rgba(241,239,237,0.45)",
-              }}
+            <button className="flex items-center gap-2 h-10 px-3 sm:px-4 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent cursor-pointer text-muted-foreground hover:text-foreground"
             >
               <Download size={14} />
               <span className="hidden sm:inline">Export</span>
@@ -741,10 +726,8 @@ function AttendanceTab({ initialData }: { initialData?: any[] }) {
 
         {/* Table header — desktop only */}
         <div
-          className="hidden lg:grid items-center px-6 py-3 text-[11px] uppercase font-semibold tracking-[0.05em] select-none"
+          className="hidden lg:grid items-center px-6 py-3 text-[11px] uppercase font-semibold tracking-[0.05em] select-none text-muted-foreground bg-muted/50"
           style={{
-            color: "#707070",
-            backgroundColor: "#f8f7f3",
             gridTemplateColumns: "2fr 100px 100px 80px 100px 100px 40px",
           }}
         >
@@ -772,11 +755,9 @@ function AttendanceTab({ initialData }: { initialData?: any[] }) {
             return (
               <div
                 key={row.id || `${row.employee.id}-${i}`}
-                className="grid items-center px-6 py-3.5 transition-colors hover:bg-[rgba(0,0,0,0.02)] group cursor-default"
+                className="grid items-center px-6 py-3.5 transition-colors hover:bg-accent/50 group cursor-default border-b border-border/50 last:border-b-0"
                 style={{
                   gridTemplateColumns: "2fr 100px 100px 80px 100px 100px 40px",
-                  borderBottom:
-                    i < filtered.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none",
                 }}
               >
                 {/* Employee */}

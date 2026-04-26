@@ -41,7 +41,7 @@ export function isSubdomainMode(host: string): boolean {
   return getSubdomain(host) !== null;
 }
 
-// Get cross-subdomain link (returns full URL in prod, relative path in dev)
+// Get cross-subdomain link (returns full URL in prod, relative path in dev/single-domain)
 export function getCrossSubdomainHref(
   subdomain: Subdomain,
   path: string
@@ -51,6 +51,27 @@ export function getCrossSubdomainHref(
   if (base.includes("localhost")) {
     return path;
   }
+
+  // Check if all subdomains point to the same URL (single-domain setup like Vercel)
+  const hqBase = subdomainUrls.hq;
+  const adminBase = subdomainUrls.admin;
+  const crmBase = subdomainUrls.crm;
+
+  // If all bases are the same, we're in single-domain mode - use relative paths
+  if (hqBase === adminBase && adminBase === crmBase) {
+    // Map paths based on target subdomain
+    if (subdomain === "admin") {
+      // Going to admin - prefix with /admin (except for root)
+      return path === "/" ? "/admin" : `/admin${path}`;
+    }
+    // Going to HQ or CRM - strip /admin prefix if present
+    if (path.startsWith("/admin")) {
+      return path.replace("/admin", "") || "/";
+    }
+    return path;
+  }
+
+  // Multi-domain setup - return full URL
   return `${base}${path}`;
 }
 

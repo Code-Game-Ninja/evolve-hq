@@ -64,18 +64,12 @@ function FilterDropdown({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:text-[#1a1a1a] hover:bg-[#e8e5e2] cursor-pointer"
-        style={{
-          color: open ? "#1a1a1a" : "#4d4d4d",
-          backgroundColor: open ? "#e8e5e2" : "rgba(241,239,237,0.45)",
-          borderColor: open ? "#aaaaaa" : undefined,
-        }}
+        className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[13px] font-medium transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent cursor-pointer text-foreground"
       >
         {displayLabel}
         <ChevronDown
-          className="h-3.5 w-3.5 transition-transform duration-200"
+          className="h-3.5 w-3.5 transition-transform duration-200 text-muted-foreground"
           style={{
-            color: open ? "#1a1a1a" : "#999",
             transform: open ? "rotate(180deg)" : "rotate(0deg)",
           }}
         />
@@ -83,8 +77,7 @@ function FilterDropdown({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-[#dddddd] backdrop-blur-lg shadow-lg p-1"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="absolute top-full right-0 mt-2 min-w-[160px] z-50 rounded-2xl border border-border backdrop-blur-lg shadow-lg p-1 bg-card/90"
         >
           {options.map((opt) => (
             <button
@@ -93,16 +86,15 @@ function FilterDropdown({
                 onChange(opt.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer"
+              className="w-full text-left px-3 py-2 rounded-full text-[13px] transition-colors cursor-pointer hover:bg-accent text-foreground"
               style={{
-                color: value === opt.value ? "#1a1a1a" : "#4d4d4d",
                 fontWeight: value === opt.value ? 600 : 400,
                 backgroundColor:
-                  value === opt.value ? "rgba(0,0,0,0.05)" : "transparent",
+                  value === opt.value ? "hsl(var(--accent))" : "transparent",
               }}
               onMouseEnter={(e) => {
                 if (value !== opt.value)
-                  e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.05)";
+                  e.currentTarget.style.backgroundColor = "hsl(var(--accent))";
               }}
               onMouseLeave={(e) => {
                 if (value !== opt.value)
@@ -161,17 +153,17 @@ function MobileFilterSheet({
   const selectStyle: React.CSSProperties = {
     width: "100%",
     height: "44px",
-    backgroundColor: "rgba(255,255,255,0.6)",
-    border: "1px solid #dddddd",
+    backgroundColor: "hsl(var(--background) / 0.8)",
+    border: "1px solid hsl(var(--border))",
     borderRadius: "9999px",
     padding: "0 36px 0 16px",
     fontSize: "13px",
     fontWeight: 500,
-    color: "#1a1a1a",
+    color: "hsl(var(--foreground))",
     outline: "none",
     backdropFilter: "blur(8px)",
     appearance: "none" as const,
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23707070' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='hsl(var(--muted-foreground))' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "right 14px center",
   };
@@ -180,7 +172,7 @@ function MobileFilterSheet({
     display: "block",
     fontSize: "12px",
     fontWeight: 500,
-    color: "#737373",
+    color: "hsl(var(--muted-foreground))",
     textTransform: "uppercase",
     letterSpacing: "0.05em",
     marginBottom: "6px",
@@ -200,9 +192,8 @@ function MobileFilterSheet({
             onClick={onClose}
           />
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl border-t border-[#dddddd]"
+            className="fixed bottom-0 left-0 right-0 z-50 backdrop-blur-xl border-t border-border bg-card/95"
             style={{
-              backgroundColor: "rgba(241,239,237,0.95)",
               borderRadius: "24px 24px 0 0",
               padding: "24px 20px 36px",
               boxShadow: "0 -8px 32px rgba(0,0,0,0.1)",
@@ -214,26 +205,25 @@ function MobileFilterSheet({
           >
             {/* Handle */}
             <div className="flex justify-center mb-4">
-              <div className="w-10 h-1 rounded-full" style={{ backgroundColor: "#dddddd" }} />
+              <div className="w-10 h-1 rounded-full bg-border" />
             </div>
 
             {/* Header */}
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+              <h3 className="text-base font-semibold text-foreground">
                 Filters
               </h3>
               <div className="flex items-center gap-3">
                 {activeCount > 0 && (
-                  <button onClick={clearAll} className="text-xs font-medium" style={{ color: "#f3350c" }}>
+                  <button onClick={clearAll} className="text-xs font-medium text-primary">
                     Clear all
                   </button>
                 )}
                 <button
                   onClick={onClose}
-                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2]"
-                  style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent"
                 >
-                  <X className="h-4 w-4" style={{ color: "#737373" }} />
+                  <X className="h-4 w-4 text-muted-foreground" />
                 </button>
               </div>
             </div>
@@ -299,8 +289,7 @@ function MobileFilterSheet({
             {/* Apply */}
             <button
               onClick={onClose}
-              className="w-full mt-5 py-3 rounded-full text-[13px] font-semibold transition-all duration-200 cursor-pointer"
-              style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}
+              className="w-full mt-5 py-3 rounded-full text-[13px] font-semibold transition-all duration-200 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Apply Filters
             </button>
@@ -357,29 +346,23 @@ export function TaskToolbar({
           {/* Search */}
           <div className="relative flex-1 sm:flex-none sm:w-[260px]">
             <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
-              style={{ color: "#b6b6b6" }}
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
             />
             <input
               type="text"
               placeholder="Search tasks..."
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full h-10 pl-9 pr-4 rounded-full text-[13px] font-medium outline-none transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
-              style={{
-                backgroundColor: "rgba(241,239,237,0.45)",
-                color: "#1a1a1a",
-              }}
+              className="w-full h-10 pl-9 pr-4 rounded-full text-[13px] font-medium outline-none transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           {/* Mobile filter button */}
           <button
             onClick={() => setMobileFilterOpen(true)}
-            className="sm:hidden flex items-center justify-center h-10 w-10 rounded-full transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2] shrink-0 relative cursor-pointer"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+            className="sm:hidden flex items-center justify-center h-10 w-10 rounded-full transition-all duration-200 backdrop-blur-lg border border-border bg-card/50 hover:border-foreground/30 hover:bg-accent shrink-0 relative cursor-pointer"
           >
-            <SlidersHorizontal className="h-4 w-4" style={{ color: "#4d4d4d" }} />
+            <SlidersHorizontal className="h-4 w-4 text-foreground" />
             {activeFilterCount > 0 && (
               <span
                 className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center rounded-full text-[10px] font-bold"

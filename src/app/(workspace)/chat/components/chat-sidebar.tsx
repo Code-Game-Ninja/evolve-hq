@@ -16,7 +16,7 @@ interface TeamMember {
 // Who can create channels
 const CAN_CREATE = ["superadmin", "admin", "manager"];
 
-export function ChatSidebar() {
+export function ChatSidebar({ onChannelSelect }: { onChannelSelect?: () => void }) {
   const { data: session } = useSession();
   const channels = useChatStore(state => state.channels);
   const setChannels = useChatStore(state => state.setChannels);
@@ -124,7 +124,7 @@ export function ChatSidebar() {
                 return (
                   <div key={ch._id} className="group relative flex items-center">
                     <button
-                      onClick={() => setActiveChannel(ch._id)}
+                      onClick={() => { setActiveChannel(ch._id); onChannelSelect?.(); }}
                       className={`flex-1 flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
                         isActive
                           ? "bg-primary/10 text-primary font-semibold"
@@ -182,7 +182,7 @@ export function ChatSidebar() {
                 return (
                   <div key={ch._id} className="group relative flex items-center">
                     <button
-                      onClick={() => setActiveChannel(ch._id)}
+                      onClick={() => { setActiveChannel(ch._id); onChannelSelect?.(); }}
                       className={`flex-1 flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
                         isActive
                           ? "bg-primary/10 text-primary font-semibold"
@@ -420,7 +420,8 @@ function StartDMModal({ currentUserId, onClose, onCreated }: {
       const res = await fetch("/api/chat/channels", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: user.name, type: "dm", memberIds: [user.id] })
+        // Don't pass name — API resolves it to the other person's name
+        body: JSON.stringify({ type: "dm", memberIds: [user.id] })
       });
       if (!res.ok) throw new Error("Failed");
       const ch = await res.json();

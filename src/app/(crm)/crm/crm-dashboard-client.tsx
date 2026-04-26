@@ -13,8 +13,8 @@ const CRMAnalyticsCharts = dynamic(
   { 
     loading: () => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="h-[300px] rounded-[32px] border border-[#dddddd] bg-[#f1efed]/20 animate-pulse" />
-        <div className="h-[300px] rounded-[32px] border border-[#dddddd] bg-[#f1efed]/20 animate-pulse" />
+        <div className="h-[300px] rounded-[32px] border border-border bg-muted/20 animate-pulse" />
+        <div className="h-[300px] rounded-[32px] border border-border bg-muted/20 animate-pulse" />
       </div>
     ),
     ssr: false 
@@ -44,8 +44,8 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#1a1a1a]">CRM Dashboard</h1>
-          <p className="text-sm text-[#999] mt-1">
+          <h1 className="text-3xl font-bold text-foreground">CRM Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Real-time insights into your sales pipeline and agency growth
           </p>
         </div>
@@ -53,7 +53,7 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
         <div className="flex items-center gap-3">
            <Link 
             href="/crm/leads"
-            className="flex items-center gap-2 bg-[#1a1a1a] text-white px-5 py-3 rounded-2xl text-sm font-bold hover:bg-[#333] transition-all shadow-lg shadow-black/10"
+            className="flex items-center gap-2 bg-foreground text-background px-5 py-3 rounded-2xl text-sm font-bold hover:bg-foreground/80 transition-all shadow-lg shadow-black/10"
           >
             <Plus className="h-4 w-4" />
             New Lead
@@ -67,16 +67,15 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
           <Link
             key={stat.label}
             href={stat.href}
-            className="group rounded-[32px] border border-[#dddddd] backdrop-blur-lg p-6 hover:border-[#aaaaaa] hover:shadow-xl transition-all duration-300"
-            style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
+            className="group rounded-[32px] border border-border backdrop-blur-lg bg-card/50 p-6 hover:border-foreground/30 hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-[#999] group-hover:text-[#666] transition-colors">
+              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">
                 {stat.label}
               </span>
               <div
                 className="h-10 w-10 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
-                style={{ backgroundColor: `${stat.color}10` }}
+                style={{ backgroundColor: `${stat.color}20` }}
               >
                 <stat.icon
                   className="h-5 w-5"
@@ -84,9 +83,12 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
                 />
               </div>
             </div>
-            <p className="text-3xl font-bold text-[#1a1a1a]">
-              {stat.value}
-            </p>
+            <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+            <div className="flex items-center text-xs text-green-500">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              <span>+12.5%</span>
+              <span className="text-muted-foreground ml-1">vs last month</span>
+            </div>
           </Link>
         ))}
       </div>
@@ -94,8 +96,8 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
       {/* Analytics Section */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-4 w-4 text-[#f3350c]" />
-          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-[#999]">Intelligence Dashboard</h2>
+          <Zap className="h-4 w-4 text-primary" />
+          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-muted-foreground">Intelligence Dashboard</h2>
         </div>
         <CRMAnalyticsCharts />
       </div>
@@ -103,19 +105,16 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
       {/* Action Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Actions / Pipeline Info */}
-        <div 
-          className="lg:col-span-2 rounded-[40px] border border-[#dddddd] p-10 overflow-hidden relative group"
-          style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
-        >
+        <div className="lg:col-span-2 rounded-[40px] border border-border bg-card/50 p-10 overflow-hidden relative group">
           <div className="relative z-10">
-            <h2 className="text-2xl font-bold text-[#1a1a1a] mb-3">Master Your Pipeline</h2>
-            <p className="text-base text-[#666] mb-10 max-w-md leading-relaxed">
-              Track leads through every stage of your sales funnel. Current active pipeline holds <span className="font-bold text-[#1a1a1a]">{formatCurrency(stats.pipelineValue)}</span> in potential revenue.
+            <h2 className="text-2xl font-bold text-foreground mb-3">Master Your Pipeline</h2>
+            <p className="text-base text-muted-foreground mb-10 max-w-md leading-relaxed">
+              Track leads through every stage of your sales funnel. Current active pipeline holds <span className="font-bold text-foreground">{formatCurrency(stats.pipelineValue)}</span> in potential revenue.
             </p>
             
             <Link 
               href="/crm/leads"
-              className="inline-flex items-center gap-3 bg-[#f3350c] text-white px-8 py-4 rounded-2xl text-sm font-bold hover:bg-[#d02d0a] transition-all group/btn shadow-xl shadow-[#f3350c]/20"
+              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-2xl text-sm font-bold hover:bg-primary/90 transition-all group/btn shadow-xl shadow-primary/20"
             >
               Open Pipeline Board
               <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -129,15 +128,12 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
         </div>
 
         {/* Support/Inquiries Card */}
-        <div 
-          className="rounded-[40px] border border-[#dddddd] p-10 flex flex-col relative overflow-hidden"
-          style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
-        >
-          <div className="h-14 w-14 rounded-2xl bg-[#1a1a1a] flex items-center justify-center mb-8 shadow-lg shadow-black/10">
-            <MessageSquare className="h-7 w-7 text-white" />
+        <div className="rounded-[40px] border border-border bg-card/50 p-10 flex flex-col relative overflow-hidden">
+          <div className="h-14 w-14 rounded-2xl bg-foreground flex items-center justify-center mb-8 shadow-lg shadow-black/10">
+            <MessageSquare className="h-7 w-7 text-background" />
           </div>
-          <h2 className="text-2xl font-bold text-[#1a1a1a] mb-3">Active Inquiries</h2>
-          <p className="text-base text-[#666] mb-10 flex-1 leading-relaxed">
+          <h2 className="text-2xl font-bold text-foreground mb-3">Active Inquiries</h2>
+          <p className="text-base text-muted-foreground mb-10 flex-1 leading-relaxed">
             {stats.newInquiries > 0 
               ? `You have ${stats.newInquiries} unread submissions from potential clients. Prompt response increases conversion by 40%.`
               : "All clear! You've handled all recent client inquiries from the website contact forms."}
@@ -145,7 +141,7 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
           
           <Link 
             href="/crm/inquiries"
-            className="flex items-center justify-center gap-2 w-full border-2 border-[#1a1a1a] bg-transparent px-5 py-4 rounded-2xl text-sm font-bold text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-all"
+            className="flex items-center justify-center gap-2 w-full border-2 border-foreground bg-transparent px-5 py-4 rounded-2xl text-sm font-bold text-foreground hover:bg-foreground hover:text-background transition-all"
           >
             Inbox Management
           </Link>

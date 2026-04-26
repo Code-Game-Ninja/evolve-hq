@@ -35,13 +35,12 @@ export function AttendanceOverview({ data }: { data: AttendanceDay[] }) {
       initial="hidden"
       animate="visible"
       variants={cardVariant as any}
-      className="rounded-[32px] overflow-hidden backdrop-blur-xl border border-white/10 flex flex-col shadow-2xl group/card h-full"
-      style={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+      className="rounded-[32px] overflow-hidden backdrop-blur-xl border border-border flex flex-col shadow-2xl group/card h-full bg-card/30"
     >
       <div className="flex items-center justify-between px-8 pt-8 pb-8">
         <div>
-          <h2 className="text-lg font-bold text-white tracking-tight">Workforce Efficiency</h2>
-          <p className="text-[11px] font-medium text-white/30 uppercase tracking-widest mt-0.5">7-Day Attendance Trend</p>
+          <h2 className="text-lg font-bold text-foreground tracking-tight">Workforce Efficiency</h2>
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest mt-0.5">7-Day Attendance Trend</p>
         </div>
       </div>
 
@@ -51,14 +50,14 @@ export function AttendanceOverview({ data }: { data: AttendanceDay[] }) {
             <div className="w-full relative flex flex-col items-center">
               {/* Tooltip on hover */}
               <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                <div className="bg-white text-black text-[10px] font-black px-2 py-1 rounded-md whitespace-nowrap">
+                <div className="bg-background text-foreground text-[10px] font-black px-2 py-1 rounded-md whitespace-nowrap border border-border">
                   {item.present} / {item.total}
                 </div>
-                <div className="w-2 h-2 bg-white rotate-45 mx-auto -mt-1" />
+                <div className="w-2 h-2 bg-background rotate-45 mx-auto -mt-1 border-r border-b border-border" />
               </div>
 
               {/* Bar */}
-              <div className="w-full bg-white/5 rounded-full h-[180px] flex items-end overflow-hidden">
+              <div className="w-full bg-muted/30 rounded-full h-[180px] flex items-end overflow-hidden">
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${item.percent}%` }}
@@ -66,12 +65,11 @@ export function AttendanceOverview({ data }: { data: AttendanceDay[] }) {
                   className="w-full rounded-full transition-colors duration-500"
                   style={{
                     backgroundColor: barColor(item.percent),
-                    boxShadow: `0 0 20px ${barColor(item.percent)}44`,
                   }}
                 />
               </div>
             </div>
-            <span className="text-[11px] font-bold text-white/20 group-hover:text-white/60 transition-colors">
+            <span className="text-[11px] font-bold text-muted-foreground/40 group-hover:text-muted-foreground transition-colors">
               {item.day}
             </span>
           </div>

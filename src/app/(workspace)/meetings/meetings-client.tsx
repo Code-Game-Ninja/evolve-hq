@@ -24,6 +24,7 @@ import {
   ChevronDown,
   Circle,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // Types
 interface Participant {
@@ -594,10 +595,10 @@ export function MeetingsClient() {
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-[2rem] font-semibold leading-tight" style={{ color: "#1a1a1a" }}>
+            <h1 className="text-2xl sm:text-[2rem] font-semibold leading-tight text-foreground">
               My Meetings
             </h1>
-            <p className="text-sm mt-1" style={{ color: "#737373" }}>
+            <p className="text-sm mt-1 text-muted-foreground">
               View recordings, transcripts and meeting summaries.
             </p>
           </div>
@@ -607,55 +608,46 @@ export function MeetingsClient() {
             <div className="relative hidden sm:block">
               <Search
                 size={16}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: "#bbb" }}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground"
               />
               <input
                 type="text"
                 placeholder="Search meetings..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-10 w-60 pl-10 pr-4 rounded-full backdrop-blur-lg border border-[#dddddd] text-[13px] outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
-                style={{ backgroundColor: "rgba(241,239,237,0.45)", color: "#1a1a1a" }}
+                className="h-10 w-60 pl-10 pr-4 rounded-full backdrop-blur-lg border border-border bg-card/50 text-[13px] text-foreground outline-none transition-all duration-200 placeholder:text-muted-foreground focus:border-foreground/30 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
               />
             </div>
             {/* Filter button */}
             <div className="relative">
               <button
                 onClick={() => setShowFilterDrop(!showFilterDrop)}
-                className="hidden sm:flex items-center gap-2 rounded-full backdrop-blur-lg border border-[#dddddd] px-5 h-10 cursor-pointer transition-all duration-200 hover:border-[#aaaaaa]"
-                style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
-                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#e8e5e2"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(241,239,237,0.45)"; }}
+                className="hidden sm:flex items-center gap-2 rounded-full backdrop-blur-lg border border-border bg-card/50 px-5 h-10 cursor-pointer transition-all duration-200 hover:border-foreground/30 hover:bg-accent text-muted-foreground hover:text-foreground"
               >
-                <SlidersHorizontal size={16} style={{ color: "#707070" }} />
-                <span className="text-[13px] font-medium" style={{ color: "#4d4d4d" }}>Filter</span>
-                <ChevronDown size={12} style={{ color: "#707070" }} />
+                <SlidersHorizontal size={16} />
+                <span className="text-[13px] font-medium">Filter</span>
+                <ChevronDown size={12} />
               </button>
               {/* Mobile: icon only */}
               <button
                 onClick={() => setShowFilterDrop(!showFilterDrop)}
-                className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full backdrop-blur-lg border border-[#dddddd] cursor-pointer"
-                style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+                className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full backdrop-blur-lg border border-border bg-card/50 cursor-pointer text-muted-foreground"
               >
-                <SlidersHorizontal size={16} style={{ color: "#707070" }} />
+                <SlidersHorizontal size={16} />
               </button>
               {/* Dropdown */}
               {showFilterDrop && (
-                <div
-                  className="absolute right-0 top-12 z-50 w-44 rounded-2xl border border-[#dddddd] backdrop-blur-lg p-1 shadow-lg"
-                  style={{ backgroundColor: "rgba(241,239,237,0.92)" }}
-                >
+                <div className="absolute right-0 top-12 z-50 w-44 rounded-2xl border border-border backdrop-blur-lg bg-card p-1 shadow-lg">
                   {["All", "Completed", "Scheduled", "Cancelled"].map((opt) => (
                     <button
                       key={opt}
                       onClick={() => { setStatusFilter(opt); setShowFilterDrop(false); }}
-                      className="w-full text-left px-3 py-2 rounded-xl text-sm transition-colors duration-150 cursor-pointer"
-                      style={{
-                        color: statusFilter === opt ? "#1a1a1a" : "#707070",
-                        backgroundColor: statusFilter === opt ? "rgba(0,0,0,0.06)" : "transparent",
-                        fontWeight: statusFilter === opt ? 600 : 400,
-                      }}
+                      className={cn(
+                        "w-full text-left px-3 py-2 rounded-xl text-sm transition-colors duration-150 cursor-pointer",
+                        statusFilter === opt
+                          ? "text-foreground font-semibold bg-accent"
+                          : "text-muted-foreground hover:bg-accent"
+                      )}
                     >
                       {opt}
                     </button>
@@ -669,16 +661,14 @@ export function MeetingsClient() {
         <div className="sm:hidden mt-3 relative">
           <Search
             size={16}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ color: "#bbb" }}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground"
           />
           <input
             type="text"
             placeholder="Search meetings..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-10 w-full pl-10 pr-4 rounded-full backdrop-blur-lg border border-[#dddddd] text-[13px] outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)", color: "#1a1a1a" }}
+            className="h-10 w-full pl-10 pr-4 rounded-full backdrop-blur-lg border border-border bg-card/50 text-[13px] text-foreground outline-none transition-all duration-200 placeholder:text-muted-foreground focus:border-foreground/30 focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
           />
         </div>
       </motion.div>

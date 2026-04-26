@@ -62,12 +62,7 @@ export function StatCard({
       initial="hidden"
       animate="visible"
       variants={cardVariant as any}
-      className="relative overflow-hidden backdrop-blur-xl border border-white/10 group hover:border-white/20 transition-all duration-300 shadow-2xl"
-      style={{
-        backgroundColor: "rgba(255, 255, 255, 0.04)",
-        borderRadius: "24px",
-        padding: "24px",
-      }}
+      className="relative overflow-hidden backdrop-blur-xl border border-border/50 group hover:border-border transition-all duration-300 shadow-2xl bg-card/30 rounded-[24px] p-6"
     >
       <div
         className="mb-4 w-11 h-11 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110"
@@ -75,23 +70,20 @@ export function StatCard({
       >
         <Icon size={22} style={{ color: stat.iconColor }} />
       </div>
-      <p
-        className="text-[11px] uppercase font-bold tracking-[0.15em] opacity-40 mb-1"
-        style={{ color: "#ffffff" }}
-      >
+      <p className="text-[11px] uppercase font-bold tracking-[0.15em] text-muted-foreground mb-1">
         {stat.label}
       </p>
       <div className="flex items-baseline gap-1">
-        <p className="text-3xl font-bold tracking-tight text-white">
+        <p className="text-3xl font-bold tracking-tight text-foreground">
           {animated}
         </p>
       </div>
-      <p className="text-[11px] mt-1.5 opacity-30 font-medium" style={{ color: "#ffffff" }}>
+      <p className="text-[11px] mt-1.5 text-muted-foreground/60 font-medium">
         {stat.description}
       </p>
 
       {/* Decorative gradient flare */}
-      <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-[#f3350c]/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-primary/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     </motion.div>
   );
 }

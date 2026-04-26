@@ -50,28 +50,19 @@ function TagInput({
 
   return (
     <div
-      className="flex flex-wrap gap-1.5 min-h-[44px] items-center cursor-text"
-      style={{
-        backgroundColor: "rgba(255,255,255,0.6)",
-        border: "1px solid #dddddd",
-        borderRadius: "16px",
-        padding: "6px 12px",
-        backdropFilter: "blur(8px)",
-      }}
+      className="flex flex-wrap gap-1.5 min-h-[44px] items-center cursor-text bg-card/60 border border-border rounded-2xl px-3 py-1.5 backdrop-blur-sm"
       onClick={() => inputRef.current?.focus()}
     >
       {tags.map((tag, i) => (
         <span
           key={`${tag}-${i}`}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium"
-          style={{ backgroundColor: "#f1efed", color: "#4d4d4d" }}
+          className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] font-medium bg-muted text-muted-foreground"
         >
           {tag}
           <button
             type="button"
             onClick={() => removeTag(i)}
-            className="ml-0.5 cursor-pointer hover:opacity-70"
-            style={{ color: "#737373" }}
+            className="ml-0.5 cursor-pointer hover:opacity-70 text-muted-foreground"
           >
             &times;
           </button>
@@ -84,8 +75,7 @@ function TagInput({
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={tags.length === 0 ? (placeholder || "Type and press Enter") : ""}
-        className="flex-1 min-w-[100px] bg-transparent outline-none text-[13px]"
-        style={{ color: "#1a1a1a" }}
+        className="flex-1 min-w-[100px] bg-transparent outline-none text-[13px] text-foreground placeholder:text-muted-foreground"
       />
     </div>
   );
@@ -113,11 +103,9 @@ function ImageUploadZone({
 
   return (
     <div
-      className="relative overflow-hidden cursor-pointer transition-colors group w-full rounded-2xl"
-      style={{ border: "2px dashed #dddddd", height: height || 120 }}
+      className="relative overflow-hidden cursor-pointer transition-colors group w-full rounded-2xl border-2 border-dashed border-border hover:border-foreground/30"
+      style={{ height: height || 120 }}
       onClick={() => inputRef.current?.click()}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#aaaaaa")}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#dddddd")}
     >
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
       {imageUrl ? (
@@ -130,8 +118,8 @@ function ImageUploadZone({
         </>
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-          <Upload className="h-5 w-5" style={{ color: "#b6b6b6" }} />
-          <span className="text-[12px]" style={{ color: "#737373" }}>Drop image or click to upload</span>
+          <Upload className="h-5 w-5 text-muted-foreground/50" />
+          <span className="text-[12px] text-muted-foreground">Drop image or click to upload</span>
         </div>
       )}
     </div>
@@ -153,15 +141,12 @@ function GalleryAddButton({ onAdd }: { onAdd: (url: string) => void }) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center gap-1 rounded-xl cursor-pointer transition-colors"
-      style={{ height: 80, border: "2px dashed #dddddd" }}
+      className="flex flex-col items-center justify-center gap-1 rounded-xl cursor-pointer transition-colors border-2 border-dashed border-border hover:border-foreground/30 h-20"
       onClick={() => inputRef.current?.click()}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#aaaaaa")}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#dddddd")}
     >
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
-      <Plus className="h-4 w-4" style={{ color: "#b6b6b6" }} />
-      <span className="text-[10px]" style={{ color: "#737373" }}>Add</span>
+      <Plus className="h-4 w-4 text-muted-foreground/50" />
+      <span className="text-[10px] text-muted-foreground">Add</span>
     </div>
   );
 }

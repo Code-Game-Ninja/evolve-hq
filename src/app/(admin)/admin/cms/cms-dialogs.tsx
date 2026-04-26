@@ -32,8 +32,7 @@ function DialogShell({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[70] flex items-center justify-center"
-          style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }}
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -45,16 +44,8 @@ function DialogShell({
             role="dialog"
             aria-modal="true"
             aria-label={ariaLabel}
-            className="w-full mx-4"
-            style={{
-              maxWidth,
-              backgroundColor: "#ffffff",
-              borderRadius: "24px",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-              padding: "32px",
-              maxHeight: "85vh",
-              overflowY: "auto",
-            }}
+            className="w-full mx-4 bg-background rounded-[24px] shadow-xl p-8 max-h-[85vh] overflow-y-auto"
+            style={{ maxWidth }}
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
@@ -72,15 +63,12 @@ function DialogShell({
 function DialogHeader({ title, onClose }: { title: string; onClose: () => void }) {
   return (
     <div className="flex items-center justify-between mb-6">
-      <h2 className="text-xl font-semibold" style={{ color: "#1a1a1a" }}>{title}</h2>
+      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
       <button
         onClick={onClose}
-        className="flex items-center justify-center h-8 w-8 rounded-full transition-all cursor-pointer"
-        style={{ backgroundColor: "rgba(0,0,0,0.04)" }}
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.08)")}
-        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.04)")}
+        className="flex items-center justify-center h-8 w-8 rounded-full transition-all cursor-pointer bg-muted text-muted-foreground hover:bg-muted/80"
       >
-        <X className="h-4 w-4" style={{ color: "#737373" }} />
+        <X className="h-4 w-4" />
       </button>
     </div>
   );

@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPusherClient } from "@/lib/pusher";
 import { Theme } from "emoji-picker-react";
+import { useSound } from "@/lib/hooks/use-sound";
+import { useBrowserNotifications } from "@/lib/hooks/use-browser-notifications";
 
 // Lazy-load EmojiPicker — ~500KB, only needed when emoji button is clicked
 const EmojiPicker = lazy(() => import("emoji-picker-react"));
@@ -31,6 +33,8 @@ export function ChatMain() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { playMessageSound, playSuccessSound } = useSound();
+  const { notifyMessage, requestPermission } = useBrowserNotifications();
 
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editInput, setEditInput] = useState("");
@@ -40,11 +44,19 @@ export function ChatMain() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Request browser notification permission
+  useEffect(() => {
+    requestPermission();
+  }, [requestPermission]);
+
   useEffect(() => {
     if (!activeChannelId) return;
 
     const loadMessages = async () => {
       try {
+        // Auto-join public channel if not already a member
+        await fetch(`/api/chat/channels/${activeChannelId}/join`, { method: "POST" }).catch(() => {});
+
         const res = await fetch(`/api/chat/messages?channelId=${activeChannelId}`);
         const data = await res.json();
         if (Array.isArray(data)) {
@@ -71,10 +83,26 @@ export function ChatMain() {
       const channel = pusher.subscribe(channelName);
 
       channel.bind('new-message', (data: any) => {
+        const isOwnMessage = data.senderId?._id === session?.user?.id || data.senderId?.id === session?.user?.id;
+
         if (data.threadParentId) {
           useChatStore.getState().addThreadMessage(data);
         } else {
           useChatStore.getState().addMessage(data);
+        }
+
+        // Play sound and show notification for messages from others
+        if (!isOwnMessage) {
+          playMessageSound();
+
+          // Show browser notification if tab is not visible
+          if (document.hidden || document.visibilityState !== "visible") {
+            const senderName = data.senderId?.name || "Someone";
+            // Get fresh channel name from store to avoid stale closure
+            const currentChannel = useChatStore.getState().channels.find(c => c._id === activeChannelId);
+            const channelName = currentChannel?.name || "Chat";
+            notifyMessage(senderName, data.content, channelName);
+          }
         }
       });
       channel.bind('message-updated', (data: any) => {
@@ -89,7 +117,7 @@ export function ChatMain() {
         pusher.unsubscribe(channelName);
       };
     }
-  }, [activeChannelId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeChannelId, session?.user?.id, session?.user?.name, playMessageSound, notifyMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -117,6 +145,7 @@ export function ChatMain() {
       if (res.ok) {
         const newMessage = await res.json();
         addMessage(newMessage);
+        playSuccessSound();
       }
     } catch (err) {
       console.error("Failed to send", err);
