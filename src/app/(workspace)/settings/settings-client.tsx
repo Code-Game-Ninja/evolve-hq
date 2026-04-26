@@ -98,7 +98,7 @@ export function SettingsClient({ basePath = "/settings", pageTitle = "Settings" 
       >
         <h1
           className="text-2xl sm:text-[2rem] font-semibold leading-tight"
-          style={{ color: "#1a1a1a" }}
+          style={{ color: "#ffffff" }}
         >
           {pageTitle}
         </h1>

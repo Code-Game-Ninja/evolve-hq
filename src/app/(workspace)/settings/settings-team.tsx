@@ -29,11 +29,11 @@ interface LeaveType {
 }
 
 const inputClass =
-  "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]";
+  "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(255,255,255,0.3)] focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]";
 const inputStyle: React.CSSProperties = {
-  backgroundColor: "#f8f7f3",
-  border: "1.5px solid #f1efed",
-  color: "#1a1a1a",
+  backgroundColor: "rgba(26,26,26,0.6)",
+  border: "1.5px solid rgba(255,255,255,0.1)",
+  color: "#ffffff",
 };
 const labelClass = "text-[13px] font-semibold block mb-1.5";
 
@@ -83,16 +83,16 @@ export function SettingsTeam() {
       {/* Organization Info */}
       <motion.div custom={0} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-5" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-5" style={{ color: "#ffffff" }}>
             Organization Info
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>Company Name</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>Company Name</label>
               <input
                 type="text"
                 value={companyName}
@@ -102,7 +102,7 @@ export function SettingsTeam() {
               />
             </div>
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>Website</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>Website</label>
               <input
                 type="url"
                 value={website}
@@ -112,7 +112,7 @@ export function SettingsTeam() {
               />
             </div>
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>Support Email</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>Support Email</label>
               <input
                 type="email"
                 value={supportEmail}
@@ -122,7 +122,7 @@ export function SettingsTeam() {
               />
             </div>
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>Time Zone</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>Time Zone</label>
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
@@ -139,8 +139,8 @@ export function SettingsTeam() {
 
           <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
             <button
-              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed]"
-              style={{ backgroundColor: "transparent", border: "1px solid #dddddd", color: "#707070" }}
+              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)]"
+              style={{ backgroundColor: "transparent", border: "1px solid rgba(255,255,255,0.1)", color: "#a0a0a0" }}
             >
               Cancel
             </button>
@@ -159,26 +159,26 @@ export function SettingsTeam() {
       {/* Work Schedule */}
       <motion.div custom={1} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-5" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-5" style={{ color: "#ffffff" }}>
             Work Schedule
           </h3>
 
           {/* Work Days */}
           <div>
-            <label className={labelClass} style={{ color: "#1a1a1a" }}>Work Days</label>
+            <label className={labelClass} style={{ color: "#ffffff" }}>Work Days</label>
             <div className="flex gap-2 mt-1">
               {DAYS.map((d, i) => (
                 <button
                   key={i}
                   onClick={() => toggleDay(i)}
-                  className="w-10 h-10 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-200 cursor-pointer border"
                   style={{
-                    backgroundColor: workDays[i] ? "#0a0a0a" : "#f8f7f3",
-                    color: workDays[i] ? "#ffffff" : "#707070",
-                    border: workDays[i] ? "none" : "1.5px solid #f1efed",
+                    borderColor: workDays[i] ? "#f3350c" : "rgba(255,255,255,0.1)",
+                    backgroundColor: workDays[i] ? "#f3350c" : "rgba(26,26,26,0.6)",
+                    color: "#ffffff",
                   }}
                 >
                   {d}
@@ -190,7 +190,7 @@ export function SettingsTeam() {
           {/* Work Hours */}
           <div className="grid grid-cols-2 gap-4 mt-5">
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>Start Time</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>Start Time</label>
               <input
                 type="time"
                 value={startTime}
@@ -200,7 +200,7 @@ export function SettingsTeam() {
               />
             </div>
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>End Time</label>
+              <label className={labelClass} style={{ color: "#ffffff" }}>End Time</label>
               <input
                 type="time"
                 value={endTime}
@@ -213,7 +213,7 @@ export function SettingsTeam() {
 
           {/* Daily Target */}
           <div className="mt-5">
-            <label className={labelClass} style={{ color: "#1a1a1a" }}>
+            <label className={labelClass} style={{ color: "#ffffff" }}>
               Daily Target Hours
             </label>
             <div className="flex items-center gap-2">
@@ -226,14 +226,14 @@ export function SettingsTeam() {
                 className={inputClass}
                 style={{ ...inputStyle, width: 80, textAlign: "center" }}
               />
-              <span className="text-[13px]" style={{ color: "#707070" }}>hours</span>
+              <span className="text-[13px]" style={{ color: "#a0a0a0" }}>hours</span>
             </div>
           </div>
 
           <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
             <button
-              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed]"
-              style={{ backgroundColor: "transparent", border: "1px solid #dddddd", color: "#707070" }}
+              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)]"
+              style={{ backgroundColor: "transparent", border: "1px solid rgba(255,255,255,0.1)", color: "#a0a0a0" }}
             >
               Cancel
             </button>
@@ -252,16 +252,16 @@ export function SettingsTeam() {
       {/* Leave Policy */}
       <motion.div custom={2} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-5" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-5" style={{ color: "#ffffff" }}>
             Leave Policy
           </h3>
 
           {/* Leave Year Start */}
           <div className="mb-5">
-            <label className={labelClass} style={{ color: "#1a1a1a" }}>
+            <label className={labelClass} style={{ color: "#ffffff" }}>
               Leave Year Start
             </label>
             <select
@@ -279,22 +279,22 @@ export function SettingsTeam() {
           {/* Leave Quotas */}
           <div className="overflow-x-auto -mx-2 px-2">
             <div className="min-w-[400px]">
-            <p className="text-[13px] font-semibold mb-3" style={{ color: "#1a1a1a" }}>
+            <p className="text-[13px] font-semibold mb-3" style={{ color: "#ffffff" }}>
               Leave Quotas (per year)
             </p>
 
             {/* Header */}
             <div
               className="flex items-center py-3 px-4 rounded-t-xl"
-              style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
+              style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
             >
-              <span className="flex-1 text-xs font-semibold uppercase" style={{ color: "#707070" }}>
+              <span className="flex-1 text-xs font-semibold uppercase" style={{ color: "#a0a0a0" }}>
                 Type
               </span>
-              <span className="w-[80px] text-center text-xs font-semibold uppercase" style={{ color: "#707070" }}>
+              <span className="w-[80px] text-center text-xs font-semibold uppercase" style={{ color: "#a0a0a0" }}>
                 Days
               </span>
-              <span className="w-[160px] sm:w-[200px] text-center text-xs font-semibold uppercase" style={{ color: "#707070" }}>
+              <span className="w-[160px] sm:w-[200px] text-center text-xs font-semibold uppercase" style={{ color: "#a0a0a0" }}>
                 Carry Forward
               </span>
             </div>
@@ -304,14 +304,14 @@ export function SettingsTeam() {
               <div
                 key={lt.type}
                 className="flex items-center py-3.5 px-4"
-                style={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }}
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
               >
                 <div className="flex-1 flex items-center gap-2">
                   <span
                     className="w-2 h-2 rounded-full"
                     style={{ backgroundColor: lt.color }}
                   />
-                  <span className="text-sm font-medium" style={{ color: "#000000" }}>
+                  <span className="text-sm font-medium" style={{ color: "#ffffff" }}>
                     {lt.type}
                   </span>
                 </div>
@@ -334,7 +334,7 @@ export function SettingsTeam() {
                   />
                   {lt.carryForward && (
                     <div className="flex items-center gap-1">
-                      <span className="text-xs" style={{ color: "#707070" }}>Max</span>
+                      <span className="text-xs" style={{ color: "#a0a0a0" }}>Max</span>
                       <input
                         type="number"
                         value={lt.maxCarry}
@@ -352,8 +352,8 @@ export function SettingsTeam() {
 
           <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-6">
             <button
-              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed]"
-              style={{ backgroundColor: "transparent", border: "1px solid #dddddd", color: "#707070" }}
+              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)]"
+              style={{ backgroundColor: "transparent", border: "1px solid rgba(255,255,255,0.1)", color: "#a0a0a0" }}
             >
               Cancel
             </button>

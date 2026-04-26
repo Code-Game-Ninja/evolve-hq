@@ -88,7 +88,7 @@ const STATUS_CONFIG: Record<string, { color: string; bg: string; label: string }
 const PRIORITY_COLORS: Record<string, string> = {
   High: "#ef4444",
   Medium: "#f59e0b",
-  Low: "#dddddd",
+  Low: "#666666",
 };
 
 // Animation variants
@@ -106,7 +106,7 @@ const cardVariant = {
 };
 
 // Glass card styles
-const glassLight = { backgroundColor: "rgba(241,239,237,0.45)" };
+const glassLight = { backgroundColor: "rgba(26,26,26,0.6)" };
 const glassDark = {
   backgroundColor: "rgba(10,10,10,0.88)",
   boxShadow: "0 12px 32px rgba(0,0,0,0.10)",
@@ -147,7 +147,7 @@ function StatCard({ stat }: { stat: StatItem }) {
   const animatedValue = useCountUp(stat.value);
   return (
     <div
-      className="relative rounded-[24px] p-5 backdrop-blur-lg border border-[#dddddd] overflow-hidden"
+      className="relative rounded-[24px] p-5 backdrop-blur-lg border border-[rgba(255,255,255,0.1)] overflow-hidden"
       style={glassLight}
     >
       <div className="flex justify-end mb-3">
@@ -158,9 +158,9 @@ function StatCard({ stat }: { stat: StatItem }) {
           <stat.icon size={16} style={{ color: stat.iconColor }} />
         </div>
       </div>
-      <p className="text-xs mb-1" style={{ color: "#737373" }}>{stat.label}</p>
-      <p className="text-[2.5rem] font-bold leading-none" style={{ color: "#1a1a1a" }}>{animatedValue}</p>
-      <p className="text-xs mt-1" style={{ color: "#bbb" }}>{stat.subLabel}</p>
+      <p className="text-xs mb-1" style={{ color: "#a0a0a0" }}>{stat.label}</p>
+      <p className="text-[2.5rem] font-bold leading-none" style={{ color: "#ffffff" }}>{animatedValue}</p>
+      <p className="text-xs mt-1" style={{ color: "#888" }}>{stat.subLabel}</p>
     </div>
   );
 }
@@ -786,12 +786,12 @@ export function MeetingsClient() {
           initial="hidden"
           animate="visible"
           variants={cardVariant}
-          className="rounded-[24px] p-8 text-center backdrop-blur-lg border border-[#dddddd]"
+          className="rounded-[24px] p-8 text-center backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
           style={glassLight}
         >
-          <Video size={48} className="mx-auto mb-4" style={{ color: "#bbb" }} />
-          <h3 className="text-lg font-semibold" style={{ color: "#1a1a1a" }}>No meetings yet</h3>
-          <p className="text-sm mt-1" style={{ color: "#737373" }}>Your meetings will appear here once scheduled.</p>
+          <Video size={48} className="mx-auto mb-4" style={{ color: "#666" }} />
+          <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>No meetings yet</h3>
+          <p className="text-sm mt-1" style={{ color: "#a0a0a0" }}>Your meetings will appear here once scheduled.</p>
         </motion.div>
       )}
 
@@ -803,12 +803,12 @@ export function MeetingsClient() {
           initial="hidden"
           animate="visible"
           variants={cardVariant}
-          className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-[#dddddd]"
+          className="rounded-[24px] overflow-hidden backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
           style={glassLight}
         >
           {/* Title row */}
           <div className="flex items-center justify-between px-6 pt-6 pb-4">
-            <h3 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+            <h3 className="text-base font-semibold" style={{ color: "#ffffff" }}>
               All Meetings
             </h3>
             <GlassPillTabs
@@ -831,8 +831,8 @@ export function MeetingsClient() {
               className="grid px-6 py-3 text-xs uppercase font-medium tracking-wider"
               style={{
                 gridTemplateColumns: "1fr 120px 100px 60px",
-                backgroundColor: "rgba(0,0,0,0.03)",
-                color: "#737373",
+                backgroundColor: "rgba(255,255,255,0.05)",
+                color: "#a0a0a0",
               }}
             >
               <span>Meeting</span>
@@ -844,23 +844,23 @@ export function MeetingsClient() {
               <div
                 key={meeting.id}
                 onClick={() => router.push(`/meetings/${meeting.id}`)}
-                className="grid items-center px-6 py-3.5 transition-colors duration-200 hover:bg-[rgba(0,0,0,0.02)] cursor-pointer"
+                className="grid items-center px-6 py-3.5 transition-colors duration-200 hover:bg-[rgba(255,255,255,0.05)] cursor-pointer"
                 style={{
                   gridTemplateColumns: "1fr 120px 100px 60px",
-                  borderBottom: idx < filteredMeetings.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none",
+                  borderBottom: idx < filteredMeetings.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
                 }}
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-medium truncate" style={{ color: "#1a1a1a" }}>
+                  <p className="text-sm font-medium truncate" style={{ color: "#ffffff" }}>
                     {meeting.title}
                   </p>
-                  <p className="text-xs" style={{ color: "#bbb" }}>{meeting.date}</p>
+                  <p className="text-xs" style={{ color: "#888" }}>{meeting.date}</p>
                 </div>
-                <span className="flex items-center gap-1.5 text-[13px]" style={{ color: "#707070" }}>
-                  <Hash size={12} style={{ color: "#bbb" }} />
+                <span className="flex items-center gap-1.5 text-[13px]" style={{ color: "#a0a0a0" }}>
+                  <Hash size={12} style={{ color: "#666" }} />
                   {meeting.location || "—"}
                 </span>
-                <span className="text-[13px] font-mono" style={{ color: "#707070" }}>
+                <span className="text-[13px] font-mono" style={{ color: "#a0a0a0" }}>
                   {meeting.duration}
                 </span>
                 <span className="flex justify-end">
@@ -876,24 +876,24 @@ export function MeetingsClient() {
               <div
                 key={meeting.id}
                 onClick={() => router.push(`/meetings/${meeting.id}`)}
-                className="rounded-2xl p-3 cursor-pointer transition-colors duration-200 hover:bg-[rgba(0,0,0,0.05)]"
-                style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
+                className="rounded-2xl p-3 cursor-pointer transition-colors duration-200 hover:bg-[rgba(255,255,255,0.05)]"
+                style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
               >
                 <div className="flex items-start justify-between">
-                  <p className="text-sm font-medium" style={{ color: "#1a1a1a" }}>
+                  <p className="text-sm font-medium" style={{ color: "#ffffff" }}>
                     {meeting.title}
                   </p>
                   <StatusIcon status={meeting.status} />
                 </div>
                 <div className="flex items-center gap-3 mt-1.5">
-                  <span className="text-xs" style={{ color: "#bbb" }}>{meeting.date}</span>
+                  <span className="text-xs" style={{ color: "#888" }}>{meeting.date}</span>
                   {meeting.location && (
-                  <span className="text-xs flex items-center gap-1" style={{ color: "#737373" }}>
+                  <span className="text-xs flex items-center gap-1" style={{ color: "#a0a0a0" }}>
                     <Hash size={10} />
                     {meeting.location}
                   </span>
                   )}
-                  <span className="text-xs font-mono" style={{ color: "#737373" }}>{meeting.duration}</span>
+                  <span className="text-xs font-mono" style={{ color: "#a0a0a0" }}>{meeting.duration}</span>
                 </div>
               </div>
             ))}
@@ -902,9 +902,9 @@ export function MeetingsClient() {
           {/* Footer */}
           <div
             className="flex items-center justify-between px-6 py-4"
-            style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}
+            style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
           >
-            <span className="text-xs" style={{ color: "#737373" }}>
+            <span className="text-xs" style={{ color: "#a0a0a0" }}>
               Showing {filteredMeetings.length} of {totalMeetings} meetings
             </span>
             {filteredMeetings.length < totalMeetings && (
@@ -924,11 +924,11 @@ export function MeetingsClient() {
           initial="hidden"
           animate="visible"
           variants={cardVariant}
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
           style={glassLight}
         >
           {/* Upcoming Meetings */}
-          <h3 className="text-base font-semibold mb-4" style={{ color: "#1a1a1a" }}>
+          <h3 className="text-base font-semibold mb-4" style={{ color: "#ffffff" }}>
             Upcoming Meetings
           </h3>
           <div className="space-y-3">
@@ -936,42 +936,42 @@ export function MeetingsClient() {
               upcomingMeetings.map((um) => (
                 <div
                   key={um.id}
-                  className="relative rounded-2xl px-4 py-3.5 cursor-pointer transition-colors duration-200 hover:bg-[rgba(0,0,0,0.05)] overflow-hidden"
-                  style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
+                  className="relative rounded-2xl px-4 py-3.5 cursor-pointer transition-colors duration-200 hover:bg-[rgba(255,255,255,0.05)] overflow-hidden"
+                  style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
                 >
                   {/* Left color bar */}
                   <div
                     className="absolute left-0 top-0 bottom-0 w-[3px] rounded-full transition-all duration-200"
                     style={{ backgroundColor: um.color }}
                   />
-                  <p className="text-sm font-semibold" style={{ color: "#1a1a1a" }}>
+                  <p className="text-sm font-semibold" style={{ color: "#ffffff" }}>
                     {um.title}
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: "#737373" }}>
+                  <p className="text-xs mt-0.5" style={{ color: "#a0a0a0" }}>
                     {um.dateLabel}
                   </p>
-                  <p className="text-xs mt-0.5" style={{ color: "#bbb" }}>
+                  <p className="text-xs mt-0.5" style={{ color: "#888" }}>
                     {um.location ? `${um.location} \u00b7 ` : ""}{um.participants} ppl
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-sm italic text-center py-5" style={{ color: "#bbb" }}>
+              <p className="text-sm italic text-center py-5" style={{ color: "#888" }}>
                 No upcoming meetings
               </p>
             )}
           </div>
 
           {/* Divider */}
-          <div className="h-px my-5" style={{ backgroundColor: "rgba(0,0,0,0.05)" }} />
+          <div className="h-px my-5" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
 
           {/* Key Action Items */}
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+              <h3 className="text-base font-semibold" style={{ color: "#ffffff" }}>
                 Key Action Items
               </h3>
-              <p className="text-xs" style={{ color: "#737373" }}>
+              <p className="text-xs" style={{ color: "#a0a0a0" }}>
                 From recent meetings
               </p>
             </div>
@@ -985,7 +985,7 @@ export function MeetingsClient() {
                   key={item.id}
                   className="flex items-start gap-3 py-3"
                   style={{
-                    borderBottom: idx < actionItems.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none",
+                    borderBottom: idx < actionItems.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
                   }}
                 >
                   {/* Checkbox */}
@@ -993,7 +993,7 @@ export function MeetingsClient() {
                     onClick={() => toggleAction(item.id)}
                     className="flex-shrink-0 w-4 h-4 mt-0.5 rounded-full border-[1.5px] flex items-center justify-center cursor-pointer transition-all duration-200"
                     style={{
-                      borderColor: isDone ? "#22c55e" : "#dddddd",
+                      borderColor: isDone ? "#22c55e" : "rgba(255,255,255,0.2)",
                       backgroundColor: isDone ? "#22c55e" : "transparent",
                     }}
                   >
@@ -1013,17 +1013,17 @@ export function MeetingsClient() {
                     <p
                       className="text-sm transition-all duration-300"
                       style={{
-                        color: isDone ? "#bbb" : "#1a1a1a",
+                        color: isDone ? "#666" : "#ffffff",
                         textDecoration: isDone ? "line-through" : "none",
                       }}
                     >
                       {item.task}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: "#bbb" }}>
+                    <p className="text-xs mt-0.5" style={{ color: "#888" }}>
                       Assigned to: {item.assignedTo} &middot; Due:{" "}
                       <span
                         style={{
-                          color: item.overdue && !isDone ? "#ef4444" : "#bbb",
+                          color: item.overdue && !isDone ? "#ef4444" : "#888",
                           fontWeight: item.overdue && !isDone ? 600 : 400,
                         }}
                       >
@@ -1040,7 +1040,7 @@ export function MeetingsClient() {
               );
             })
             ) : (
-              <p className="text-sm italic text-center py-5" style={{ color: "#bbb" }}>
+              <p className="text-sm italic text-center py-5" style={{ color: "#888" }}>
                 No action items
               </p>
             )}

@@ -46,9 +46,9 @@ interface SettingsSidebarProps {
 export function SettingsSidebar({ active, onChange, isAdmin }: SettingsSidebarProps) {
   return (
     <div
-      className="rounded-[24px] p-2 sticky top-[80px] hidden md:block backdrop-blur-lg border border-[#dddddd]"
+      className="rounded-[24px] p-2 sticky top-[80px] hidden md:block backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
       style={{
-        backgroundColor: "rgba(241,239,237,0.45)",
+        backgroundColor: "rgba(26,26,26,0.6)",
       }}
     >
       <nav className="flex flex-col gap-0.5">
@@ -57,7 +57,7 @@ export function SettingsSidebar({ active, onChange, isAdmin }: SettingsSidebarPr
           if (item.adminOnly && !isAdmin) {
             return (
               <div key={item.value}>
-                <div className="h-px mx-4 my-2" style={{ backgroundColor: "rgba(0,0,0,0.05)" }} />
+                <div className="h-px mx-4 my-2" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
                 <div
                   className="flex items-center gap-2.5 h-11 px-4 rounded-2xl cursor-not-allowed"
                   title="Admin access required"
@@ -76,7 +76,7 @@ export function SettingsSidebar({ active, onChange, isAdmin }: SettingsSidebarPr
           if (item.adminOnly && isAdmin) {
             return (
               <div key={item.value}>
-                <div className="h-px mx-4 my-2" style={{ backgroundColor: "rgba(0,0,0,0.05)" }} />
+                <div className="h-px mx-4 my-2" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
                 <SidebarButton
                   item={item}
                   isActive={active === item.value}
@@ -116,7 +116,7 @@ function SidebarButton({
       className={`relative flex items-center gap-2.5 h-11 w-full px-4 rounded-2xl cursor-pointer transition-colors duration-200 ${
         isActive
           ? "text-white"
-          : "text-[#4d4d4d] hover:bg-[rgba(0,0,0,0.04)] hover:text-[#000000]"
+          : "text-[#a0a0a0] hover:bg-[rgba(255,255,255,0.05)] hover:text-[#ffffff]"
       }`}
     >
       {isActive && (

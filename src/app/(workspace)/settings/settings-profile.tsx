@@ -314,11 +314,11 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
   };
 
   const inputClass =
-    "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]";
+    "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(255,255,255,0.3)] focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]";
   const inputStyle: React.CSSProperties = {
-    backgroundColor: "#f8f7f3",
-    border: "1.5px solid #f1efed",
-    color: "#1a1a1a",
+    backgroundColor: "rgba(26,26,26,0.6)",
+    border: "1.5px solid rgba(255,255,255,0.1)",
+    color: "#ffffff",
   };
   const labelClass = "text-[13px] font-semibold block mb-1.5";
 
@@ -345,16 +345,16 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
       {/* Crop Modal */}
       <Dialog open={cropModalOpen} onOpenChange={(open) => !compressing && setCropModalOpen(open)}>
         <DialogContent
-          className="sm:max-w-[520px] p-0 rounded-3xl border border-[#dddddd] overflow-hidden"
-          style={{ backgroundColor: "#f8f7f3" }}
+          className="sm:max-w-[520px] p-0 rounded-3xl border border-[rgba(255,255,255,0.1)] overflow-hidden"
+          style={{ backgroundColor: "rgba(26,26,26,0.9)" }}
           showCloseButton={!compressing}
         >
           <DialogHeader className="px-6 pt-6 pb-0">
-            <DialogTitle className="flex items-center gap-2 text-lg font-semibold" style={{ color: "#000000" }}>
+            <DialogTitle className="flex items-center gap-2 text-lg font-semibold" style={{ color: "#ffffff" }}>
               <Crop className="h-5 w-5" style={{ color: "#f3350c" }} />
               Crop Photo
             </DialogTitle>
-            <DialogDescription className="text-[13px]" style={{ color: "#707070" }}>
+            <DialogDescription className="text-[13px]" style={{ color: "#a0a0a0" }}>
               Drag to adjust crop area. Image will be auto-compressed.
             </DialogDescription>
           </DialogHeader>
@@ -397,17 +397,17 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
               <button
                 type="button"
                 onClick={() => setCropScale((s) => Math.max(0.5, s - 0.1))}
-                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[#f1efed]"
-                style={{ border: "1px solid #dddddd" }}
+                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[rgba(255,255,255,0.1)]"
+                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
                 title="Zoom out"
               >
-                <ZoomOut className="h-4 w-4" style={{ color: "#707070" }} />
+                <ZoomOut className="h-4 w-4" style={{ color: "#a0a0a0" }} />
               </button>
               <div
                 className="h-1 rounded-full mx-1"
                 style={{
                   width: "80px",
-                  backgroundColor: "#f1efed",
+                  backgroundColor: "rgba(255,255,255,0.1)",
                   position: "relative",
                 }}
               >
@@ -423,21 +423,21 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
               <button
                 type="button"
                 onClick={() => setCropScale((s) => Math.min(2, s + 0.1))}
-                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[#f1efed]"
-                style={{ border: "1px solid #dddddd" }}
+                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[rgba(255,255,255,0.1)]"
+                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
                 title="Zoom in"
               >
-                <ZoomIn className="h-4 w-4" style={{ color: "#707070" }} />
+                <ZoomIn className="h-4 w-4" style={{ color: "#a0a0a0" }} />
               </button>
-              <div className="w-px h-5 mx-1" style={{ backgroundColor: "#dddddd" }} />
+              <div className="w-px h-5 mx-1" style={{ backgroundColor: "rgba(255,255,255,0.1)" }} />
               <button
                 type="button"
                 onClick={() => setCropRotation((r) => (r + 90) % 360)}
-                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[#f1efed]"
-                style={{ border: "1px solid #dddddd" }}
+                className="h-9 w-9 rounded-full flex items-center justify-center transition-all hover:bg-[rgba(255,255,255,0.1)]"
+                style={{ border: "1px solid rgba(255,255,255,0.1)" }}
                 title="Rotate"
               >
-                <RotateCw className="h-4 w-4" style={{ color: "#707070" }} />
+                <RotateCw className="h-4 w-4" style={{ color: "#a0a0a0" }} />
               </button>
             </div>
           </div>
@@ -448,11 +448,11 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
               type="button"
               onClick={() => setCropModalOpen(false)}
               disabled={compressing}
-              className="h-10 px-5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed] disabled:opacity-50"
+              className="h-10 px-5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)] disabled:opacity-50"
               style={{
                 backgroundColor: "transparent",
-                border: "1px solid #dddddd",
-                color: "#707070",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#a0a0a0",
               }}
             >
               Cancel
@@ -480,8 +480,8 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
       {/* Profile Photo Card */}
       <motion.div custom={0} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
           <div className="flex flex-col sm:flex-row items-center gap-5">
             {/* Avatar */}
@@ -502,10 +502,10 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
             {/* Info */}
             <div className="flex flex-col items-center sm:items-start gap-1">
-              <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+              <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                 {name || "Your Name"}
               </h3>
-              <p className="text-[13px]" style={{ color: "#707070" }}>
+              <p className="text-[13px]" style={{ color: "#a0a0a0" }}>
                 {position} · {email}
               </p>
               <div className="flex gap-2 mt-2">
@@ -522,11 +522,11 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="h-8 px-4 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed] hover:border-[#aaaaaa]"
+                    className="h-8 px-4 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)]"
                     style={{
                       backgroundColor: "transparent",
-                      border: "1px solid #dddddd",
-                      color: "#707070",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      color: "#a0a0a0",
                     }}
                   >
                     Remove
@@ -544,17 +544,17 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
       {/* Personal Information Card */}
       <motion.div custom={1} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-5" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-5" style={{ color: "#ffffff" }}>
             Personal Information
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
             {/* Full Name */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Full Name
               </label>
               <input
@@ -569,7 +569,7 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
             {/* Email (disabled) */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Email
               </label>
               <div className="relative">
@@ -579,9 +579,9 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
                   disabled
                   className={inputClass}
                   style={{
-                    backgroundColor: "#f1efed",
-                    border: "1.5px solid #f1efed",
-                    color: "#707070",
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    border: "1.5px solid rgba(255,255,255,0.1)",
+                    color: "#888",
                     cursor: "not-allowed",
                   }}
                 />
@@ -594,7 +594,7 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
             {/* Phone */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Phone
               </label>
               <input
@@ -609,7 +609,7 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
             {/* Department */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Department
               </label>
               <select
@@ -629,7 +629,7 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
             {/* Position (disabled) */}
             <div className="sm:col-span-2">
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Position
               </label>
               <input
@@ -638,9 +638,9 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
                 disabled
                 className={inputClass}
                 style={{
-                  backgroundColor: "#f1efed",
-                  border: "1.5px solid #f1efed",
-                  color: "#707070",
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  border: "1.5px solid rgba(255,255,255,0.1)",
+                  color: "#888",
                   cursor: "not-allowed",
                 }}
               />
@@ -649,7 +649,7 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
 
           {/* Bio */}
           <div className="mt-5">
-            <label className={labelClass} style={{ color: "#1a1a1a" }}>
+            <label className={labelClass} style={{ color: "#ffffff" }}>
               Bio
             </label>
             <textarea
@@ -681,11 +681,11 @@ export function SettingsProfile({ user }: SettingsProfileProps) {
             <button
               onClick={handleCancel}
               disabled={!hasChanges || saving}
-              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[#f1efed] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-10 px-6 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer hover:bg-[rgba(255,255,255,0.1)] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundColor: "transparent",
-                border: "1px solid #dddddd",
-                color: "#707070",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#a0a0a0",
               }}
             >
               Cancel

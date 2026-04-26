@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" fill="none">
+  <!-- Background -->
+  <rect width="192" height="192" rx="32" fill="#0a0a0a"/>
+  
+  <!-- EVOLVE Wordmark -->
+  <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" 
+        font-family="Inter, system-ui, sans-serif" font-size="56" font-weight="700" 
+        fill="#ffffff" letter-spacing="-2">EVOLVE</text>
+  
+  <!-- Accent line -->
+  <rect x="48" y="118" width="96" height="4" rx="2" fill="#f3350c"/>
+</svg>

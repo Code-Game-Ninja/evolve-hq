@@ -18,6 +18,11 @@ export const metadata: Metadata = {
     template: "%s | EVOLVE HQ",
   },
   description: "EVOLVE Employee Workspace, Admin Console & CRM — hq.evolve.agency | admin.evolve.agency | crm.evolve.agency",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/icons/icon-192x192.svg",
+  },
 };
 
 export default function RootLayout({

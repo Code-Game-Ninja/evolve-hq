@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <!-- EVOLVE Wordmark -->
+  <text x="0" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#f3350c" letter-spacing="-2">E</text>
+  <text x="28" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="-2">V</text>
+  <text x="56" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="-2">O</text>
+  <text x="88" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="-2">L</text>
+  <text x="112" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="-2">V</text>
+  <text x="140" y="45" font-family="Inter, system-ui, sans-serif" font-size="42" font-weight="700" fill="#f3350c" letter-spacing="-2">E</text>
+  
+  <!-- Evolution arrow accent -->
+  <path d="M180 30 L190 24 M190 24 L184 30 M190 24 L184 22" stroke="#f3350c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

@@ -405,32 +405,32 @@ export function LeavesClient() {
         <div>
           <h1
             className="text-2xl sm:text-[2rem] font-semibold leading-tight"
-            style={{ color: "#1a1a1a" }}
+            style={{ borderColor: "rgba(255,255,255,0.1)" }}
           >
             My Leaves
           </h1>
-          <p className="text-sm mt-1" style={{ color: "#737373" }}>
+          <p className="text-sm mt-1" style={{ color: "#a0a0a0" }}>
             Manage your leave balance, apply and track requests.
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {/* Year pill with chevrons */}
           <div
-            className="flex items-center gap-1 px-4 py-2.5 rounded-full backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] transition-all duration-200"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+            className="flex items-center gap-1 px-4 py-2.5 rounded-full backdrop-blur-lg border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)] transition-all duration-200"
+            style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
           >
             <button
               onClick={() => setLeaveYear((y) => y - 1)}
-              className="p-0.5 rounded-full hover:bg-[#e8e5e2] transition-colors cursor-pointer"
+              className="p-0.5 rounded-full hover:bg-[rgba(255,255,255,0.1)] transition-colors cursor-pointer"
             >
               <ChevronLeft size={14} style={{ color: "#888" }} />
             </button>
-            <span className="text-[13px] font-semibold min-w-[130px] text-center" style={{ color: "#1a1a1a" }}>
+            <span className="text-[13px] font-semibold min-w-[130px] text-center" style={{ color: "#ffffff" }}>
               Apr {leaveYear} – Mar {leaveYear + 1}
             </span>
             <button
               onClick={() => setLeaveYear((y) => y + 1)}
-              className="p-0.5 rounded-full hover:bg-[#e8e5e2] transition-colors cursor-pointer"
+              className="p-0.5 rounded-full hover:bg-[rgba(255,255,255,0.1)] transition-colors cursor-pointer"
             >
               <ChevronRight size={14} style={{ color: "#888" }} />
             </button>
@@ -439,7 +439,7 @@ export function LeavesClient() {
           <button
             onClick={() => setShowModal(true)}
             className="flex items-center gap-2 h-10 px-5 rounded-full text-sm font-semibold text-white transition-all duration-200 cursor-pointer active:scale-[0.97] hover:shadow-[0_4px_16px_rgba(243,53,12,0.25)]"
-            style={{ backgroundColor: "#f3350c" }}
+            style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c82c09")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#f3350c")}
           >
@@ -514,7 +514,7 @@ export function LeavesClient() {
                   <span
                     key={b.type}
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs text-white/60"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                    style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
                   >
                     <span
                       className="w-1.5 h-1.5 rounded-full"
@@ -544,16 +544,16 @@ export function LeavesClient() {
               initial="hidden"
               animate="visible"
               variants={cardVariant}
-              className="relative overflow-hidden backdrop-blur-lg border border-[#dddddd]"
+              className="relative overflow-hidden backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
               style={{
-                backgroundColor: "rgba(241,239,237,0.45)",
+                backgroundColor: "rgba(26,26,26,0.6)",
                 borderRadius: "24px",
                 padding: "24px",
               }}
             >
               {/* Header */}
               <div className="flex items-center justify-between">
-                <span className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+                <span className="text-base font-semibold" style={{ color: "#ffffff" }}>
                   {cfg.label}
                 </span>
                 <div
@@ -568,7 +568,7 @@ export function LeavesClient() {
               <AnimatedBalance remaining={bal.remaining} total={bal.total} />
 
               {/* Progress bar */}
-              <div className="mt-4 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "#f1efed" }}>
+              <div className="mt-4 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
                 <div
                   className="h-full rounded-full transition-all duration-700"
                   style={{
@@ -581,12 +581,12 @@ export function LeavesClient() {
               {/* Stats breakdown */}
               <div className="mt-4 space-y-2">
                 {[
-                  { label: "Remaining", value: bal.remaining, color: "#1a1a1a", weight: "font-semibold" },
-                  { label: "Used", value: bal.used, color: "#737373", weight: "font-normal" },
+                  { label: "Remaining", value: bal.remaining, color: "#ffffff", weight: "font-semibold" },
+                  { label: "Used", value: bal.used, color: "#a0a0a0", weight: "font-normal" },
                   { label: "Pending", value: bal.pending, color: bal.pending > 0 ? "#f59e0b" : "#bbb", weight: "font-normal" },
                 ].map((row) => (
                   <div key={row.label} className="flex items-center justify-between text-[13px]">
-                    <span style={{ color: "#737373" }}>{row.label}</span>
+                    <span style={{ color: "#a0a0a0" }}>{row.label}</span>
                     <span className={row.weight} style={{ color: row.color }}>
                       {row.value}
                     </span>
@@ -603,12 +603,12 @@ export function LeavesClient() {
         {/* 4A: Leave History Table */}
         <motion.div custom={4} initial="hidden" animate="visible" variants={cardVariant}>
           <div
-            className="rounded-[24px] overflow-hidden h-full backdrop-blur-lg border border-[#dddddd]"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+            className="rounded-[24px] overflow-hidden h-full backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+            style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
           >
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 pt-6 pb-4 gap-3">
-              <h2 className="text-base font-semibold" style={{ color: "#1a1a1a" }}>
+              <h2 className="text-base font-semibold" style={{ color: "#ffffff" }}>
                 Leave History
               </h2>
               {/* Filter tabs — reusable glass pill tabs */}
@@ -631,8 +631,8 @@ export function LeavesClient() {
             <div
               className="hidden md:grid px-6 py-3 text-xs uppercase font-medium tracking-wider"
               style={{
-                backgroundColor: "rgba(0,0,0,0.03)",
-                color: "#737373",
+                backgroundColor: "rgba(255,255,255,0.05)",
+                color: "#a0a0a0",
                 gridTemplateColumns: "60px 100px 100px 60px 100px 60px",
               }}
             >
@@ -659,10 +659,10 @@ export function LeavesClient() {
                     <div key={lv._id}>
                       {/* Desktop row */}
                       <div
-                        className="hidden md:grid px-6 py-3.5 items-center hover:bg-[rgba(0,0,0,0.02)] transition-colors"
+                        className="hidden md:grid px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.05)] transition-colors"
                         style={{
                           gridTemplateColumns: "60px 100px 100px 60px 100px 60px",
-                          borderBottom: "1px solid rgba(0,0,0,0.05)",
+                          borderBottom: "1px solid rgba(255,255,255,0.05)",
                         }}
                       >
                         <span
@@ -671,13 +671,13 @@ export function LeavesClient() {
                         >
                           {typeCfg.abbr}
                         </span>
-                        <span className="text-[13px]" style={{ color: "#1a1a1a" }}>
+                        <span className="text-[13px]" style={{ color: "#ffffff" }}>
                           {formatDate(lv.fromDate)}
                         </span>
-                        <span className="text-[13px]" style={{ color: "#1a1a1a" }}>
+                        <span className="text-[13px]" style={{ color: "#ffffff" }}>
                           {formatDate(lv.toDate)}
                         </span>
-                        <span className="text-[13px] font-semibold" style={{ color: "#1a1a1a" }}>
+                        <span className="text-[13px] font-semibold" style={{ color: "#ffffff" }}>
                           {lv.days}
                         </span>
                         <div className="flex items-center gap-1.5">
@@ -707,7 +707,7 @@ export function LeavesClient() {
                       {/* Mobile card */}
                       <div
                         className="md:hidden px-5 py-4"
-                        style={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }}
+                        style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
                       >
                         <div className="flex items-center justify-between mb-2">
                           <span
@@ -729,12 +729,12 @@ export function LeavesClient() {
                             </span>
                           </div>
                         </div>
-                        <p className="text-[13px] font-medium" style={{ color: "#1a1a1a" }}>
+                        <p className="text-[13px] font-medium" style={{ color: "#ffffff" }}>
                           {formatDate(lv.fromDate)} – {formatDate(lv.toDate)}
                           <span className="ml-2 font-semibold">({lv.days} day{lv.days !== 1 ? "s" : ""})</span>
                         </p>
                         {lv.reason && (
-                          <p className="text-xs mt-1 line-clamp-1" style={{ color: "#737373" }}>
+                          <p className="text-xs mt-1 line-clamp-1" style={{ color: "#a0a0a0" }}>
                             {lv.reason}
                           </p>
                         )}
@@ -756,7 +756,7 @@ export function LeavesClient() {
             {/* Pagination */}
             <div
               className="flex items-center justify-center px-6 py-4"
-              style={{ borderTop: "1px solid rgba(0,0,0,0.05)" }}
+              style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
             >
               {!showAll && totalFiltered > 5 ? (
                 <button
@@ -777,11 +777,11 @@ export function LeavesClient() {
         {/* 4B: Upcoming & Calendar */}
         <motion.div custom={5} initial="hidden" animate="visible" variants={cardVariant}>
           <div
-            className="rounded-[24px] p-6 h-full backdrop-blur-lg border border-[#dddddd]"
-            style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+            className="rounded-[24px] p-6 h-full backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+            style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
           >
             {/* Upcoming Leaves */}
-            <h3 className="text-base font-semibold mb-4" style={{ color: "#1a1a1a" }}>
+            <h3 className="text-base font-semibold mb-4" style={{ color: "#ffffff" }}>
               Upcoming Leaves
             </h3>
 
@@ -798,17 +798,17 @@ export function LeavesClient() {
                     <div
                       key={lv._id}
                       className="rounded-2xl p-3.5 flex items-start gap-3"
-                      style={{ backgroundColor: "rgba(0,0,0,0.03)" }}
+                      style={{ borderColor: "rgba(255,255,255,0.05)" }}
                     >
                       <span
                         className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
                         style={{ backgroundColor: typeCfg.color }}
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold" style={{ color: "#1a1a1a" }}>
+                        <p className="text-sm font-semibold" style={{ color: "#ffffff" }}>
                           {typeCfg.label}
                         </p>
-                        <p className="text-xs mt-0.5" style={{ color: "#737373" }}>
+                        <p className="text-xs mt-0.5" style={{ color: "#a0a0a0" }}>
                           {formatDate(lv.fromDate)} – {formatDate(lv.toDate)} ({lv.days} day{lv.days !== 1 ? "s" : ""})
                         </p>
                         <span
@@ -825,11 +825,11 @@ export function LeavesClient() {
             )}
 
             {/* Divider */}
-            <div className="my-5" style={{ borderBottom: "1px solid rgba(0,0,0,0.05)" }} />
+            <div className="my-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }} />
 
             {/* Leave Calendar */}
             <div>
-              <h3 className="text-sm font-semibold mb-3" style={{ color: "#1a1a1a" }}>
+              <h3 className="text-sm font-semibold mb-3" style={{ color: "#ffffff" }}>
                 Leave Calendar
               </h3>
 
@@ -840,11 +840,11 @@ export function LeavesClient() {
                     if (calMonth === 0) { setCalMonth(11); setCalYear((y) => y - 1); }
                     else setCalMonth((m) => m - 1);
                   }}
-                  className="p-1 rounded-full hover:bg-[#e8e5e2] transition-colors cursor-pointer"
+                  className="p-1 rounded-full hover:bg-[rgba(255,255,255,0.1)] transition-colors cursor-pointer"
                 >
                   <ChevronLeft size={14} style={{ color: "#888" }} />
                 </button>
-                <span className="text-[13px] font-semibold" style={{ color: "#1a1a1a" }}>
+                <span className="text-[13px] font-semibold" style={{ color: "#ffffff" }}>
                   {MONTH_NAMES[calMonth]} {calYear}
                 </span>
                 <button
@@ -852,7 +852,7 @@ export function LeavesClient() {
                     if (calMonth === 11) { setCalMonth(0); setCalYear((y) => y + 1); }
                     else setCalMonth((m) => m + 1);
                   }}
-                  className="p-1 rounded-full hover:bg-[#e8e5e2] transition-colors cursor-pointer"
+                  className="p-1 rounded-full hover:bg-[rgba(255,255,255,0.1)] transition-colors cursor-pointer"
                 >
                   <ChevronRight size={14} style={{ color: "#888" }} />
                 </button>
@@ -889,7 +889,7 @@ export function LeavesClient() {
                   const holiday = HOLIDAYS.find((h) => isSameDay(h.date, day));
 
                   let cellBg = "transparent";
-                  let cellColor = "#1a1a1a";
+                  let cellColor = "#ffffff";
                   let cellBorder = "none";
 
                   if (today) {
@@ -940,14 +940,14 @@ export function LeavesClient() {
                       className="w-1.5 h-1.5 rounded-full"
                       style={{ backgroundColor: TYPE_CONFIG[t].color }}
                     />
-                    <span className="text-[11px]" style={{ color: "#737373" }}>
+                    <span className="text-[11px]" style={{ color: "#a0a0a0" }}>
                       {TYPE_CONFIG[t].abbr}
                     </span>
                   </div>
                 ))}
                 <div className="flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#ef4444" }} />
-                  <span className="text-[11px]" style={{ color: "#737373" }}>Holiday</span>
+                  <span className="text-[11px]" style={{ color: "#a0a0a0" }}>Holiday</span>
                 </div>
               </div>
             </div>
@@ -975,9 +975,9 @@ export function LeavesClient() {
 
             {/* Modal */}
             <motion.div
-              className="relative w-full max-w-[480px] backdrop-blur-xl border border-[#dddddd]"
+              className="relative w-full max-w-[480px] backdrop-blur-xl border border-[rgba(255,255,255,0.1)]"
               style={{
-                backgroundColor: "rgba(241,239,237,0.85)",
+                backgroundColor: "rgba(26,26,26,0.6)",
                 borderRadius: "24px",
                 boxShadow: "0 24px 64px rgba(0,0,0,0.16)",
                 padding: "32px",
@@ -989,17 +989,17 @@ export function LeavesClient() {
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold" style={{ color: "#1a1a1a" }}>
+                <h2 className="text-xl font-semibold" style={{ color: "#ffffff" }}>
                   Apply for Leave
                 </h2>
                 <button
                   onClick={() => !submitting && setShowModal(false)}
-                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-[#dddddd] hover:border-[#aaaaaa] hover:bg-[#e8e5e2] cursor-pointer"
+                  className="flex items-center justify-center h-8 w-8 rounded-full transition-all duration-200 backdrop-blur-lg border border-[rgba(255,255,255,0.1)] hover:border-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.1)] cursor-pointer"
                   style={{
-                    backgroundColor: "rgba(241,239,237,0.45)",
+                    backgroundColor: "rgba(26,26,26,0.6)",
                   }}
                 >
-                  <X className="h-4 w-4" style={{ color: "#737373" }} />
+                  <X className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                 </button>
               </div>
 
@@ -1007,7 +1007,7 @@ export function LeavesClient() {
               <div className="space-y-5">
                 {/* Leave Type */}
                 <div>
-                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                     Leave Type
                   </label>
                   <select
@@ -1015,9 +1015,9 @@ export function LeavesClient() {
                     onChange={(e) => setFormType(e.target.value as typeof formType)}
                     className="w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 cursor-pointer focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
                     style={{
-                      backgroundColor: "#f8f7f3",
-                      border: "1.5px solid #f1efed",
-                      color: "#1a1a1a",
+                      backgroundColor: "rgba(26,26,26,0.8)",
+                      border: "1.5px solid rgba(255,255,255,0.1)",
+                      color: "#ffffff",
                     }}
                   >
                     <option value="casual">Casual Leave</option>
@@ -1028,7 +1028,7 @@ export function LeavesClient() {
 
                 {/* From Date */}
                 <div>
-                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                     From Date
                   </label>
                   <input
@@ -1037,16 +1037,16 @@ export function LeavesClient() {
                     onChange={(e) => setFormFrom(e.target.value)}
                     className="w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
                     style={{
-                      backgroundColor: "#f8f7f3",
-                      border: "1.5px solid #f1efed",
-                      color: formFrom ? "#1a1a1a" : "#bbb",
+                      backgroundColor: "rgba(26,26,26,0.8)",
+                      border: "1.5px solid rgba(255,255,255,0.1)",
+                      color: formFrom ? "#ffffff" : "#888",
                     }}
                   />
                 </div>
 
                 {/* To Date */}
                 <div>
-                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                     To Date
                   </label>
                   <input
@@ -1055,9 +1055,9 @@ export function LeavesClient() {
                     onChange={(e) => setFormTo(e.target.value)}
                     className="w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
                     style={{
-                      backgroundColor: "#f8f7f3",
-                      border: "1.5px solid #f1efed",
-                      color: formTo ? "#1a1a1a" : "#bbb",
+                      backgroundColor: "rgba(26,26,26,0.8)",
+                      border: "1.5px solid rgba(255,255,255,0.1)",
+                      color: formTo ? "#ffffff" : "#888",
                     }}
                   />
                 </div>
@@ -1065,10 +1065,10 @@ export function LeavesClient() {
                 {/* Duration */}
                 {formFrom && formTo && (
                   <div>
-                    <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                    <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                       Duration
                     </label>
-                    <p className="text-sm font-semibold" style={{ color: formDays > 0 ? "#1a1a1a" : "#ef4444" }}>
+                    <p className="text-sm font-semibold" style={{ color: formDays > 0 ? "#ffffff" : "#ef4444" }}>
                       {formDays > 0
                         ? `${formDays} day${formDays !== 1 ? "s" : ""}`
                         : "Invalid date range"}
@@ -1089,7 +1089,7 @@ export function LeavesClient() {
                 )}
                 {formHalfDay && (
                   <div>
-                    <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                    <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                       Half Day
                     </label>
                     <div className="flex gap-2">
@@ -1099,9 +1099,9 @@ export function LeavesClient() {
                           onClick={() => setFormHalfPeriod(p)}
                           className="px-4 py-1.5 rounded-full text-[13px] font-medium transition-all duration-200 cursor-pointer"
                           style={{
-                            backgroundColor: formHalfPeriod === p ? "#0a0a0a" : "#f8f7f3",
-                            color: formHalfPeriod === p ? "#ffffff" : "#999",
-                            border: formHalfPeriod === p ? "none" : "1.5px solid #f1efed",
+                            backgroundColor: formHalfPeriod === p ? "#f3350c" : "rgba(26,26,26,0.8)",
+                            color: formHalfPeriod === p ? "#ffffff" : "#a0a0a0",
+                            border: formHalfPeriod === p ? "none" : "1.5px solid rgba(255,255,255,0.1)",
                           }}
                         >
                           {p === "first" ? "First half" : "Second half"}
@@ -1109,7 +1109,7 @@ export function LeavesClient() {
                       ))}
                       <button
                         onClick={() => setFormHalfDay(false)}
-                        className="text-xs text-[#737373] hover:text-[#1a1a1a] cursor-pointer ml-1"
+                        className="text-xs text-[#a0a0a0] hover:text-[#ffffff] cursor-pointer ml-1"
                       >
                         Full day
                       </button>
@@ -1119,7 +1119,7 @@ export function LeavesClient() {
 
                 {/* Reason */}
                 <div>
-                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#1a1a1a" }}>
+                  <label className="text-[13px] font-semibold block mb-1.5" style={{ color: "#ffffff" }}>
                     Reason
                   </label>
                   <textarea
@@ -1129,9 +1129,9 @@ export function LeavesClient() {
                     rows={3}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]"
                     style={{
-                      backgroundColor: "#f8f7f3",
-                      border: "1.5px solid #f1efed",
-                      color: "#1a1a1a",
+                      backgroundColor: "rgba(26,26,26,0.8)",
+                      border: "1.5px solid rgba(255,255,255,0.1)",
+                      color: "#ffffff",
                     }}
                   />
                 </div>
@@ -1148,8 +1148,8 @@ export function LeavesClient() {
               <div className="flex items-center justify-end gap-3 mt-7">
                 <button
                   onClick={() => !submitting && setShowModal(false)}
-                  className="h-10 px-6 rounded-full text-sm font-medium border border-[#dddddd] hover:bg-[#f1efed] transition-all duration-200 cursor-pointer"
-                  style={{ color: "#737373" }}
+                  className="h-10 px-6 rounded-full text-sm font-medium border border-[rgba(255,255,255,0.1)] hover:bg-[#f1efed] transition-all duration-200 cursor-pointer"
+                  style={{ color: "#a0a0a0" }}
                 >
                   Cancel
                 </button>
@@ -1157,7 +1157,7 @@ export function LeavesClient() {
                   onClick={handleApply}
                   disabled={submitting || !formFrom || !formTo || !formReason.trim() || formDays <= 0 || formBalance <= 0}
                   className="h-10 px-6 rounded-full text-sm font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97] hover:shadow-[0_4px_16px_rgba(243,53,12,0.25)]"
-                  style={{ backgroundColor: "#f3350c" }}
+                  style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
                   onMouseEnter={(e) => { if (!e.currentTarget.disabled) e.currentTarget.style.backgroundColor = "#c82c09"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#f3350c"; }}
                 >

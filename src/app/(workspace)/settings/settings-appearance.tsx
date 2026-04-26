@@ -44,13 +44,13 @@ export function SettingsAppearance() {
       {/* Theme Card */}
       <motion.div custom={0} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
             Theme
           </h3>
-          <p className="text-[13px] mt-1" style={{ color: "#707070" }}>
+          <p className="text-[13px] mt-1" style={{ color: "#a0a0a0" }}>
             Choose your preferred theme
           </p>
 
@@ -63,15 +63,15 @@ export function SettingsAppearance() {
                   onClick={() => setTheme(t.value)}
                   className="flex flex-col items-center gap-2 w-[calc(33%-8px)] sm:w-[120px] min-w-[90px] p-3 sm:p-4 rounded-2xl transition-all duration-200 cursor-pointer"
                   style={{
-                    border: active ? "2px solid #0a0a0a" : "2px solid #f1efed",
-                    backgroundColor: active ? "#ffffff" : "#f8f7f3",
+                    border: active ? "2px solid #f3350c" : "2px solid rgba(255,255,255,0.1)",
+                    backgroundColor: active ? "rgba(26,26,26,0.8)" : "rgba(26,26,26,0.4)",
                     boxShadow: active ? "0 2px 8px rgba(0,0,0,0.08)" : "none",
                   }}
                 >
                   {/* Preview swatch */}
                   {t.preview === "split" ? (
                     <div className="w-[60px] h-10 rounded-lg overflow-hidden flex">
-                      <div className="w-1/2 bg-[#f8f7f3]" />
+                      <div className="w-1/2 bg-[rgba(255,255,255,0.1)]" />
                       <div className="w-1/2 bg-[#1a1a1a]" />
                     </div>
                   ) : (
@@ -97,11 +97,11 @@ export function SettingsAppearance() {
                   )}
                   <t.icon
                     className="h-3.5 w-3.5"
-                    style={{ color: active ? "#000000" : "#707070" }}
+                    style={{ color: active ? "#ffffff" : "#a0a0a0" }}
                   />
                   <span
                     className="text-[13px] font-semibold"
-                    style={{ color: "#000000" }}
+                    style={{ color: "#ffffff" }}
                   >
                     {t.label}
                   </span>
@@ -115,13 +115,13 @@ export function SettingsAppearance() {
       {/* Accent Color Card */}
       <motion.div custom={1} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
             Accent Color
           </h3>
-          <p className="text-[13px] mt-1" style={{ color: "#707070" }}>
+          <p className="text-[13px] mt-1" style={{ color: "#a0a0a0" }}>
             Customize your accent color
           </p>
 
@@ -151,50 +151,50 @@ export function SettingsAppearance() {
       {/* Display Preferences Card */}
       <motion.div custom={2} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-4" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-4" style={{ color: "#ffffff" }}>
             Display Preferences
           </h3>
 
           {/* Compact Mode */}
           <div className="flex items-center justify-between py-4">
             <div>
-              <p className="text-sm font-semibold" style={{ color: "#000000" }}>
+              <p className="text-sm font-semibold" style={{ color: "#ffffff" }}>
                 Compact Mode
               </p>
-              <p className="text-xs mt-0.5" style={{ color: "#707070" }}>
+              <p className="text-xs mt-0.5" style={{ color: "#a0a0a0" }}>
                 Reduce spacing and font sizes
               </p>
             </div>
             <Switch checked={compactMode} onCheckedChange={setCompactMode} />
           </div>
 
-          <div className="h-px" style={{ backgroundColor: "rgba(0,0,0,0.05)" }} />
+          <div className="h-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
 
           {/* Animations */}
           <div className="flex items-center justify-between py-4">
             <div>
-              <p className="text-sm font-semibold" style={{ color: "#000000" }}>
+              <p className="text-sm font-semibold" style={{ color: "#ffffff" }}>
                 Animations
               </p>
-              <p className="text-xs mt-0.5" style={{ color: "#707070" }}>
+              <p className="text-xs mt-0.5" style={{ color: "#a0a0a0" }}>
                 Enable smooth transitions and animations
               </p>
             </div>
             <Switch checked={animations} onCheckedChange={setAnimations} />
           </div>
 
-          <div className="h-px" style={{ backgroundColor: "rgba(0,0,0,0.05)" }} />
+          <div className="h-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
 
           {/* Sidebar Position */}
           <div className="flex items-center justify-between py-4">
             <div>
-              <p className="text-sm font-semibold" style={{ color: "#000000" }}>
+              <p className="text-sm font-semibold" style={{ color: "#ffffff" }}>
                 Sidebar Position
               </p>
-              <p className="text-xs mt-0.5" style={{ color: "#707070" }}>
+              <p className="text-xs mt-0.5" style={{ color: "#a0a0a0" }}>
                 Choose default sidebar position
               </p>
             </div>
@@ -204,9 +204,9 @@ export function SettingsAppearance() {
               className={inputClass}
               style={{
                 width: 120,
-                backgroundColor: "#f8f7f3",
-                border: "1.5px solid #f1efed",
-                color: "#1a1a1a",
+                backgroundColor: "rgba(26,26,26,0.6)",
+                border: "1.5px solid rgba(255,255,255,0.1)",
+                color: "#ffffff",
               }}
             >
               <option value="left">Left</option>

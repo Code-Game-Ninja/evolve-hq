@@ -38,16 +38,16 @@ function getPasswordStrength(pw: string) {
   if (/[0-9]/.test(pw)) score++;
   if (/[^A-Za-z0-9]/.test(pw)) score++;
   if (score <= 1) return { label: "Weak", color: "#ef4444", pct: 33 };
-  if (score <= 2) return { label: "Medium", color: "#f59e0b", pct: 66 };
-  return { label: "Strong", color: "#22c55e", pct: 100 };
+  if (score <= 2) return { label: "Medium", color: "#fbbf24", pct: 66 };
+  return { label: "Strong", color: "#4ade80", pct: 100 };
 }
 
 const inputClass =
-  "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[#0a0a0a] focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]";
+  "w-full h-11 px-4 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(255,255,255,0.3)] focus:shadow-[0_0_0_3px_rgba(255,255,255,0.05)]";
 const inputStyle: React.CSSProperties = {
-  backgroundColor: "#f8f7f3",
-  border: "1.5px solid #f1efed",
-  color: "#1a1a1a",
+  backgroundColor: "rgba(26,26,26,0.6)",
+  border: "1.5px solid rgba(255,255,255,0.1)",
+  color: "#ffffff",
 };
 const labelClass = "text-[13px] font-semibold block mb-1.5";
 
@@ -106,17 +106,17 @@ export function SettingsAccount() {
       {/* Change Password */}
       <motion.div custom={0} initial="hidden" animate="visible" variants={cardVariant}>
         <div
-          className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
-          <h3 className="text-lg font-semibold mb-5" style={{ color: "#000000" }}>
+          <h3 className="text-lg font-semibold mb-5" style={{ color: "#ffffff" }}>
             Change Password
           </h3>
 
           <div className="space-y-4">
             {/* Current Password */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Current Password
               </label>
               <div className="relative">
@@ -134,9 +134,9 @@ export function SettingsAccount() {
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                 >
                   {showCurrent ? (
-                    <EyeOff className="h-4 w-4" style={{ color: "#707070" }} />
+                    <EyeOff className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   ) : (
-                    <Eye className="h-4 w-4" style={{ color: "#707070" }} />
+                    <Eye className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   )}
                 </button>
               </div>
@@ -144,7 +144,7 @@ export function SettingsAccount() {
 
             {/* New Password */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 New Password
               </label>
               <div className="relative">
@@ -162,9 +162,9 @@ export function SettingsAccount() {
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                 >
                   {showNew ? (
-                    <EyeOff className="h-4 w-4" style={{ color: "#707070" }} />
+                    <EyeOff className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   ) : (
-                    <Eye className="h-4 w-4" style={{ color: "#707070" }} />
+                    <Eye className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   )}
                 </button>
               </div>
@@ -172,7 +172,7 @@ export function SettingsAccount() {
 
             {/* Confirm Password */}
             <div>
-              <label className={labelClass} style={{ color: "#1a1a1a" }}>
+              <label className={labelClass} style={{ color: "#ffffff" }}>
                 Confirm New Password
               </label>
               <div className="relative">
@@ -190,9 +190,9 @@ export function SettingsAccount() {
                   className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                 >
                   {showConfirm ? (
-                    <EyeOff className="h-4 w-4" style={{ color: "#707070" }} />
+                    <EyeOff className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   ) : (
-                    <Eye className="h-4 w-4" style={{ color: "#707070" }} />
+                    <Eye className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                   )}
                 </button>
               </div>
@@ -293,7 +293,7 @@ export function SettingsAccount() {
       <motion.div custom={3} initial="hidden" animate="visible" variants={cardVariant}>
         <div
           className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(239,68,68,0.2)]"
-          style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+          style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
         >
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#ef4444" }} />
@@ -301,7 +301,7 @@ export function SettingsAccount() {
               <h3 className="text-base font-semibold" style={{ color: "#ef4444" }}>
                 Delete Account
               </h3>
-              <p className="text-[13px] mt-1" style={{ color: "#707070" }}>
+              <p className="text-[13px] mt-1" style={{ color: "#a0a0a0" }}>
                 Permanently delete your account and all associated data. This action cannot
                 be undone. Contact your administrator to request account deletion.
               </p>
@@ -472,19 +472,19 @@ function TwoFactorSection() {
   if (enabled === null) {
     return (
       <div
-        className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd] flex items-center gap-3"
-        style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+        className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)] flex items-center gap-3"
+        style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
       >
-        <Loader2 className="h-4 w-4 animate-spin" style={{ color: "#707070" }} />
-        <span className="text-sm" style={{ color: "#707070" }}>Loading 2FA status...</span>
+        <Loader2 className="h-4 w-4 animate-spin" style={{ color: "#a0a0a0" }} />
+        <span className="text-sm" style={{ color: "#a0a0a0" }}>Loading 2FA status...</span>
       </div>
     );
   }
 
   return (
     <div
-      className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-      style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+      className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+      style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
     >
       <AnimatePresence mode="wait">
         {/* Idle state — show status and enable/disable button */}
@@ -500,11 +500,11 @@ function TwoFactorSection() {
               {enabled ? (
                 <ShieldCheck className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#22c55e" }} />
               ) : (
-                <Shield className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#707070" }} />
+                <Shield className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#a0a0a0" }} />
               )}
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+                  <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                     Two-Factor Authentication
                   </h3>
                   {enabled && (
@@ -516,7 +516,7 @@ function TwoFactorSection() {
                     </span>
                   )}
                 </div>
-                <p className="text-[13px] mt-1" style={{ color: "#707070" }}>
+                <p className="text-[13px] mt-1" style={{ color: "#a0a0a0" }}>
                   {enabled
                     ? "Your account is protected with TOTP-based two-factor authentication."
                     : "Add an extra layer of security by requiring a verification code from your authenticator app."}
@@ -560,13 +560,13 @@ function TwoFactorSection() {
           >
             <div className="flex items-center gap-2">
               <Shield className="h-5 w-5" style={{ color: "#f3350c" }} />
-              <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+              <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                 Set Up Two-Factor Authentication
               </h3>
             </div>
 
             <div className="space-y-4">
-              <p className="text-[13px]" style={{ color: "#707070" }}>
+              <p className="text-[13px]" style={{ color: "#a0a0a0" }}>
                 Scan the QR code below with your authenticator app (Google Authenticator, Authy, etc.)
               </p>
 
@@ -574,7 +574,7 @@ function TwoFactorSection() {
               <div className="flex justify-center">
                 <div
                   className="p-4 rounded-2xl border"
-                  style={{ backgroundColor: "#fff", borderColor: "#f1efed" }}
+                  style={{ backgroundColor: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.1)" }}
                 >
                   {qrCode && (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -590,7 +590,7 @@ function TwoFactorSection() {
                 </p>
                 <code
                   className="text-[13px] font-mono px-3 py-1.5 rounded-lg select-all"
-                  style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#1a1a1a" }}
+                  style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "#ffffff" }}
                 >
                   {secret}
                 </code>
@@ -601,7 +601,7 @@ function TwoFactorSection() {
               <button
                 onClick={() => { setStep("idle"); setError(""); }}
                 className="h-9 px-5 rounded-full text-sm font-medium cursor-pointer transition-colors"
-                style={{ color: "#707070" }}
+                style={{ color: "#a0a0a0" }}
               >
                 Cancel
               </button>
@@ -628,7 +628,7 @@ function TwoFactorSection() {
           >
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5" style={{ color: "#f3350c" }} />
-              <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+              <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                 Verify Setup
               </h3>
             </div>
@@ -651,9 +651,9 @@ function TwoFactorSection() {
                   disabled={loading}
                   className="w-12 h-14 text-center text-[20px] font-bold rounded-2xl border-2 outline-none transition-all duration-200 disabled:opacity-50 focus:ring-2 focus:ring-[rgba(243,53,12,0.15)] focus:border-[#f3350c] selection:bg-transparent caret-[#f3350c]"
                   style={{
-                    backgroundColor: digit ? "rgba(243,53,12,0.04)" : "#f8f7f3",
-                    borderColor: digit ? "#f3350c" : "#e5e2df",
-                    color: "#1a1a1a",
+                    backgroundColor: digit ? "rgba(243,53,12,0.1)" : "rgba(26,26,26,0.8)",
+                    borderColor: digit ? "#f3350c" : "rgba(255,255,255,0.1)",
+                    color: "#ffffff",
                   }}
                 />
               ))}
@@ -672,7 +672,7 @@ function TwoFactorSection() {
               <button
                 onClick={() => { setStep("setup"); setError(""); setVerifyCode(["", "", "", "", "", ""]); }}
                 className="h-9 px-5 rounded-full text-sm font-medium cursor-pointer transition-colors"
-                style={{ color: "#707070" }}
+                style={{ color: "#a0a0a0" }}
               >
                 Back
               </button>
@@ -701,7 +701,7 @@ function TwoFactorSection() {
           >
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-5 w-5" style={{ color: "#22c55e" }} />
-              <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+              <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                 2FA Enabled Successfully
               </h3>
             </div>
@@ -710,7 +710,7 @@ function TwoFactorSection() {
               className="p-4 rounded-2xl border"
               style={{ backgroundColor: "rgba(34,197,94,0.04)", borderColor: "rgba(34,197,94,0.15)" }}
             >
-              <p className="text-[13px] font-medium mb-3" style={{ color: "#1a1a1a" }}>
+              <p className="text-[13px] font-medium mb-3" style={{ color: "#ffffff" }}>
                 Save these backup codes in a safe place. Each code can only be used once.
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -718,7 +718,7 @@ function TwoFactorSection() {
                   <code
                     key={i}
                     className="text-[13px] font-mono px-3 py-1.5 rounded-lg text-center select-all"
-                    style={{ backgroundColor: "rgba(0,0,0,0.04)", color: "#1a1a1a" }}
+                    style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "#ffffff" }}
                   >
                     {code}
                   </code>
@@ -730,7 +730,7 @@ function TwoFactorSection() {
               <button
                 onClick={copyBackupCodes}
                 className="h-9 px-4 rounded-full text-sm font-medium border cursor-pointer transition-all duration-200 flex items-center gap-1.5"
-                style={{ borderColor: "#f1efed", color: "#1a1a1a", backgroundColor: "#f8f7f3" }}
+                style={{ borderColor: "rgba(255,255,255,0.1)", color: "#ffffff", backgroundColor: "rgba(26,26,26,0.8)" }}
               >
                 <Copy className="h-3.5 w-3.5" />
                 Copy
@@ -738,7 +738,7 @@ function TwoFactorSection() {
               <button
                 onClick={downloadBackupCodes}
                 className="h-9 px-4 rounded-full text-sm font-medium border cursor-pointer transition-all duration-200 flex items-center gap-1.5"
-                style={{ borderColor: "#f1efed", color: "#1a1a1a", backgroundColor: "#f8f7f3" }}
+                style={{ borderColor: "rgba(255,255,255,0.1)", color: "#ffffff", backgroundColor: "rgba(26,26,26,0.8)" }}
               >
                 <Download className="h-3.5 w-3.5" />
                 Download
@@ -769,12 +769,12 @@ function TwoFactorSection() {
           >
             <div className="flex items-center gap-2">
               <ShieldOff className="h-5 w-5" style={{ color: "#ef4444" }} />
-              <h3 className="text-lg font-semibold" style={{ color: "#000000" }}>
+              <h3 className="text-lg font-semibold" style={{ color: "#ffffff" }}>
                 Disable Two-Factor Authentication
               </h3>
             </div>
 
-            <p className="text-[13px]" style={{ color: "#707070" }}>
+            <p className="text-[13px]" style={{ color: "#a0a0a0" }}>
               Enter a code from your authenticator app to confirm disabling 2FA.
             </p>
 
@@ -792,9 +792,9 @@ function TwoFactorSection() {
                   disabled={loading}
                   className="w-12 h-14 text-center text-[20px] font-bold rounded-2xl border-2 outline-none transition-all duration-200 disabled:opacity-50 focus:ring-2 focus:ring-[rgba(243,53,12,0.15)] focus:border-[#f3350c] selection:bg-transparent caret-[#f3350c]"
                   style={{
-                    backgroundColor: digit ? "rgba(243,53,12,0.04)" : "#f8f7f3",
-                    borderColor: digit ? "#f3350c" : "#e5e2df",
-                    color: "#1a1a1a",
+                    backgroundColor: digit ? "rgba(243,53,12,0.1)" : "rgba(26,26,26,0.8)",
+                    borderColor: digit ? "#f3350c" : "rgba(255,255,255,0.1)",
+                    color: "#ffffff",
                   }}
                 />
               ))}
@@ -813,7 +813,7 @@ function TwoFactorSection() {
               <button
                 onClick={() => { setStep("idle"); setError(""); setDisableCode(["", "", "", "", "", ""]); }}
                 className="h-9 px-5 rounded-full text-sm font-medium cursor-pointer transition-colors"
-                style={{ color: "#707070" }}
+                style={{ color: "#a0a0a0" }}
               >
                 Cancel
               </button>
@@ -848,9 +848,9 @@ interface SessionItem {
 
 function DeviceIcon({ device }: { device: string }) {
   const d = device.toLowerCase();
-  if (d.includes("mobile") || d.includes("phone")) return <Smartphone className="h-5 w-5" style={{ color: "#707070" }} />;
-  if (d.includes("tablet")) return <Tablet className="h-5 w-5" style={{ color: "#707070" }} />;
-  return <Monitor className="h-5 w-5" style={{ color: "#707070" }} />;
+  if (d.includes("mobile") || d.includes("phone")) return <Smartphone className="h-5 w-5" style={{ color: "#a0a0a0" }} />;
+  if (d.includes("tablet")) return <Tablet className="h-5 w-5" style={{ color: "#a0a0a0" }} />;
+  return <Monitor className="h-5 w-5" style={{ color: "#a0a0a0" }} />;
 }
 
 function sessionLabel(browser: string, os: string) {
@@ -930,18 +930,18 @@ function ActiveSessionsSection() {
 
   return (
     <div
-      className="rounded-[24px] p-6 backdrop-blur-lg border border-[#dddddd]"
-      style={{ backgroundColor: "rgba(241,239,237,0.45)" }}
+      className="rounded-[24px] p-6 backdrop-blur-lg border border-[rgba(255,255,255,0.1)]"
+      style={{ backgroundColor: "rgba(26,26,26,0.6)" }}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <Globe className="h-5 w-5" style={{ color: "#0a0a0a" }} />
+          <Globe className="h-5 w-5" style={{ color: "#f3350c" }} />
           <div>
-            <h3 className="text-base font-semibold" style={{ color: "#0a0a0a" }}>
+            <h3 className="text-base font-semibold" style={{ color: "#ffffff" }}>
               Active Sessions
             </h3>
-            <p className="text-[13px] mt-0.5" style={{ color: "#707070" }}>
+            <p className="text-[13px] mt-0.5" style={{ color: "#a0a0a0" }}>
               Devices where you&apos;re currently signed in
             </p>
           </div>
@@ -962,10 +962,10 @@ function ActiveSessionsSection() {
       {/* Session list */}
       {loading ? (
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-5 w-5 animate-spin" style={{ color: "#707070" }} />
+          <Loader2 className="h-5 w-5 animate-spin" style={{ color: "#a0a0a0" }} />
         </div>
       ) : sessions.length === 0 ? (
-        <p className="text-[13px] text-center py-6" style={{ color: "#707070" }}>
+        <p className="text-[13px] text-center py-6" style={{ color: "#a0a0a0" }}>
           No active sessions found.
         </p>
       ) : (
@@ -981,7 +981,7 @@ function ActiveSessionsSection() {
                 transition={{ duration: 0.25 }}
                 className="flex items-center gap-4 rounded-2xl px-4 py-3 transition-colors duration-150"
                 style={{
-                  backgroundColor: s.isCurrent ? "rgba(34,197,94,0.06)" : "rgba(248,247,243,0.6)",
+                  backgroundColor: s.isCurrent ? "rgba(34,197,94,0.06)" : "rgba(255,255,255,0.05)",
                   border: s.isCurrent ? "1px solid rgba(34,197,94,0.2)" : "1px solid transparent",
                 }}
               >
@@ -989,7 +989,7 @@ function ActiveSessionsSection() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium truncate" style={{ color: "#1a1a1a" }}>
+                    <span className="text-sm font-medium truncate" style={{ color: "#ffffff" }}>
                       {sessionLabel(s.browser, s.os)}
                     </span>
                     {s.isCurrent && (
@@ -1005,7 +1005,7 @@ function ActiveSessionsSection() {
                     <span className="text-[12px]" style={{ color: "#999" }}>
                       {s.ip && s.ip !== "::1" && s.ip !== "127.0.0.1" ? s.ip : "Local"}
                     </span>
-                    <span className="text-[12px]" style={{ color: "#bbb" }}>·</span>
+                    <span className="text-[12px]" style={{ color: "#666" }}>·</span>
                     <span className="text-[12px]" style={{ color: "#999" }}>
                       {timeAgo(s.lastActive)}
                     </span>
