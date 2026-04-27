@@ -55,53 +55,53 @@ function LeadCard({
     <div
       className={`
         group backdrop-blur-md border transition-all duration-200 cursor-grab active:cursor-grabbing
-        ${isDragging 
-          ? "border-[#aaaaaa] shadow-2xl scale-[1.05] rotate-2" 
-          : "border-[#dddddd]/40 hover:border-[#bbbbbb] hover:shadow-md"
+        ${isDragging
+          ? "border-[#f3350c] shadow-2xl scale-[1.05] rotate-2"
+          : "border-white/10 hover:border-white/20 hover:shadow-md"
         }
       `}
       style={{
-        backgroundColor: isDragging ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.7)",
+        backgroundColor: isDragging ? "rgba(26,26,26,0.9)" : "rgba(26,26,26,0.7)",
         borderRadius: "20px",
         padding: "16px",
       }}
     >
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div 
-            className="h-2 w-2 rounded-full" 
-            style={{ backgroundColor: leadPriorityColors[lead.priority] }} 
+          <div
+            className="h-2 w-2 rounded-full"
+            style={{ backgroundColor: leadPriorityColors[lead.priority] }}
           />
-          <h3 className="text-sm font-bold text-[#1a1a1a] line-clamp-1">{lead.name}</h3>
+          <h3 className="text-sm font-bold text-white line-clamp-1">{lead.name}</h3>
         </div>
-        <button 
+        <button
           onClick={(e) => { e.stopPropagation(); onEdit?.(lead); }}
-          className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-black/5 transition-colors"
+          className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
         >
-          <MoreHorizontal className="h-4 w-4 text-[#999]" />
+          <MoreHorizontal className="h-4 w-4 text-white/60" />
         </button>
       </div>
 
       <div className="space-y-1.5 mb-4">
         {lead.company && (
-          <div className="flex items-center gap-1.5 text-[11px] text-[#666]">
+          <div className="flex items-center gap-1.5 text-[11px] text-white/60">
             <Building2 className="h-3 w-3" />
             <span>{lead.company}</span>
           </div>
         )}
-        <div className="flex items-center gap-1.5 text-[11px] text-[#666]">
+        <div className="flex items-center gap-1.5 text-[11px] text-white/60">
           <Mail className="h-3 w-3" />
           <span>{lead.email}</span>
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#dddddd]/30">
-        <span className="text-xs font-bold text-[#1a1a1a]">
+      <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/10">
+        <span className="text-xs font-bold text-white">
           {formatCurrency(lead.value)}
         </span>
-        <span 
+        <span
           className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
-          style={{ backgroundColor: `${status.dot}15`, color: status.dot }}
+          style={{ backgroundColor: `${status.dot}20`, color: status.dot }}
         >
           {lead.status}
         </span>
@@ -158,27 +158,31 @@ function PipelineColumn({
       ref={setNodeRef}
       className={`
         flex flex-col h-full min-w-[280px] rounded-[28px] border transition-all duration-300
-        ${isOver ? "border-[#f3350c] bg-[#f3350c]/5 shadow-inner" : "border-[#dddddd] bg-[#f1efed]/40"}
+        ${isOver ? "border-[#f3350c]" : ""}
       `}
-      style={{ padding: "16px" }}
+      style={{
+        borderColor: isOver ? "#f3350c" : "rgba(255,255,255,0.1)",
+        backgroundColor: isOver ? "rgba(243,53,12,0.1)" : "rgba(26,26,26,0.6)",
+        padding: "16px"
+      }}
     >
       <div className="flex items-center justify-between mb-4 px-1">
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full" style={{ backgroundColor: config.dot }} />
-          <h3 className="text-xs font-black uppercase tracking-widest text-[#1a1a1a]">
+          <h3 className="text-xs font-black uppercase tracking-widest" style={{ color: "#ffffff" }}>
             {config.label}
           </h3>
-          <span className="text-[10px] font-bold text-[#999] bg-white px-1.5 py-0.5 rounded-md border border-[#dddddd]/50">
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md border" style={{ color: "#a0a0a0", backgroundColor: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.1)" }}>
             {leads.length}
           </span>
         </div>
-        <span className="text-[10px] font-bold text-[#666]">
+        <span className="text-[10px] font-bold" style={{ color: "#a0a0a0" }}>
           {formatCurrency(totalValue)}
         </span>
       </div>
 
       <div className="flex-1 flex flex-col gap-3 min-h-[150px]">
-        <SortableContext items={leads.map(l => l._id)} strategy={verticalListSortingStrategy}>
+        <SortableContext id={status} items={leads.map(l => l._id)} strategy={verticalListSortingStrategy}>
           {leads.map(lead => (
             <SortableLeadCard key={lead._id} lead={lead} onEdit={onEditLead} />
           ))}
@@ -193,7 +197,8 @@ function PipelineColumn({
 
       <button 
         onClick={() => onNewLead(status)}
-        className="mt-3 flex items-center justify-center gap-2 w-full py-3 rounded-2xl border border-dashed border-[#dddddd] hover:border-[#aaaaaa] hover:bg-white/50 transition-all text-[#999] hover:text-[#666]"
+        className="mt-3 flex items-center justify-center gap-2 w-full py-3 rounded-2xl border border-dashed transition-all"
+        style={{ borderColor: "rgba(255,255,255,0.1)", color: "#a0a0a0" }}
       >
         <Plus className="h-4 w-4" />
         <span className="text-xs font-medium">Add Lead</span>

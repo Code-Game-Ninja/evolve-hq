@@ -81,7 +81,7 @@ function Column({
       </div>
 
       <div className="flex-1 px-4 pb-6 flex flex-col gap-4 overflow-y-auto custom-scrollbar">
-        <SortableContext items={leads.map(l => l._id)} strategy={verticalListSortingStrategy}>
+        <SortableContext id={status} items={leads.map(l => l._id)} strategy={verticalListSortingStrategy}>
           {leads.map((lead) => (
             <LeadCard key={lead._id} lead={lead} onEdit={onEditLead} />
           ))}

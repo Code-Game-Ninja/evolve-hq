@@ -107,7 +107,7 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
   return (
     <div className="sticky top-0 z-50 pt-1 md:pt-2 pb-2 pointer-events-none">
       <header
-        className="flex items-center h-[52px] md:h-[60px] rounded-full px-4 sm:px-5 md:px-6 mx-auto max-w-[1400px] pointer-events-auto"
+        className="flex items-center h-[52px] md:h-[60px] rounded-full px-4 sm:px-5 md:px-6 mx-auto max-w-[1400px] pointer-events-auto bg-[#0a0a0a]/80 border border-white/10"
       >
         {/* Left: Logo */}
         <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
@@ -115,8 +115,8 @@ export function TopNav({ navItems = workspaceNavItems }: TopNavProps) {
             EVOLVE
           </span>
           <span
-            className="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded"
-            style={{ color: "rgba(255,255,255,0.6)", backgroundColor: "rgba(255,255,255,0.06)" }}
+            className="text-[10px] font-semibold tracking-wider uppercase text-white px-1.5 py-0.5 rounded"
+            style={{ backgroundColor: "#f3350c" }}
           >
             HQ
           </span>

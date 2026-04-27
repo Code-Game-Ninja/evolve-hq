@@ -162,17 +162,18 @@ function InquiriesClientInner() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Mail className="h-5 w-5 text-[#f3350c]" />
-            <h1 className="text-2xl font-bold text-[#1a1a1a]">Inquiries</h1>
+            <h1 className="text-2xl font-bold" style={{ color: "#ffffff" }}>Inquiries</h1>
           </div>
-          <p className="text-sm text-[#999]">Manage contact form submissions from your website</p>
+          <p className="text-sm" style={{ color: "#a0a0a0" }}>Manage contact form submissions from your website</p>
         </div>
         
         <div className="flex items-center gap-3">
           <button 
             onClick={fetchInquiries}
-            className="h-11 w-11 flex items-center justify-center rounded-2xl border border-[#dddddd] bg-white hover:bg-[#f1efed] transition-colors"
+            className="h-11 w-11 flex items-center justify-center rounded-2xl border transition-colors"
+            style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)" }}
           >
-            <RefreshCw className={`h-4 w-4 text-[#666] ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} style={{ color: "#a0a0a0" }} />
           </button>
         </div>
       </div>
@@ -180,17 +181,17 @@ function InquiriesClientInner() {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { label: "Total Inquiries", value: stats.total, color: "#1a1a1a" },
+          { label: "Total Inquiries", value: stats.total, color: "#ffffff" },
           { label: "New Submissions", value: stats.new, color: "#f3350c" },
           { label: "Replied", value: stats.replied, color: "#12b76a" },
         ].map((s) => (
           <div 
             key={s.label}
-            className="rounded-[24px] border border-[#dddddd] p-5 backdrop-blur-md"
-            style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
+            className="rounded-[24px] border p-5 backdrop-blur-md"
+            style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)" }}
           >
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#999] mb-1">{s.label}</p>
-            <p className="text-2xl font-bold text-[#1a1a1a]">{s.value}</p>
+            <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: "#a0a0a0" }}>{s.label}</p>
+            <p className="text-2xl font-bold" style={{ color: "#ffffff" }}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -198,13 +199,14 @@ function InquiriesClientInner() {
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
         <div className="relative w-full sm:max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#999]" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "#a0a0a0" }} />
           <input
             type="text"
             placeholder="Search inquiries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-11 pr-4 rounded-2xl border border-[#dddddd] bg-white/50 backdrop-blur-md focus:bg-white focus:border-[#f3350c] focus:outline-none transition-all text-sm"
+            className="w-full h-12 pl-11 pr-4 rounded-2xl border backdrop-blur-md focus:outline-none transition-all text-sm"
+            style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#ffffff" }}
           />
         </div>
 
@@ -212,7 +214,8 @@ function InquiriesClientInner() {
           <select 
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="h-11 px-4 rounded-2xl border border-[#dddddd] bg-white/50 text-xs font-bold text-[#666] outline-none focus:border-[#f3350c] transition-all"
+            className="h-11 px-4 rounded-2xl border text-xs font-bold outline-none transition-all"
+            style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#a0a0a0" }}
           >
             <option value="all">All Status</option>
             <option value="new">New</option>
@@ -229,12 +232,12 @@ function InquiriesClientInner() {
         <div className="lg:col-span-5 space-y-3">
           {loading && inquiries.length === 0 ? (
             [1, 2, 3].map(i => (
-              <div key={i} className="h-24 rounded-3xl border border-[#dddddd] bg-white/20 animate-pulse" />
+              <div key={i} className="h-24 rounded-3xl border animate-pulse" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.3)" }} />
             ))
           ) : filteredInquiries.length === 0 ? (
-            <div className="py-20 text-center rounded-3xl border border-dashed border-[#dddddd] bg-white/10">
-              <Mail className="h-10 w-10 text-[#cccccc] mx-auto mb-3" />
-              <p className="text-sm text-[#999]">No inquiries found</p>
+            <div className="py-20 text-center rounded-3xl border border-dashed" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.3)" }}>
+              <Mail className="h-10 w-10 mx-auto mb-3" style={{ color: "rgba(255,255,255,0.3)" }} />
+              <p className="text-sm" style={{ color: "#a0a0a0" }}>No inquiries found</p>
             </div>
           ) : (
             filteredInquiries.map((inq) => (
@@ -243,22 +246,24 @@ function InquiriesClientInner() {
                 onClick={() => setSelectedInquiry(inq)}
                 className={`w-full text-left p-4 rounded-3xl border transition-all duration-200 group ${
                   selectedInquiry?.id === inq.id 
-                    ? "border-[#f3350c] bg-white shadow-lg shadow-black/5" 
-                    : "border-[#dddddd]/50 bg-white/40 hover:bg-white hover:border-[#bbbbbb]"
+                    ? "shadow-lg" 
+                    : "hover:bg-white/5"
                 }`}
+                style={{ 
+                  borderColor: selectedInquiry?.id === inq.id ? "#f3350c" : "rgba(255,255,255,0.1)",
+                  backgroundColor: selectedInquiry?.id === inq.id ? "rgba(26,26,26,0.8)" : "rgba(26,26,26,0.4)"
+                }}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={`text-[10px] font-black uppercase tracking-wider ${
-                    inq.status === 'new' ? 'text-[#f3350c]' : 'text-[#999]'
-                  }`}>
+                  <span className="text-[10px] font-black uppercase tracking-wider" style={{ color: inq.status === 'new' ? '#f3350c' : '#a0a0a0' }}>
                     {inq.status}
                   </span>
-                  <span className="text-[10px] text-[#bbb]">
+                  <span className="text-[10px]" style={{ color: "#a0a0a0" }}>
                     {formatDistanceToNow(new Date(inq.createdAt), { addSuffix: true })}
                   </span>
                 </div>
-                <h3 className="font-bold text-[#1a1a1a] truncate">{inq.name}</h3>
-                <p className="text-xs text-[#666] line-clamp-1 mt-0.5">{inq.subject || "No Subject"}</p>
+                <h3 className="font-bold truncate" style={{ color: "#ffffff" }}>{inq.name}</h3>
+                <p className="text-xs line-clamp-1 mt-0.5" style={{ color: "#a0a0a0" }}>{inq.subject || "No Subject"}</p>
               </button>
             ))
           )}
@@ -273,16 +278,17 @@ function InquiriesClientInner() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="rounded-[32px] border border-[#dddddd] bg-white p-8 sticky top-6 shadow-xl shadow-black/[0.02]"
+                className="rounded-[32px] border p-8 sticky top-6 shadow-xl"
+                style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)" }}
               >
                 <div className="flex items-start justify-between mb-8">
                   <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 rounded-2xl bg-[#f1efed] flex items-center justify-center text-xl font-bold text-[#1a1a1a]">
+                    <div className="h-12 w-12 rounded-2xl flex items-center justify-center text-xl font-bold" style={{ backgroundColor: "rgba(255,255,255,0.1)", color: "#ffffff" }}>
                       {selectedInquiry.name.charAt(0)}
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-[#1a1a1a]">{selectedInquiry.name}</h2>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-[#999]">
+                      <h2 className="text-xl font-bold" style={{ color: "#ffffff" }}>{selectedInquiry.name}</h2>
+                      <div className="flex items-center gap-3 mt-1 text-xs" style={{ color: "#a0a0a0" }}>
                         <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {selectedInquiry.email}</span>
                         {selectedInquiry.phone && <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {selectedInquiry.phone}</span>}
                       </div>
@@ -299,13 +305,15 @@ function InquiriesClientInner() {
                     </button>
                     <button 
                       onClick={() => handleUpdateStatus(selectedInquiry.id, "archived")}
-                      className="h-10 w-10 flex items-center justify-center rounded-xl border border-[#dddddd] text-[#666] hover:bg-[#f1efed] transition-colors"
+                      className="h-10 w-10 flex items-center justify-center rounded-xl border transition-colors"
+                      style={{ borderColor: "rgba(255,255,255,0.1)", color: "#a0a0a0" }}
                     >
                       <Archive className="h-4 w-4" />
                     </button>
                     <button 
                       onClick={() => handleDelete(selectedInquiry.id)}
-                      className="h-10 w-10 flex items-center justify-center rounded-xl border border-red-100 text-red-500 hover:bg-red-50 transition-colors"
+                      className="h-10 w-10 flex items-center justify-center rounded-xl border transition-colors"
+                      style={{ borderColor: "rgba(239,68,68,0.3)", color: "#ef4444" }}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -314,25 +322,25 @@ function InquiriesClientInner() {
 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-[#bbb] mb-2">Subject</h4>
-                    <p className="text-base font-bold text-[#1a1a1a]">{selectedInquiry.subject || "No Subject provided"}</p>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: "#a0a0a0" }}>Subject</h4>
+                    <p className="text-base font-bold" style={{ color: "#ffffff" }}>{selectedInquiry.subject || "No Subject provided"}</p>
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-[#bbb] mb-2">Message</h4>
-                    <div className="bg-[#f9f8f7] rounded-2xl p-5 text-sm text-[#444] leading-relaxed whitespace-pre-wrap min-h-[120px]">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: "#a0a0a0" }}>Message</h4>
+                    <div className="rounded-2xl p-5 text-sm leading-relaxed whitespace-pre-wrap min-h-[120px]" style={{ backgroundColor: "rgba(255,255,255,0.05)", color: "#ffffff" }}>
                       {selectedInquiry.message}
                     </div>
                   </div>
 
                   {selectedInquiry.company && (
                     <div>
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-[#bbb] mb-2">Company</h4>
-                      <p className="text-sm font-medium text-[#1a1a1a]">{selectedInquiry.company}</p>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2" style={{ color: "#a0a0a0" }}>Company</h4>
+                      <p className="text-sm font-medium" style={{ color: "#ffffff" }}>{selectedInquiry.company}</p>
                     </div>
                   )}
 
-                  <div className="pt-6 border-t border-[#f1efed] flex items-center justify-between">
+                  <div className="pt-6 border-t flex items-center justify-between" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
                     <div className="flex items-center gap-4">
                       {selectedInquiry.status !== 'replied' && (
                         <button 

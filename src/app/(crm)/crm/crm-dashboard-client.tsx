@@ -34,9 +34,9 @@ export function CrmDashboardClient({ initialData }: { initialData: CrmStats }) {
 
   const statsConfig = [
     { label: "Total Leads", value: stats.totalLeads, icon: TrendingUp, color: "#f3350c", href: "/crm/leads" },
-    { label: "New Inquiries", value: stats.newInquiries, icon: MessageSquare, color: "#1a1a1a", href: "/crm/inquiries" },
+    { label: "New Inquiries", value: stats.newInquiries, icon: MessageSquare, color: "#0ea5e9", href: "/crm/inquiries" },
     { label: "Open Deals", value: stats.openDeals, icon: Handshake, color: "#f3350c", href: "/crm/leads" },
-    { label: "Pipeline Value", value: formatCurrency(stats.pipelineValue), icon: FileText, color: "#0a0a0a", href: "/crm/leads" },
+    { label: "Pipeline Value", value: formatCurrency(stats.pipelineValue), icon: FileText, color: "#ffffff", href: "/crm/leads" },
   ];
 
   return (

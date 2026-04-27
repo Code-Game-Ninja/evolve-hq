@@ -5,7 +5,6 @@ import {
   Briefcase,
   FileText,
   UserCheck,
-  Contact,
 } from "lucide-react";
 
 export const adminNavItems = [
@@ -28,11 +27,6 @@ export const adminNavItems = [
     label: "HR",
     href: "/admin/hr",
     icon: Briefcase,
-  },
-  {
-    label: "CRM",
-    href: "/admin/crm",
-    icon: Contact,
   },
   {
     label: "CMS",

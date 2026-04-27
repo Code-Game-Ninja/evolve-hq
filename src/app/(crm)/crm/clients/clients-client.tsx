@@ -129,9 +129,9 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Users className="h-5 w-5 text-[#f3350c]" />
-            <h1 className="text-2xl font-bold text-[#1a1a1a]">Client Directory</h1>
+            <h1 className="text-2xl font-bold" style={{ color: "#ffffff" }}>Client Directory</h1>
           </div>
-          <p className="text-sm text-[#999]">Manage your global list of clients, partners, and prospects</p>
+          <p className="text-sm" style={{ color: "#a0a0a0" }}>Manage your global list of clients, partners, and prospects</p>
         </div>
         
         <button 
@@ -147,13 +147,14 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
       <div className="flex flex-col lg:flex-row items-center justify-between gap-4 py-2">
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto flex-1">
           <div className="relative w-full sm:max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#999]" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "#a0a0a0" }} />
             <input
               type="text"
               placeholder="Search clients..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-12 pl-11 pr-4 rounded-2xl border border-[#dddddd] bg-white/50 backdrop-blur-md focus:bg-white focus:border-[#f3350c] focus:outline-none transition-all text-sm"
+              className="w-full h-12 pl-11 pr-4 rounded-2xl border backdrop-blur-md focus:outline-none transition-all text-sm"
+              style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#ffffff" }}
             />
           </div>
 
@@ -161,7 +162,8 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="h-12 px-4 rounded-2xl border border-[#dddddd] bg-white/50 backdrop-blur-md text-sm focus:outline-none min-w-[140px]"
+              className="h-12 px-4 rounded-2xl border backdrop-blur-md text-sm focus:outline-none min-w-[140px]"
+              style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#a0a0a0" }}
             >
               <option value="all">All Statuses</option>
               <option value="new">New</option>
@@ -175,27 +177,27 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
           </div>
         </div>
 
-        <button className="h-11 px-4 flex items-center gap-2 rounded-2xl border border-[#dddddd] bg-white/50 text-xs font-bold text-[#666] hover:bg-[#f1efed] transition-all w-full sm:w-auto justify-center">
+        <button className="h-11 px-4 flex items-center gap-2 rounded-2xl border text-xs font-bold transition-all w-full sm:w-auto justify-center" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#a0a0a0" }}>
           <Download className="h-3.5 w-3.5" />
           Export CSV
         </button>
       </div>
 
       {/* Table Container */}
-      <div className="rounded-[32px] border border-[#dddddd] bg-white/40 backdrop-blur-xl overflow-hidden">
+      <div className="rounded-[32px] border backdrop-blur-xl overflow-hidden" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)" }}>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#dddddd]/50">
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]">Client</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]">Company</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]">Status</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]">Value</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]">Added</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-[#999]"></th>
+              <tr className="border-b" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}>Client</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}>Company</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}>Status</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}>Value</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}>Added</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#a0a0a0" }}></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#dddddd]/30">
+            <tbody className="divide-y" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <tr key={i} className="animate-pulse">
@@ -208,8 +210,8 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
                 <tr>
                   <td colSpan={6} className="px-6 py-20 text-center">
                     <div className="flex flex-col items-center gap-2">
-                      <Users className="h-12 w-12 text-[#dddddd]" />
-                      <p className="text-sm font-medium text-[#999]">No clients found matching your criteria</p>
+                      <Users className="h-12 w-12" style={{ color: "rgba(255,255,255,0.2)" }} />
+                      <p className="text-sm font-medium" style={{ color: "#a0a0a0" }}>No clients found matching your criteria</p>
                     </div>
                   </td>
                 </tr>
@@ -217,22 +219,22 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
                 filteredClients.map((client) => (
                   <tr 
                     key={client._id}
-                    className="group hover:bg-[#f1efed]/30 transition-colors cursor-pointer"
+                    className="group transition-colors cursor-pointer hover:bg-white/5"
                     onClick={() => setEditingClient(client)}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-[#f3350c]/10 flex items-center justify-center text-[#f3350c] font-bold text-sm">
+                        <div className="h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm" style={{ backgroundColor: "rgba(243,53,12,0.1)", color: "#f3350c" }}>
                           {client.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-[#1a1a1a]">{client.name}</p>
-                          <p className="text-xs text-[#999]">{client.email}</p>
+                          <p className="text-sm font-bold" style={{ color: "#ffffff" }}>{client.name}</p>
+                          <p className="text-xs" style={{ color: "#a0a0a0" }}>{client.email}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-sm text-[#666]">
+                      <div className="flex items-center gap-2 text-sm" style={{ color: "#a0a0a0" }}>
                         <Building2 className="h-3.5 w-3.5" />
                         {client.company || "—"}
                       </div>
@@ -249,18 +251,18 @@ function ClientsClientInner({ initialData }: ClientsClientProps) {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-sm font-bold text-[#1a1a1a]">
+                      <p className="text-sm font-bold" style={{ color: "#ffffff" }}>
                         {formatCurrency(client.value)}
                       </p>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-xs text-[#999]">
+                      <p className="text-xs" style={{ color: "#a0a0a0" }}>
                         {format(new Date(client.createdAt), "MMM d, yyyy")}
                       </p>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="h-8 w-8 rounded-lg hover:bg-black/5 flex items-center justify-center transition-colors">
-                        <MoreHorizontal className="h-4 w-4 text-[#999]" />
+                      <button className="h-8 w-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
+                        <MoreHorizontal className="h-4 w-4" style={{ color: "#a0a0a0" }} />
                       </button>
                     </td>
                   </tr>

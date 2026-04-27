@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck } from "lucide-react";
+import { Loader2, Eye, EyeOff, ArrowRight, ArrowLeft, ShieldCheck, Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,6 +17,10 @@ const loginSchema = z.object({
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
+
+interface LoginFormProps {
+  onSuccess?: (name: string) => void;
+}
 
 const fieldVariant = {
   hidden: { opacity: 0, y: 12 },
@@ -33,7 +37,7 @@ const stepVariant = {
   exit: { opacity: 0, x: -40, transition: { duration: 0.2 } },
 };
 
-export default function LoginForm() {
+export default function LoginForm({ onSuccess }: LoginFormProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [twoFactorStep, setTwoFactorStep] = useState(false);
@@ -41,6 +45,7 @@ export default function LoginForm() {
   const [savedCredentials, setSavedCredentials] = useState<{ email: string; password: string; preAuthToken: string } | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const codeInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const redirectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const {
     register,
@@ -102,19 +107,27 @@ export default function LoginForm() {
       const role = session?.user?.role;
 
       toast.success("Signed in successfully");
-      const params = new URLSearchParams(window.location.search);
-      let callbackUrl = params.get("callbackUrl");
 
-      if (!callbackUrl || callbackUrl === "/dashboard") {
-        if (role === "superadmin" || role === "admin") {
-          callbackUrl = "/admin";
-        } else {
-          callbackUrl = "/dashboard";
+      // Trigger character greeting animation
+      const userName = session?.user?.name?.split(" ")[0] || "";
+      onSuccess?.(userName);
+
+      // Delay redirect to show greeting
+      redirectTimeoutRef.current = setTimeout(() => {
+        const params = new URLSearchParams(window.location.search);
+        let callbackUrl = params.get("callbackUrl");
+
+        if (!callbackUrl || callbackUrl === "/dashboard") {
+          if (role === "superadmin" || role === "admin") {
+            callbackUrl = "/admin";
+          } else {
+            callbackUrl = "/dashboard";
+          }
         }
-      }
 
-      router.push(callbackUrl);
-      router.refresh();
+        router.push(callbackUrl);
+        router.refresh();
+      }, 2000);
     } catch (err) {
       console.error("2FA submit error:", err);
       toast.error("Something went wrong. Please try again.");
@@ -123,13 +136,22 @@ export default function LoginForm() {
     } finally {
       setIsVerifying(false);
     }
-  }, [savedCredentials, router]);
+  }, [savedCredentials, router, onSuccess]);
 
   useEffect(() => {
     if (fullCode.length === 6 && twoFactorStep) {
       handleTwoFactorSubmit(fullCode);
     }
   }, [fullCode, twoFactorStep, handleTwoFactorSubmit]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleCodeChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
@@ -199,19 +221,27 @@ export default function LoginForm() {
       const role = session?.user?.role;
 
       toast.success("Signed in successfully");
-      const params = new URLSearchParams(window.location.search);
-      let callbackUrl = params.get("callbackUrl");
 
-      if (!callbackUrl || callbackUrl === "/dashboard") {
-        if (role === "superadmin" || role === "admin") {
-          callbackUrl = "/admin";
-        } else {
-          callbackUrl = "/dashboard";
+      // Trigger character greeting animation
+      const userName = session?.user?.name?.split(" ")[0] || "";
+      onSuccess?.(userName);
+
+      // Delay redirect to show greeting
+      redirectTimeoutRef.current = setTimeout(() => {
+        const params = new URLSearchParams(window.location.search);
+        let callbackUrl = params.get("callbackUrl");
+
+        if (!callbackUrl || callbackUrl === "/dashboard") {
+          if (role === "superadmin" || role === "admin") {
+            callbackUrl = "/admin";
+          } else {
+            callbackUrl = "/dashboard";
+          }
         }
-      }
 
-      router.push(callbackUrl);
-      router.refresh();
+        router.push(callbackUrl);
+        router.refresh();
+      }, 2000);
     } catch {
       toast.error("Something went wrong. Please try again.");
     }
@@ -230,95 +260,84 @@ export default function LoginForm() {
           variants={stepVariant}
         >
           {/* Email */}
-          <motion.div className="space-y-1.5" custom={0} variants={fieldVariant} initial="hidden" animate="visible">
-            <label htmlFor="email" className="text-[13px] font-medium" style={{ color: "#555" }}>
-              Email
+          <motion.div className="space-y-2" custom={0} variants={fieldVariant} initial="hidden" animate="visible">
+            <label htmlFor="email" className="text-[13px] font-medium text-white/70">
+              Email Address
             </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="you@evolve.agencym"
-              autoComplete="email"
-              autoFocus
-              {...register("email")}
-              className="w-full h-11 px-4 rounded-xl text-[14px] outline-none border transition-all duration-200 placeholder:text-[#bbb]"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.5)",
-                borderColor: errors.email ? "#ef4444" : "rgba(0,0,0,0.08)",
-                color: "#1a1a1a",
-              }}
-              onFocus={(e) => {
-                if (!errors.email) e.currentTarget.style.borderColor = "rgba(243,53,12,0.4)";
-              }}
-              onBlur={(e) => {
-                if (!errors.email) e.currentTarget.style.borderColor = "rgba(0,0,0,0.08)";
-              }}
-            />
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+              <input
+                id="email"
+                type="email"
+                placeholder="you@evolve.agency"
+                autoComplete="email"
+                autoFocus
+                {...register("email")}
+                className="w-full h-12 pl-11 pr-4 rounded-xl text-[14px] outline-none border transition-all duration-200 placeholder:text-white/30 bg-white/5 text-white"
+                style={{
+                  borderColor: errors.email ? "#ef4444" : "rgba(255,255,255,0.1)",
+                }}
+                onFocus={(e) => {
+                  if (!errors.email) e.currentTarget.style.borderColor = "#f3350c";
+                }}
+                onBlur={(e) => {
+                  if (!errors.email) e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                }}
+              />
+            </div>
             {errors.email && (
-              <p className="text-[11px] font-medium" style={{ color: "#ef4444" }}>
+              <p className="text-[11px] font-medium text-red-400">
                 {errors.email.message}
               </p>
             )}
           </motion.div>
 
           {/* Password */}
-          <motion.div className="space-y-1.5" custom={1} variants={fieldVariant} initial="hidden" animate="visible">
-            <label htmlFor="password" className="text-[13px] font-medium" style={{ color: "#555" }}>
+          <motion.div className="space-y-2" custom={1} variants={fieldVariant} initial="hidden" animate="visible">
+            <label htmlFor="password" className="text-[13px] font-medium text-white/70">
               Password
             </label>
             <div className="relative">
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 {...register("password")}
-                className="w-full h-11 px-4 pr-11 rounded-xl text-[14px] outline-none border transition-all duration-200 placeholder:text-[#bbb]"
+                className="w-full h-12 pl-11 pr-11 rounded-xl text-[14px] outline-none border transition-all duration-200 placeholder:text-white/30 bg-white/5 text-white"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.5)",
-                  borderColor: errors.password ? "#ef4444" : "rgba(0,0,0,0.08)",
-                  color: "#1a1a1a",
+                  borderColor: errors.password ? "#ef4444" : "rgba(255,255,255,0.1)",
                 }}
                 onFocus={(e) => {
-                  if (!errors.password) e.currentTarget.style.borderColor = "rgba(243,53,12,0.4)";
+                  if (!errors.password) e.currentTarget.style.borderColor = "#f3350c";
                 }}
                 onBlur={(e) => {
-                  if (!errors.password) e.currentTarget.style.borderColor = "rgba(0,0,0,0.08)";
+                  if (!errors.password) e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
                 }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors cursor-pointer"
-                style={{ color: "#aaa" }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors cursor-pointer text-white/40 hover:text-white/60"
                 tabIndex={-1}
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.password && (
-              <p className="text-[11px] font-medium" style={{ color: "#ef4444" }}>
+              <p className="text-[11px] font-medium text-red-400">
                 {errors.password.message}
               </p>
             )}
           </motion.div>
 
           {/* Submit */}
-          <motion.div custom={2} variants={fieldVariant} initial="hidden" animate="visible" className="pt-1">
+          <motion.div custom={2} variants={fieldVariant} initial="hidden" animate="visible" className="pt-2">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="group w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[14px] font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{
-                backgroundColor: "#f3350c",
-                boxShadow: "0 2px 12px rgba(243,53,12,0.25)",
-              }}
-              onMouseEnter={(e) => {
-                if (!isSubmitting) e.currentTarget.style.backgroundColor = "#c82c09";
-              }}
-              onMouseLeave={(e) => {
-                if (!isSubmitting) e.currentTarget.style.backgroundColor = "#f3350c";
-              }}
+              className="group w-full h-12 flex items-center justify-center gap-2 rounded-xl text-[15px] font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed bg-[#f3350c] hover:bg-[#d42d0a] shadow-lg shadow-[#f3350c]/25"
             >
               {isSubmitting ? (
                 <>
@@ -339,8 +358,7 @@ export default function LoginForm() {
             variants={fieldVariant}
             initial="hidden"
             animate="visible"
-            className="text-center text-[11px] pt-2"
-            style={{ color: "#bbb" }}
+            className="text-center text-[12px] pt-2 text-white/30"
           >
             Contact your admin if you don&apos;t have an account.
           </motion.p>
@@ -355,17 +373,14 @@ export default function LoginForm() {
           exit="exit"
         >
           {/* Header */}
-          <div className="text-center space-y-2">
-            <div
-              className="mx-auto w-12 h-12 rounded-2xl flex items-center justify-center"
-              style={{ backgroundColor: "rgba(243,53,12,0.08)" }}
-            >
-              <ShieldCheck size={22} style={{ color: "#f3350c" }} />
+          <div className="text-center space-y-3">
+            <div className="mx-auto w-14 h-14 rounded-2xl flex items-center justify-center bg-[#f3350c]/10">
+              <ShieldCheck size={24} className="text-[#f3350c]" />
             </div>
-            <h3 className="text-[16px] font-semibold" style={{ color: "#1a1a1a" }}>
+            <h3 className="text-[18px] font-semibold text-white">
               Two-Factor Authentication
             </h3>
-            <p className="text-[13px]" style={{ color: "#888" }}>
+            <p className="text-[13px] text-white/50">
               Enter the 6-digit code from your authenticator app
             </p>
           </div>
@@ -384,11 +399,9 @@ export default function LoginForm() {
                 onKeyDown={(e) => handleCodeKeyDown(i, e)}
                 autoFocus={i === 0}
                 disabled={isVerifying}
-                className="w-12 h-14 text-center text-[20px] font-bold rounded-2xl border-2 outline-none transition-all duration-200 disabled:opacity-50 focus:ring-2 focus:ring-[rgba(243,53,12,0.15)] focus:border-[#f3350c] selection:bg-transparent caret-[#f3350c]"
+                className="w-12 h-14 text-center text-[20px] font-bold rounded-2xl border-2 outline-none transition-all duration-200 disabled:opacity-50 selection:bg-transparent text-white bg-white/5"
                 style={{
-                  backgroundColor: digit ? "rgba(243,53,12,0.04)" : "rgba(255,255,255,0.5)",
-                  borderColor: digit ? "#f3350c" : "rgba(0,0,0,0.1)",
-                  color: "#1a1a1a",
+                  borderColor: digit ? "#f3350c" : "rgba(255,255,255,0.1)",
                 }}
               />
             ))}
@@ -398,17 +411,7 @@ export default function LoginForm() {
           <button
             onClick={() => handleTwoFactorSubmit(fullCode)}
             disabled={isVerifying || fullCode.length !== 6}
-            className="group w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[14px] font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-            style={{
-              backgroundColor: "#f3350c",
-              boxShadow: "0 2px 12px rgba(243,53,12,0.25)",
-            }}
-            onMouseEnter={(e) => {
-              if (!isVerifying) e.currentTarget.style.backgroundColor = "#c82c09";
-            }}
-            onMouseLeave={(e) => {
-              if (!isVerifying) e.currentTarget.style.backgroundColor = "#f3350c";
-            }}
+            className="group w-full h-12 flex items-center justify-center gap-2 rounded-xl text-[15px] font-semibold text-white transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed bg-[#f3350c] hover:bg-[#d42d0a] shadow-lg shadow-[#f3350c]/25"
           >
             {isVerifying ? (
               <>
@@ -431,10 +434,7 @@ export default function LoginForm() {
               setSavedCredentials(null);
             }}
             disabled={isVerifying}
-            className="w-full flex items-center justify-center gap-1.5 text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
-            style={{ color: "#888" }}
-            onMouseEnter={(e) => { e.currentTarget.style.color = "#555"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.color = "#888"; }}
+            className="w-full flex items-center justify-center gap-1.5 text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50 text-white/40 hover:text-white/70"
           >
             <ArrowLeft size={14} />
             Back to login

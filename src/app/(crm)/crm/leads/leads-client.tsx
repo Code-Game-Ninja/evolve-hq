@@ -135,17 +135,18 @@ function LeadsClientInner({ initialData }: { initialData?: Lead[] }) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="h-5 w-5 text-[#f3350c]" />
-            <h1 className="text-2xl font-bold text-[#1a1a1a]">Leads Pipeline</h1>
+            <h1 className="text-2xl font-bold" style={{ color: "#ffffff" }}>Leads Pipeline</h1>
           </div>
-          <p className="text-sm text-[#999]">Manage your sales funnel and conversion stages</p>
+          <p className="text-sm" style={{ color: "#a0a0a0" }}>Manage your sales funnel and conversion stages</p>
         </div>
         
         <div className="flex items-center gap-3">
           <button 
             onClick={fetchLeads}
-            className="h-11 w-11 flex items-center justify-center rounded-2xl border border-[#dddddd] bg-white hover:bg-[#f1efed] transition-colors"
+            className="h-11 w-11 flex items-center justify-center rounded-2xl border transition-colors"
+            style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)" }}
           >
-            <RefreshCw className={`h-4 w-4 text-[#666] ${loading ? "animate-spin" : ""}`} />
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} style={{ color: "#a0a0a0" }} />
           </button>
           <button 
             onClick={() => { setInitialStatus("new"); setIsNewDialogOpen(true); }}
@@ -161,16 +162,16 @@ function LeadsClientInner({ initialData }: { initialData?: Lead[] }) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Pipeline Value", value: formatCurrency(stats.value), color: "#f3350c" },
-          { label: "Active Leads", value: stats.total, color: "#1a1a1a" },
+          { label: "Active Leads", value: stats.total, color: "#ffffff" },
           { label: "Won Deals", value: stats.wonCount, color: "#12b76a" },
         ].map((s) => (
           <div 
             key={s.label}
-            className="rounded-[24px] border border-[#dddddd] p-5 backdrop-blur-md"
-            style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
+            className="rounded-[24px] border p-5 backdrop-blur-md"
+            style={{ backgroundColor: "rgba(26,26,26,0.6)", borderColor: "rgba(255,255,255,0.1)" }}
           >
-            <p className="text-[10px] font-black uppercase tracking-widest text-[#999] mb-1">{s.label}</p>
-            <p className="text-2xl font-bold text-[#1a1a1a]">{s.value}</p>
+            <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: "#a0a0a0" }}>{s.label}</p>
+            <p className="text-2xl font-bold" style={{ color: "#ffffff" }}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -178,28 +179,33 @@ function LeadsClientInner({ initialData }: { initialData?: Lead[] }) {
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
         <div className="relative w-full sm:max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#999]" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "#a0a0a0" }} />
           <input
             type="text"
             placeholder="Search by name, company or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-12 pl-11 pr-4 rounded-2xl border border-[#dddddd] bg-white/50 backdrop-blur-md focus:bg-white focus:border-[#f3350c] focus:outline-none transition-all text-sm"
+            className="w-full h-12 pl-11 pr-4 rounded-2xl border backdrop-blur-md focus:outline-none transition-all text-sm"
+            style={{ 
+              borderColor: "rgba(255,255,255,0.1)", 
+              backgroundColor: "rgba(26,26,26,0.6)",
+              color: "#ffffff"
+            }}
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="flex bg-[#f1efed]/80 rounded-2xl p-1 border border-[#dddddd]/50 backdrop-blur-sm">
-            <button className="h-9 px-4 rounded-xl bg-white shadow-sm flex items-center gap-2 text-xs font-bold text-[#1a1a1a]">
+          <div className="flex rounded-2xl p-1 border backdrop-blur-sm" style={{ backgroundColor: "rgba(26,26,26,0.6)", borderColor: "rgba(255,255,255,0.1)" }}>
+            <button className="h-9 px-4 rounded-xl shadow-sm flex items-center gap-2 text-xs font-bold" style={{ backgroundColor: "rgba(255,255,255,0.1)", color: "#ffffff" }}>
               <LayoutGrid className="h-3.5 w-3.5" />
               Kanban
             </button>
-            <button className="h-9 px-4 rounded-xl flex items-center gap-2 text-xs font-bold text-[#666] hover:text-[#1a1a1a] transition-colors">
+            <button className="h-9 px-4 rounded-xl flex items-center gap-2 text-xs font-bold transition-colors" style={{ color: "#a0a0a0" }}>
               <ListIcon className="h-3.5 w-3.5" />
               List
             </button>
           </div>
-          <button className="h-11 px-4 flex items-center gap-2 rounded-2xl border border-[#dddddd] bg-white/50 text-xs font-bold text-[#666] hover:bg-[#f1efed] transition-all">
+          <button className="h-11 px-4 flex items-center gap-2 rounded-2xl border text-xs font-bold transition-all" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.6)", color: "#a0a0a0" }}>
             <Download className="h-3.5 w-3.5" />
             Export
           </button>
@@ -210,7 +216,7 @@ function LeadsClientInner({ initialData }: { initialData?: Lead[] }) {
       {loading && leads.length === 0 ? (
         <div className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="min-w-[280px] h-[500px] rounded-[28px] border border-[#dddddd] bg-[#f1efed]/20 animate-pulse" />
+            <div key={i} className="min-w-[280px] h-[500px] rounded-[28px] border animate-pulse" style={{ borderColor: "rgba(255,255,255,0.1)", backgroundColor: "rgba(26,26,26,0.3)" }} />
           ))}
         </div>
       ) : (
