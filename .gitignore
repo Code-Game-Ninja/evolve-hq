@@ -50,6 +50,12 @@ next-env.d.ts
 .cache/
 .turbo/
 
+# code review graph (MCP tool database)
+.code-review-graph/
+
+# windsurf/skills (local skills, workflows can be committed)
+.windsurf/skills/
+
 # local runtime artifacts
 *.log
 *.tmp
